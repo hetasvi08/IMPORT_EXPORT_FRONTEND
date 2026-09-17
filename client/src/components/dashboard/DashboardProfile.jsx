@@ -1,32 +1,31 @@
-import { useState, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { 
-  User, 
-  Mail, 
-  Phone, 
-  MapPin, 
-  Building2, 
+import {
+  Briefcase,
+  Building2,
   Calendar,
   Camera,
-  Save,
-  Edit3,
-  X,
   CheckCircle,
-  Briefcase,
+  Edit3,
+  Loader2,
+  Mail,
+  MapPin,
+  Phone,
+  Save,
   Upload,
-  Loader2
+  User,
+  X
 } from 'lucide-react';
+import { useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { apiconnector } from '../../services/apiconnector';
-import { userEndpoints } from '../../services/apis';
-import { authEndpoints } from '../../services/apis';
+import { authEndpoints, userEndpoints } from '../../services/apis';
 import { setUser } from '../../store/slices/authSlice';
 
 const DashboardProfile = () => {
   const { user, token } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const fileInputRef = useRef(null);
-  
+
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
@@ -62,7 +61,7 @@ const DashboardProfile = () => {
 
       const formData = new FormData();
       formData.append('file', file);
-      
+
       const response = await apiconnector(
         'POST',
         userEndpoints.UPLOAD_PROFILE_PHOTO_API,
@@ -71,17 +70,17 @@ const DashboardProfile = () => {
           Authorization: `Bearer ${token}`,
         }
       );
-      
+
       if (response.data.success) {
         setProfileImage(response.data.data.avatar);
-        
+
         // Update Redux store with new user data
         dispatch(setUser(response.data.data.user));
-        
-        
+
+
       }
-    } catch (error) {
-      
+    } catch {
+      // no unused parameter needed
     } finally {
       setUploadingImage(false);
     }
@@ -92,23 +91,23 @@ const DashboardProfile = () => {
     if (file) {
       // Validate file type
       if (!file.type.startsWith('image/')) {
-        
+
         return;
       }
 
       // Validate file size (5MB max)
       if (file.size > 5 * 1024 * 1024) {
-        
+
         return;
       }
-      
+
       uploadToCloudinary(file);
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     setLoading(true);
 
     try {
@@ -121,16 +120,16 @@ const DashboardProfile = () => {
           Authorization: `Bearer ${token}`,
         }
       );
-      
+
       if (response.data.success) {
         // Update Redux store with new user data
         dispatch(setUser(response.data.data));
-        
-        
+
+
         setIsEditing(false);
       }
-    } catch (error) {
-      
+    } catch {
+      // no unused parameter needed
     } finally {
       setLoading(false);
     }
@@ -162,7 +161,7 @@ const DashboardProfile = () => {
 
   return (
     <div className="space-y-6">
-      
+
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 animate-[slideInLeft_0.5s_ease-out]">
         <div>
@@ -176,7 +175,7 @@ const DashboardProfile = () => {
             onClick={() => setIsEditing(true)}
             className="px-5 py-2.5 bg-gradient-to-r from-teal-500 to-cyan-600 text-white font-semibold rounded-xl hover:from-teal-600 hover:to-cyan-700 transition-all duration-300 shadow-lg shadow-teal-500/30 hover:shadow-xl hover:shadow-teal-500/40 hover:scale-105 active:scale-95 flex items-center gap-2"
           >
-            <Edit3 size={18} /> 
+            <Edit3 size={18} />
             Edit Profile
           </button>
         ) : (
@@ -210,7 +209,7 @@ const DashboardProfile = () => {
       </div>
 
       <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        
+
         {/* Profile Card */}
         <div className="lg:col-span-1 space-y-6">
           <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm hover:shadow-xl transition-all duration-500 animate-[fadeInUp_0.6s_ease-out]">
@@ -301,8 +300,8 @@ const DashboardProfile = () => {
                 <span className="text-sm text-white/90 mb-3">Complete</span>
               </div>
               <div className="w-full bg-white/20 rounded-full h-3 mb-4 overflow-hidden">
-                <div 
-                  className="bg-gradient-to-r from-white to-white/90 rounded-full h-3 transition-all duration-1000 ease-out shadow-lg" 
+                <div
+                  className="bg-gradient-to-r from-white to-white/90 rounded-full h-3 transition-all duration-1000 ease-out shadow-lg"
                   style={{ width: '85%' }}
                 ></div>
               </div>
@@ -316,7 +315,7 @@ const DashboardProfile = () => {
 
         {/* Profile Information */}
         <div className="lg:col-span-2 space-y-6">
-          
+
           {/* Personal Information */}
           <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm hover:shadow-xl transition-all duration-500 animate-[fadeInUp_0.7s_ease-out]">
             <div className="flex items-center gap-3 mb-6">

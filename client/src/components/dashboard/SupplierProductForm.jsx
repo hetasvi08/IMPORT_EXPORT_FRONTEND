@@ -1,35 +1,32 @@
-import { useState, useEffect, useCallback } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import {
-  ArrowLeft,
-  Package,
-  Upload,
-  X,
-  Plus,
-  Trash2,
-  Save,
-  Loader2,
-  Image,
   AlertCircle,
+  ArrowLeft,
+  BookOpen,
+  Box,
+  CheckCircle,
   Info,
   Lightbulb,
-  CheckCircle,
-  Box,
+  Loader2,
+  Plane,
+  Plus,
   Ruler,
-  Truck,
-  BookOpen,
-  DollarSign,
+  Save,
   Ship,
-  Plane
+  Trash2,
+  Truck,
+  Upload,
+  X
 } from 'lucide-react';
-import { 
-  getSupplierProductById, 
-  createSupplierProduct, 
-  updateSupplierProduct,
-  uploadSupplierProductImage 
-} from '../../services/operations/supplierDashboardAPI';
+import { useCallback, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getAllCategories } from '../../services/operations/categoryAPI';
+import {
+  createSupplierProduct,
+  getSupplierProductById,
+  updateSupplierProduct,
+  uploadSupplierProductImage
+} from '../../services/operations/supplierDashboardAPI';
 
 const SupplierProductForm = () => {
   const navigate = useNavigate();
@@ -79,7 +76,8 @@ const SupplierProductForm = () => {
       if (response.success) {
         setCategories(response.data);
       }
-    } catch (error) {}
+    } catch (error) {
+}
   }, []);
 
   const fetchProductData = useCallback(async () => {
@@ -118,7 +116,8 @@ const SupplierProductForm = () => {
           warranty: product.warranty || ''
         });
       }
-    } catch (error) {
+    } catch (error) {
+
       navigate('/dashboard/my-products');
     } finally {
       setInitialLoading(false);
@@ -143,7 +142,7 @@ const SupplierProductForm = () => {
 
   const handleImageUpload = async (e) => {
     const files = Array.from(e.target.files);
-    
+
     for (const file of files) {
       const tempId = Date.now() + Math.random();
       setUploadingImages(prev => [...prev, { id: tempId, name: file.name }]);
@@ -156,7 +155,8 @@ const SupplierProductForm = () => {
         }));
         setUploadingImages(prev => prev.filter(img => img.id !== tempId));
       } catch (error) {
-        setUploadingImages(prev => prev.filter(img => img.id !== tempId));}
+        setUploadingImages(prev => prev.filter(img => img.id !== tempId));
+}
     }
   };
 
@@ -209,7 +209,7 @@ const SupplierProductForm = () => {
 
   const validateForm = () => {
     const newErrors = {};
-    
+
     if (!formData.name.trim()) newErrors.name = 'Product name is required';
     if (!formData.description.trim()) newErrors.description = 'Description is required';
     if (!formData.category) newErrors.category = 'Category is required';
@@ -218,16 +218,16 @@ const SupplierProductForm = () => {
     if (Number(formData.priceMax) < Number(formData.priceMin)) newErrors.priceMax = 'Max price must be greater than min price';
     if (!formData.moq || Number(formData.moq) <= 0) newErrors.moq = 'Valid MOQ is required';
     if (formData.images.length === 0) newErrors.images = 'At least one image is required';
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
-      
+
       return;
     }
 
@@ -276,7 +276,8 @@ const SupplierProductForm = () => {
         await createSupplierProduct(productData, token);
         navigate('/dashboard/my-products');
       }
-    } catch (error) {} finally {
+    } catch (error) {
+} finally {
       setLoading(false);
     }
   };
@@ -327,7 +328,7 @@ const SupplierProductForm = () => {
             {/* Basic Information */}
             <div className="bg-white rounded-xl p-4 sm:p-6 border border-slate-200 shadow-sm">
               <h2 className="text-base sm:text-lg font-bold text-slate-900 mb-3 sm:mb-4">Basic Information</h2>
-              
+
               <div className="space-y-3 sm:space-y-4">
                 <div>
                   <label className="block text-xs sm:text-sm font-semibold text-slate-700 mb-2">
@@ -401,7 +402,7 @@ const SupplierProductForm = () => {
             {/* Pricing & Stock */}
             <div className="bg-white rounded-xl p-4 sm:p-6 border border-slate-200 shadow-sm">
               <h2 className="text-base sm:text-lg font-bold text-slate-900 mb-3 sm:mb-4">Pricing & Stock</h2>
-              
+
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 <div>
                   <label className="block text-xs sm:text-sm font-semibold text-slate-700 mb-2">
@@ -496,7 +497,7 @@ const SupplierProductForm = () => {
             {/* Product Images */}
             <div className="bg-white rounded-xl p-4 sm:p-6 border border-slate-200 shadow-sm">
               <h2 className="text-base sm:text-lg font-bold text-slate-900 mb-3 sm:mb-4">Product Images</h2>
-              
+
               {errors.images && (
                 <div className="flex items-center gap-2 text-red-500 text-sm mb-4">
                   <AlertCircle className="w-4 h-4" />
@@ -651,7 +652,7 @@ const SupplierProductForm = () => {
             {/* Additional Details */}
             <div className="bg-white rounded-xl p-4 sm:p-6 border border-slate-200 shadow-sm">
               <h2 className="text-base sm:text-lg font-bold text-slate-900 mb-3 sm:mb-4">Additional Details</h2>
-              
+
               <div className="space-y-3 sm:space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                   <div>
@@ -829,7 +830,7 @@ const SupplierProductForm = () => {
             {/* Category Selector */}
             <div className="bg-white rounded-xl p-4 sm:p-6 border border-slate-200 shadow-sm">
               <h2 className="text-base sm:text-lg font-bold text-slate-900 mb-3 sm:mb-4">Category</h2>
-              
+
               <div className="space-y-3 sm:space-y-4">
                 <div>
                   <label className="block text-xs sm:text-sm font-semibold text-slate-700 mb-2">
@@ -908,7 +909,7 @@ const SupplierProductForm = () => {
                 </div>
                 <h2 className="text-base sm:text-lg font-bold text-slate-900">Pro Tips</h2>
               </div>
-              
+
               <div className="space-y-3">
                 <div className="flex gap-3">
                   <CheckCircle className="w-4 h-4 text-blue-500 mt-1 flex-shrink-0" />

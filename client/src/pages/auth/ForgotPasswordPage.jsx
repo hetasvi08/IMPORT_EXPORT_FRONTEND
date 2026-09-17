@@ -1,11 +1,11 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Mail, ArrowLeft, Send, CheckCircle } from 'lucide-react';
-import { apiconnector } from '../../services/apiconnector';
-import { authEndpoints } from '../../services/apis';
+import { ArrowLeft, CheckCircle, Mail, Send } from "lucide-react";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { apiconnector } from "../../services/apiconnector";
+import { authEndpoints } from "../../services/apis";
 
 const ForgotPasswordPage = () => {
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
 
@@ -18,12 +18,17 @@ const ForgotPasswordPage = () => {
 
     setLoading(true);
     try {
-      const response = await apiconnector('POST', authEndpoints.FORGOT_PASSWORD_API, { email });
+      const response = await apiconnector(
+        "POST",
+        authEndpoints.FORGOT_PASSWORD_API,
+        { email },
+      );
 
       if (response.data.success) {
         setEmailSent(true);
       }
-    } catch (error) {
+    } catch {
+      // eyigfiu
     } finally {
       setLoading(false);
     }
@@ -37,17 +42,19 @@ const ForgotPasswordPage = () => {
             <div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
               <CheckCircle className="text-white" size={40} />
             </div>
-            
+
             <h1 className="text-3xl font-black text-gray-800 mb-3">
               Check Your Email
             </h1>
             <p className="text-gray-600 mb-6">
-              We've sent a password reset link to<br />
+              We've sent a password reset link to
+              <br />
               <span className="font-semibold text-teal-600">{email}</span>
             </p>
-            
+
             <p className="text-sm text-gray-600 mb-8">
-              Click the link in the email to reset your password. The link will expire in 1 hour.
+              Click the link in the email to reset your password. The link will
+              expire in 1 hour.
             </p>
 
             <Link
@@ -72,10 +79,9 @@ const ForgotPasswordPage = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50 py-12 px-4">
       <div className="w-full max-w-md">
-        
         {/* Back Button */}
-        <Link 
-          to="/login" 
+        <Link
+          to="/login"
           className="inline-flex items-center gap-2 text-gray-600 hover:text-teal-600 mb-6 transition-colors"
         >
           <ArrowLeft size={20} />
@@ -84,7 +90,6 @@ const ForgotPasswordPage = () => {
 
         {/* Card */}
         <div className="bg-white rounded-3xl shadow-2xl p-8">
-          
           {/* Icon */}
           <div className="w-20 h-20 bg-gradient-to-br from-teal-500 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-6">
             <Mail className="text-white" size={40} />
@@ -106,7 +111,10 @@ const ForgotPasswordPage = () => {
                 Email Address
               </label>
               <div className="relative">
-                <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                <Mail
+                  className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"
+                  size={20}
+                />
                 <input
                   type="email"
                   value={email}
@@ -138,13 +146,15 @@ const ForgotPasswordPage = () => {
               )}
             </button>
           </form>
-
         </div>
 
         {/* Footer */}
         <p className="text-center text-sm text-gray-600 mt-6">
-          Remember your password?{' '}
-          <Link to="/login" className="text-teal-600 hover:text-teal-700 font-semibold hover:underline">
+          Remember your password?{" "}
+          <Link
+            to="/login"
+            className="text-teal-600 hover:text-teal-700 font-semibold hover:underline"
+          >
             Sign In
           </Link>
         </p>

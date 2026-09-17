@@ -1,60 +1,60 @@
-import { useState, useEffect, useCallback } from 'react';
+import {
+  Calendar,
+  CheckCircle,
+  ChevronDown,
+  Clock,
+  DollarSign,
+  Download,
+  Eye,
+  Loader2,
+  Mail,
+  MapPin,
+  Package,
+  Phone,
+  RefreshCw,
+  RotateCcw,
+  Search,
+  ShoppingCart,
+  TrendingUp,
+  Truck,
+  X,
+  XCircle
+} from 'lucide-react';
+import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import {
-  Package,
-  Clock,
-  CheckCircle,
-  XCircle,
-  Truck,
-  Eye,
-  Download,
-  Loader2,
-  Search,
-  ChevronDown,
-  Calendar,
-  DollarSign,
-  MapPin,
-  Phone,
-  Mail,
-  X,
-  TrendingUp,
-  ShoppingCart,
-  RotateCcw,
-  RefreshCw
-} from 'lucide-react';
-import {
-  AreaChart,
   Area,
-  XAxis,
-  YAxis,
+  AreaChart,
   CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  PieChart,
-  Pie,
   Cell,
-  Legend
+  Legend,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis
 } from 'recharts';
 
 import { apiconnector } from '../../services/apiconnector';
-import { orderEndpoints, dashboardEndpoints } from '../../services/apis';
+import { dashboardEndpoints, orderEndpoints } from '../../services/apis';
 import { selectCurrency } from '../../store/slices/currencySlice';
 import { currencySymbols } from '../../utils/currency';
 
 // Helper function to get order item image
 const getOrderItemImage = (orderItem) => {
   if (!orderItem) return null;
-  
+
   // Check direct image field first
   if (orderItem.image && orderItem.image.trim() !== '') {
     return orderItem.image;
   }
-  
+
   // Check populated product images
   if (orderItem.product?.images && orderItem.product.images.length > 0 && orderItem.product.images[0]?.url) {
     return orderItem.product.images[0].url;
   }
-  
+
   return null;
 };
 
@@ -69,7 +69,7 @@ const DashboardOrders = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [downloadingInvoice, setDownloadingInvoice] = useState(null);
-  
+
   // Cancel modal state
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [orderToCancel, setOrderToCancel] = useState(null);
@@ -100,66 +100,66 @@ const DashboardOrders = () => {
   const [totalPages, setTotalPages] = useState(1);
 
   const statusConfig = {
-    'Pending': { 
-      icon: Clock, 
-      color: 'text-yellow-600', 
-      bg: 'bg-yellow-50', 
+    'Pending': {
+      icon: Clock,
+      color: 'text-yellow-600',
+      bg: 'bg-yellow-50',
       border: 'border-yellow-200',
       badge: 'bg-yellow-100 text-yellow-800',
       gradient: 'from-yellow-400 to-yellow-500'
     },
-    'Awaiting Payment': { 
-      icon: DollarSign, 
-      color: 'text-orange-600', 
-      bg: 'bg-orange-50', 
+    'Awaiting Payment': {
+      icon: DollarSign,
+      color: 'text-orange-600',
+      bg: 'bg-orange-50',
       border: 'border-orange-200',
       badge: 'bg-orange-100 text-orange-800',
       gradient: 'from-orange-400 to-orange-500'
     },
-    'Processing': { 
-      icon: RefreshCw, 
-      color: 'text-blue-600', 
-      bg: 'bg-blue-50', 
+    'Processing': {
+      icon: RefreshCw,
+      color: 'text-blue-600',
+      bg: 'bg-blue-50',
       border: 'border-blue-200',
       badge: 'bg-blue-100 text-blue-800',
       gradient: 'from-blue-400 to-blue-500'
     },
-    'Confirmed': { 
-      icon: CheckCircle, 
-      color: 'text-purple-600', 
-      bg: 'bg-purple-50', 
+    'Confirmed': {
+      icon: CheckCircle,
+      color: 'text-purple-600',
+      bg: 'bg-purple-50',
       border: 'border-purple-200',
       badge: 'bg-purple-100 text-purple-800',
       gradient: 'from-purple-400 to-purple-500'
     },
-    'Shipped': { 
-      icon: Truck, 
-      color: 'text-cyan-600', 
-      bg: 'bg-cyan-50', 
+    'Shipped': {
+      icon: Truck,
+      color: 'text-cyan-600',
+      bg: 'bg-cyan-50',
       border: 'border-cyan-200',
       badge: 'bg-cyan-100 text-cyan-800',
       gradient: 'from-cyan-400 to-cyan-500'
     },
-    'Delivered': { 
-      icon: CheckCircle, 
-      color: 'text-green-600', 
-      bg: 'bg-green-50', 
+    'Delivered': {
+      icon: CheckCircle,
+      color: 'text-green-600',
+      bg: 'bg-green-50',
       border: 'border-green-200',
       badge: 'bg-green-100 text-green-800',
       gradient: 'from-green-400 to-green-500'
     },
-    'Cancelled': { 
-      icon: XCircle, 
-      color: 'text-red-600', 
-      bg: 'bg-red-50', 
+    'Cancelled': {
+      icon: XCircle,
+      color: 'text-red-600',
+      bg: 'bg-red-50',
       border: 'border-red-200',
       badge: 'bg-red-100 text-red-800',
       gradient: 'from-red-400 to-red-500'
     },
-    'Refunded': { 
-      icon: RotateCcw, 
-      color: 'text-orange-600', 
-      bg: 'bg-orange-50', 
+    'Refunded': {
+      icon: RotateCcw,
+      color: 'text-orange-600',
+      bg: 'bg-orange-50',
       border: 'border-orange-200',
       badge: 'bg-orange-100 text-orange-800',
       gradient: 'from-orange-400 to-orange-500'
@@ -245,7 +245,7 @@ const DashboardOrders = () => {
     if (searchQuery) {
       filtered = filtered.filter(order =>
         order.orderId?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        order.orderItems?.some(item => 
+        order.orderItems?.some(item =>
           item.name?.toLowerCase().includes(searchQuery.toLowerCase())
         )
       );
@@ -260,7 +260,7 @@ const DashboardOrders = () => {
 
   const handleConfirmCancel = async (reason) => {
     if (!orderToCancel) return;
-    
+
     setCancelling(true);
     try {
       const response = await apiconnector(
@@ -271,7 +271,7 @@ const DashboardOrders = () => {
       );
 
       if (response.data.success) {
-        
+
         fetchOrders();
         fetchAdvancedStats();
         setShowDetails(false);
@@ -297,9 +297,9 @@ const DashboardOrders = () => {
         method: 'GET',
         headers: { Authorization: `Bearer ${token}` }
       });
-      
+
       if (!response.ok) throw new Error('Failed to download invoice');
-      
+
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -309,7 +309,7 @@ const DashboardOrders = () => {
       a.click();
       window.URL.revokeObjectURL(url);
       document.body.removeChild(a);
-      
+
     } catch (error) {
 
     } finally {
@@ -328,10 +328,10 @@ const DashboardOrders = () => {
   const formatCurrency = (amount) => {
     const num = parseFloat(amount) || 0;
     const symbol = currencySymbols[selectedCurrency] || '₹';
-    
+
     // Convert from INR (base) to selected currency
     const converted = selectedCurrency === 'INR' ? num : num * (selectedCurrency === 'USD' ? 0.012 : selectedCurrency === 'EUR' ? 0.011 : selectedCurrency === 'AED' ? 0.044 : 1);
-    
+
     if (selectedCurrency === 'INR') {
       // Indian format: K, L, Cr
       if (converted >= 10000000) return `${symbol}${(converted / 10000000).toFixed(2)}Cr`;
@@ -479,10 +479,10 @@ const DashboardOrders = () => {
                 <XAxis dataKey="name" tick={{ fontSize: 11 }} stroke="#94a3b8" />
                 <YAxis yAxisId="left" tick={{ fontSize: 10 }} stroke="#94a3b8" width={30} />
                 <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 10 }} stroke="#94a3b8" width={35} tickFormatter={v => `$${v >= 1000 ? (v/1000).toFixed(0) + 'K' : v}`} />
-                <Tooltip 
-                  contentStyle={{ 
-                    borderRadius: '12px', 
-                    border: 'none', 
+                <Tooltip
+                  contentStyle={{
+                    borderRadius: '12px',
+                    border: 'none',
                     boxShadow: '0 10px 40px rgba(0,0,0,0.1)',
                     padding: '12px'
                   }}
@@ -531,10 +531,10 @@ const DashboardOrders = () => {
                   ))}
                 </Pie>
                 <Legend />
-                <Tooltip 
-                  contentStyle={{ 
-                    borderRadius: '12px', 
-                    border: 'none', 
+                <Tooltip
+                  contentStyle={{
+                    borderRadius: '12px',
+                    border: 'none',
                     boxShadow: '0 10px 40px rgba(0,0,0,0.1)'
                   }}
                 />
@@ -599,8 +599,8 @@ const DashboardOrders = () => {
           <Package className="w-16 h-16 text-gray-300 mx-auto mb-4" />
           <h3 className="text-xl font-semibold text-gray-900 mb-2">No Orders Found</h3>
           <p className="text-gray-600">
-            {searchQuery || statusFilter !== 'all' 
-              ? 'Try adjusting your filters' 
+            {searchQuery || statusFilter !== 'all'
+              ? 'Try adjusting your filters'
               : "You haven't placed any orders yet"}
           </p>
         </div>
@@ -700,7 +700,7 @@ const OrderItemImage = ({ item, size = 'md' }) => {
   const [imageError, setImageError] = useState(false);
   const imageUrl = getOrderItemImage(item);
   const sizeClasses = size === 'sm' ? 'w-5 h-5' : 'w-6 h-6';
-  
+
   if (imageUrl && !imageError) {
     return (
       <img
@@ -711,7 +711,7 @@ const OrderItemImage = ({ item, size = 'md' }) => {
       />
     );
   }
-  
+
   return (
     <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-teal-100 to-teal-50">
       <Package className={`${sizeClasses} text-teal-600`} />
@@ -767,8 +767,8 @@ const OrderCard = ({ order, index, statusConfig, formatDate, formatCurrency, onV
             </span>
             {order.paymentStatus && (
               <span className={`px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-medium ${
-                order.paymentStatus === 'Paid' 
-                  ? 'bg-green-100 text-green-700' 
+                order.paymentStatus === 'Paid'
+                  ? 'bg-green-100 text-green-700'
                   : 'bg-yellow-100 text-yellow-700'
               }`}>
                 {order.paymentStatus}
@@ -817,7 +817,7 @@ const OrderCard = ({ order, index, statusConfig, formatDate, formatCurrency, onV
             <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             View Details
           </button>
-          
+
           <button
             onClick={() => onDownloadInvoice(order._id)}
             disabled={downloadingInvoice === order._id}
@@ -866,7 +866,7 @@ const OrderDetailsModal = ({ order, statusConfig, formatDate, formatCurrency, on
               <X className="w-5 h-5 text-gray-500" />
             </button>
           </div>
-          
+
           {/* Status Badges */}
           <div className="flex items-center gap-3 mt-4">
             <span className={`px-3 py-1.5 rounded-lg text-sm font-medium ${config.badge} flex items-center gap-1.5`}>
@@ -874,8 +874,8 @@ const OrderDetailsModal = ({ order, statusConfig, formatDate, formatCurrency, on
               {order.orderStatus}
             </span>
             <span className={`px-3 py-1.5 rounded-lg text-sm font-medium ${
-              order.paymentStatus === 'Paid' 
-                ? 'bg-green-100 text-green-700' 
+              order.paymentStatus === 'Paid'
+                ? 'bg-green-100 text-green-700'
                 : 'bg-amber-100 text-amber-700'
             }`}>
               {order.paymentStatus}
@@ -984,9 +984,9 @@ const OrderDetailsModal = ({ order, statusConfig, formatDate, formatCurrency, on
             )}
             Download Invoice
           </button>
-          
+
           {/* Cancel allowed if: not Delivered/Shipped/Cancelled/Refunded AND within 3 days of order */}
-          {!['Delivered', 'Shipped', 'Cancelled', 'Refunded'].includes(order.orderStatus) && 
+          {!['Delivered', 'Shipped', 'Cancelled', 'Refunded'].includes(order.orderStatus) &&
            ((new Date() - new Date(order.createdAt)) / (1000 * 60 * 60 * 24)) <= 3 && (
             <button
               onClick={() => {
@@ -999,7 +999,7 @@ const OrderDetailsModal = ({ order, statusConfig, formatDate, formatCurrency, on
               Cancel Order
             </button>
           )}
-          
+
           <button
             onClick={onClose}
             className="ml-auto px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg font-medium text-sm transition-colors"
@@ -1016,7 +1016,7 @@ const OrderDetailsModal = ({ order, statusConfig, formatDate, formatCurrency, on
 const CancelOrderModal = ({ onConfirm, onClose, cancelling }) => {
   const [reason, setReason] = useState('');
   const [selectedReason, setSelectedReason] = useState('');
-  
+
   const presetReasons = [
     'Changed my mind',
     'Found a better price elsewhere',
@@ -1072,7 +1072,7 @@ const CancelOrderModal = ({ onConfirm, onClose, cancelling }) => {
               </label>
             ))}
           </div>
-          
+
           {selectedReason === 'Other' && (
             <textarea
               value={reason}

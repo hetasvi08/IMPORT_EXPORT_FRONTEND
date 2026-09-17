@@ -1,33 +1,33 @@
-import { useState, useEffect } from 'react';
+import {
+  AlertCircle,
+  Building2,
+  Calendar,
+  CheckCircle,
+  ChevronDown,
+  Clock,
+  DollarSign,
+  Eye,
+  FileText,
+  Inbox,
+  Loader2,
+  Mail,
+  MapPin,
+  MessageSquare,
+  Package,
+  Paperclip,
+  Phone,
+  Plus,
+  Search,
+  Send,
+  TrendingUp,
+  X,
+  XCircle
+} from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import {
-  FileText,
-  Clock,
-  CheckCircle,
-  XCircle,
-  MessageSquare,
-  Plus,
-  Eye,
-  Loader2,
-  Search,
-  ChevronDown,
-  Calendar,
-  DollarSign,
-  Package,
-  TrendingUp,
-  AlertCircle,
-  X,
-  Send,
-  Paperclip,
-  Building2,
-  Mail,
-  Phone,
-  MapPin,
-  Inbox
-} from 'lucide-react';
 import { apiconnector } from '../../services/apiconnector';
-import { quoteEndpoints, dashboardEndpoints } from '../../services/apis';
+import { dashboardEndpoints, quoteEndpoints } from '../../services/apis';
 import { acceptQuote, rejectQuote } from '../../services/operations/inquiryAPI';
 
 const DashboardQuotes = () => {
@@ -175,7 +175,8 @@ const DashboardQuotes = () => {
         setQuotes(quotesData);
         calculateStats(quotesData);
       }
-    } catch (error) {
+    } catch (error) {
+
       // Mock data for demo
       const mockQuotes = generateMockQuotes();
       setQuotes(mockQuotes);
@@ -188,17 +189,18 @@ const DashboardQuotes = () => {
   const calculateStats = (quotesData) => {
     // Calculate stats based on active tab
     const myRequests = quotesData; // All quotes user submitted
-    const supplierResponses = quotesData.filter(q => 
+    const supplierResponses = quotesData.filter(q =>
       q.status === 'quoted' && q.supplierResponse && q.supplierResponse.quotedPrice
     );
-    
+
     const newStats = {
       total: myRequests.length,
       pending: myRequests.filter(q => q.status === 'pending').length,
       quoted: supplierResponses.length,
       accepted: myRequests.filter(q => q.status === 'accepted').length,
       rejected: myRequests.filter(q => q.status === 'rejected').length
-    };setStats(newStats);
+    };
+setStats(newStats);
   };
 
   const filterQuotes = () => {
@@ -207,9 +209,9 @@ const DashboardQuotes = () => {
     // Filter by tab
     if (activeTab === 'responses') {
       // Show only quotes that have supplier responses and are "quoted" status
-      filtered = filtered.filter(quote => 
-        quote.status === 'quoted' && 
-        quote.supplierResponse && 
+      filtered = filtered.filter(quote =>
+        quote.status === 'quoted' &&
+        quote.supplierResponse &&
         quote.supplierResponse.quotedPrice
       );
     }
@@ -235,16 +237,17 @@ const DashboardQuotes = () => {
       const result = await acceptQuote(quoteId, token);
       if (result) {
         // Update local state
-        const updatedQuotes = quotes.map(q => 
+        const updatedQuotes = quotes.map(q =>
           q._id === quoteId ? { ...q, status: 'accepted' } : q
         );
         setQuotes(updatedQuotes);
         // Recalculate stats with updated data
         calculateStats(updatedQuotes);
         setShowDetails(false);
-        
+
       }
-    } catch (error) {} finally {
+    } catch (error) {
+} finally {
       setActionLoading(false);
     }
   };
@@ -260,26 +263,28 @@ const DashboardQuotes = () => {
   // Handle Reject Quote - Confirm
   const handleRejectQuote = async () => {
     if (!quoteToReject) return;
-    
+
     // Validate that a category is selected
     if (!rejectCategory) {
-      
+
       return;
     }
 
     // If "Other" is selected, reason text is required
     if (rejectCategory === 'other' && !rejectReason.trim()) {
-      
+
       return;
     }
-    
+
     setActionLoading(true);
     try {
-      const result = await rejectQuote(quoteToReject._id, rejectCategory, rejectReason, token);if (result) {
+      const result = await rejectQuote(quoteToReject._id, rejectCategory, rejectReason, token);
+if (result) {
         // Update local state
-        const updatedQuotes = quotes.map(q => 
+        const updatedQuotes = quotes.map(q =>
           q._id === quoteToReject._id ? { ...q, status: 'rejected', rejectionCategory: rejectCategory, rejectionReason: rejectReason } : q
-        );setQuotes(updatedQuotes);
+        );
+setQuotes(updatedQuotes);
         // Recalculate stats with updated data
         calculateStats(updatedQuotes);
         setShowDetails(false);
@@ -287,9 +292,10 @@ const DashboardQuotes = () => {
         setQuoteToReject(null);
         setRejectReason('');
         setRejectCategory('');
-        
+
       }
-    } catch (error) {} finally {
+    } catch (error) {
+} finally {
       setActionLoading(false);
     }
   };
@@ -297,7 +303,7 @@ const DashboardQuotes = () => {
   const generateMockQuotes = () => {
     const statuses = ['pending', 'in-review', 'quoted', 'negotiating', 'accepted', 'rejected'];
     const urgencies = ['Low', 'Medium', 'High', 'Urgent'];
-    
+
     return Array.from({ length: 8 }, (_, i) => ({
       _id: `quote-${i + 1}`,
       quoteId: `QTE-2025-${String(i + 1).padStart(5, '0')}`,
@@ -356,8 +362,8 @@ const DashboardQuotes = () => {
             {activeTab === 'requests' ? 'My Quote Requests' : 'Supplier Responses'}
           </h1>
           <p className="text-sm sm:text-base text-gray-600 mt-1">
-            {activeTab === 'requests' 
-              ? 'Request and manage product quotes' 
+            {activeTab === 'requests'
+              ? 'Request and manage product quotes'
               : 'Review and respond to supplier quotes'}
           </p>
         </div>
@@ -509,8 +515,8 @@ const DashboardQuotes = () => {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder={activeTab === 'requests' 
-                  ? "Search quotes..." 
+                placeholder={activeTab === 'requests'
+                  ? "Search quotes..."
                   : "Search responses..."}
                 className="w-full pl-9 sm:pl-10 pr-4 py-2 sm:py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
               />
@@ -535,7 +541,7 @@ const DashboardQuotes = () => {
               <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
             </div>
           )}
-          
+
           {activeTab === 'responses' && (
             <div className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-purple-50 border border-purple-200 rounded-lg text-purple-700">
               <Inbox className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
@@ -812,7 +818,7 @@ const QuoteCard = ({ quote, index, statusConfig, urgencyConfig, formatDate, form
             <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             View Details
           </button>
-          
+
           {/* Accept/Reject buttons for supplier responses */}
           {showActions && quote.status === 'quoted' && (
             <div className="flex gap-2 pt-1 sm:pt-2">
@@ -1110,7 +1116,7 @@ const QuoteDetailsModal = ({ quote, statusConfig, urgencyConfig, formatDate, for
         <div className="border-t border-gray-200 p-3 sm:p-6 flex flex-wrap gap-2 sm:gap-3">
           {quote.status === 'quoted' && quote.supplierResponse && (
             <>
-              <button 
+              <button
                 onClick={() => onAccept(quote._id)}
                 disabled={actionLoading}
                 className="px-4 sm:px-6 py-2 sm:py-2.5 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white rounded-lg font-medium transition-all duration-300 flex items-center gap-1.5 sm:gap-2 shadow-lg text-xs sm:text-sm disabled:opacity-50 disabled:cursor-not-allowed"
@@ -1122,7 +1128,7 @@ const QuoteDetailsModal = ({ quote, statusConfig, urgencyConfig, formatDate, for
                 )}
                 Accept
               </button>
-              <button 
+              <button
                 onClick={() => onReject(quote)}
                 disabled={actionLoading}
                 className="px-4 sm:px-6 py-2 sm:py-2.5 bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 text-white rounded-lg font-medium transition-all duration-300 flex items-center gap-1.5 sm:gap-2 shadow-lg text-xs sm:text-sm disabled:opacity-50 disabled:cursor-not-allowed"
@@ -1186,12 +1192,15 @@ const CreateQuoteModal = ({ onClose, onSuccess, preselectedProduct }) => {
           '/api/products?limit=200&isApproved=approved',
           null,
           { Authorization: `Bearer ${token}` }
-        );if (response.data.success) {
+        );
+if (response.data.success) {
           const productsData = response.data.data || response.data.products || [];
           // Additional client-side filter to ensure only approved products
-          const approvedProducts = productsData.filter(p => p.isApproved === 'approved');setProducts(approvedProducts);
+          const approvedProducts = productsData.filter(p => p.isApproved === 'approved');
+setProducts(approvedProducts);
         }
-      } catch (error) {// Try without auth
+      } catch (error) {
+// Try without auth
         try {
           const publicResponse = await apiconnector(
             'GET',
@@ -1201,9 +1210,11 @@ const CreateQuoteModal = ({ onClose, onSuccess, preselectedProduct }) => {
           );
           if (publicResponse.data.success) {
             const productsData = publicResponse.data.data || publicResponse.data.products || [];
-            const approvedProducts = productsData.filter(p => p.isApproved === 'approved');setProducts(approvedProducts);
+            const approvedProducts = productsData.filter(p => p.isApproved === 'approved');
+setProducts(approvedProducts);
           }
-        } catch (publicError) {}
+        } catch (publicError) {
+}
       } finally {
         setLoadingProducts(false);
       }
@@ -1226,17 +1237,17 @@ const CreateQuoteModal = ({ onClose, onSuccess, preselectedProduct }) => {
   const filteredProducts = products.filter(product => {
     if (!productSearch.trim()) return true; // Show all if no search
     const searchLower = productSearch.toLowerCase();
-    
+
     // Check specifications array (can be objects with key/value)
     const specsMatch = product.specifications?.some(spec => {
       if (typeof spec === 'string') return spec.toLowerCase().includes(searchLower);
       if (typeof spec === 'object') {
-        return spec.key?.toLowerCase().includes(searchLower) || 
+        return spec.key?.toLowerCase().includes(searchLower) ||
                spec.value?.toLowerCase().includes(searchLower);
       }
       return false;
     });
-    
+
     return (
       product.name?.toLowerCase().includes(searchLower) ||
       product.sku?.toLowerCase().includes(searchLower) ||
@@ -1272,8 +1283,9 @@ const CreateQuoteModal = ({ onClose, onSuccess, preselectedProduct }) => {
   };
 
   // Handle product selection from dropdown
-  const handleProductSelect = (product) => {setSelectedProduct(product);
-    
+  const handleProductSelect = (product) => {
+setSelectedProduct(product);
+
     // Get category name - handle both populated object and string/ObjectId
     let categoryName = '';
     if (product.category) {
@@ -1288,7 +1300,7 @@ const CreateQuoteModal = ({ onClose, onSuccess, preselectedProduct }) => {
         }
       }
     }
-    
+
     setFormData(prev => ({
       ...prev,
       productName: product.name || '',
@@ -1321,7 +1333,7 @@ const CreateQuoteModal = ({ onClose, onSuccess, preselectedProduct }) => {
 
     // Check total attachments limit (max 5)
     if (formData.attachments.length + files.length > 5) {
-      
+
       return;
     }
 
@@ -1354,7 +1366,8 @@ const CreateQuoteModal = ({ onClose, onSuccess, preselectedProduct }) => {
           }));
         }
       }
-    } catch (error) {
+    } catch (error) {
+
     } finally {
       setUploadingFile(false);
       e.target.value = ''; // Reset input
@@ -1376,34 +1389,34 @@ const CreateQuoteModal = ({ onClose, onSuccess, preselectedProduct }) => {
     try {
       // Validate based on product type
       if (productType === 'catalog' && !selectedProduct) {
-        
+
         setLoading(false);
         return;
       }
 
       // Client-side validation
       if (!formData.productName?.trim()) {
-        
+
         setLoading(false);
         return;
       }
       if (!formData.category?.trim()) {
-        
+
         setLoading(false);
         return;
       }
       if (!formData.quantity || parseInt(formData.quantity) < 1) {
-        
+
         setLoading(false);
         return;
       }
       if (!formData.description?.trim()) {
-        
+
         setLoading(false);
         return;
       }
       if (!formData.deliveryCountry?.trim()) {
-        
+
         setLoading(false);
         return;
       }
@@ -1438,29 +1451,33 @@ const CreateQuoteModal = ({ onClose, onSuccess, preselectedProduct }) => {
             category: selectedProduct.category?.name || selectedProduct.category || ''
           }
         })
-      };const response = await apiconnector(
+      };
+const response = await apiconnector(
         'POST',
         quoteEndpoints.CREATE_QUOTE_API,
         quoteData,
         {
           Authorization: `Bearer ${token}`,
         }
-      );if (response.data.success) {
-        
+      );
+if (response.data.success) {
+
         onSuccess();
       } else {
         // Handle validation errors
-        if (response.data.errors && response.data.errors.length > 0) {// Show all validation errors
+        if (response.data.errors && response.data.errors.length > 0) {
+// Show all validation errors
           const errorMessages = response.data.errors.map(err => err.message).join(', ');
-          
+
         } else {
-          
+
         }
       }
-    } catch (error) {const errorMessage = error.response?.data?.errors?.[0]?.message || 
-                          error.response?.data?.message || 
+    } catch (error) {
+const errorMessage = error.response?.data?.errors?.[0]?.message ||
+                          error.response?.data?.message ||
                           'Failed to create quote request';
-      
+
     } finally {
       setLoading(false);
     }
@@ -1489,7 +1506,7 @@ const CreateQuoteModal = ({ onClose, onSuccess, preselectedProduct }) => {
 
         <form onSubmit={handleSubmit} className="p-3 sm:p-6 overflow-y-auto max-h-[calc(92vh-160px)] sm:max-h-[calc(90vh-180px)] scrollbar-hide">
           <div className="space-y-3 sm:space-y-4">
-            
+
             {/* Product Type Toggle */}
             <div className="bg-gradient-to-r from-slate-50 to-gray-50 p-3 sm:p-4 rounded-xl border border-slate-200">
               <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2 sm:mb-3">
@@ -1536,7 +1553,7 @@ const CreateQuoteModal = ({ onClose, onSuccess, preselectedProduct }) => {
                 </button>
               </div>
               <p className="text-[10px] sm:text-xs text-gray-500 mt-1.5 sm:mt-2">
-                {productType === 'catalog' 
+                {productType === 'catalog'
                   ? '📦 Select an existing product from our catalog'
                   : '✏️ Describe your custom product requirements'}
               </p>
@@ -1548,7 +1565,7 @@ const CreateQuoteModal = ({ onClose, onSuccess, preselectedProduct }) => {
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Select Product *
                 </label>
-                
+
                 {/* Selected Product Display */}
                 {selectedProduct ? (
                   <div className="bg-gradient-to-r from-teal-50 to-cyan-50 border-2 border-teal-200 rounded-xl p-4 flex items-center gap-4">
@@ -1594,7 +1611,7 @@ const CreateQuoteModal = ({ onClose, onSuccess, preselectedProduct }) => {
                       </span>
                       <ChevronDown className={`w-5 h-5 text-gray-400 transition-transform ${showProductDropdown ? 'rotate-180' : ''}`} />
                     </button>
-                    
+
                     {/* Dropdown */}
                     {showProductDropdown && (
                       <div className="absolute z-50 w-full mt-2 bg-white border border-gray-200 rounded-xl shadow-2xl overflow-hidden">
@@ -1624,7 +1641,7 @@ const CreateQuoteModal = ({ onClose, onSuccess, preselectedProduct }) => {
                             {productSearch ? `${filteredProducts.length} results` : `${products.length} products available`}
                           </p>
                         </div>
-                        
+
                         {/* Products List */}
                         <div className="max-h-64 overflow-y-auto">
                           {loadingProducts ? (
@@ -1871,7 +1888,7 @@ const CreateQuoteModal = ({ onClose, onSuccess, preselectedProduct }) => {
               <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5 sm:mb-2">
                 Attachments <span className="text-gray-400 font-normal text-[10px] sm:text-sm">(Max 5 files, 10MB each)</span>
               </label>
-              
+
               {/* File Upload Area */}
               <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 hover:border-teal-500 transition-colors">
                 <input
@@ -1985,7 +2002,7 @@ const RejectQuoteModal = ({ quote, reason, setReason, category, setCategory, cat
           <p className="text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4">
             Are you sure you want to reject this quote? Both you and the admin will receive email notifications.
           </p>
-          
+
           <div className="bg-gray-50 rounded-lg p-3 sm:p-4 mb-3 sm:mb-4">
             <p className="text-xs sm:text-sm font-semibold text-gray-700 mb-0.5 sm:mb-1">Quote Details</p>
             <p className="text-gray-900 font-medium text-sm sm:text-base">{quote.productName}</p>
@@ -2024,8 +2041,8 @@ const RejectQuoteModal = ({ quote, reason, setReason, category, setCategory, cat
               value={reason}
               onChange={(e) => setReason(e.target.value)}
               placeholder={
-                category === 'other' 
-                  ? "Please describe your reason..." 
+                category === 'other'
+                  ? "Please describe your reason..."
                   : "Any additional feedback..."
               }
               className="w-full px-3 sm:px-4 py-2.5 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent resize-none text-sm"

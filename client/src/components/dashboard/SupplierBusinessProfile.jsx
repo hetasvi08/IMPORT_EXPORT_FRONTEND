@@ -1,24 +1,19 @@
-import { useState, useEffect, useCallback } from 'react';
-import { useSelector } from 'react-redux';
 import {
-  Building2,
-  MapPin,
-  Globe,
-  Phone,
-  Mail,
+  AlertCircle,
   Award,
-  Calendar,
-  Users,
-  Package,
-  Save,
-  Loader2,
-  Upload,
+  Building2,
   Camera,
-  Plus,
-  X,
   CheckCircle,
-  AlertCircle
+  Loader2,
+  MapPin,
+  Package,
+  Phone,
+  Plus,
+  Save,
+  X
 } from 'lucide-react';
+import { useCallback, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { getSupplierProfile, updateSupplierProfile } from '../../services/operations/supplierDashboardAPI';
 
 const SupplierBusinessProfile = () => {
@@ -115,7 +110,8 @@ const SupplierBusinessProfile = () => {
         setProfile(response.data);
         populateFormData(response.data);
       }
-    } catch (error) {// Create default form if no profile exists
+    } catch (error) {
+// Create default form if no profile exists
     } finally {
       setLoading(false);
     }
@@ -127,7 +123,7 @@ const SupplierBusinessProfile = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    
+
     if (name.includes('.')) {
       const [parent, child] = name.split('.');
       setFormData(prev => ({
@@ -144,7 +140,7 @@ const SupplierBusinessProfile = () => {
 
   const addItem = (type, value, setter) => {
     if (!value.trim()) return;
-    
+
     setFormData(prev => ({
       ...prev,
       [type]: [...prev[type], value.trim()]
@@ -161,10 +157,10 @@ const SupplierBusinessProfile = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     try {
       setSaving(true);
-      
+
       // Flatten the nested address structure for backend compatibility
       const submitData = {
         companyName: formData.companyName,
@@ -195,11 +191,12 @@ const SupplierBusinessProfile = () => {
 
       const response = await updateSupplierProfile(submitData, token);
       if (response.success) {
-        
+
         setProfile(response.data);
         setIsEditing(false);
       }
-    } catch (error) {
+    } catch (error) {
+
     } finally {
       setSaving(false);
     }
@@ -231,7 +228,7 @@ const SupplierBusinessProfile = () => {
               </p>
             </div>
           </div>
-          
+
           {!isEditing && (
             <button
               onClick={() => setIsEditing(true)}

@@ -1,12 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from './slices/authSlice';
 import cartReducer from './slices/cartSlice';
-import favoritesReducer from './slices/favoritesSlice';
-import supplierReducer from './slices/supplierSlice';
 import categoryReducer from './slices/categorySlice';
 import currencyReducer from './slices/currencySlice';
-import siteStatsReducer from './slices/siteStatsSlice';
+import favoritesReducer from './slices/favoritesSlice';
 import notificationReducer from './slices/notificationSlice';
+import siteStatsReducer from './slices/siteStatsSlice';
+import supplierReducer from './slices/supplierSlice';
 
 export const store = configureStore({
   reducer: {
@@ -20,7 +20,7 @@ export const store = configureStore({
     notifications: notificationReducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({ 
+    getDefaultMiddleware({
       serializableCheck: false,
     }),
 });

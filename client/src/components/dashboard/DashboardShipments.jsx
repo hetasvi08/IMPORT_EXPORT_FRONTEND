@@ -1,40 +1,39 @@
-import { useState, useEffect, useMemo } from 'react';
+import {
+  Activity,
+  AlertTriangle,
+  BarChart3,
+  Box,
+  Calendar,
+  CheckCircle,
+  ChevronDown,
+  Clock,
+  Eye,
+  FileText,
+  Filter,
+  Globe,
+  MapPin,
+  Package,
+  Phone,
+  Plane,
+  Search,
+  Ship,
+  TrendingUp,
+  Truck,
+  User,
+  XCircle
+} from 'lucide-react';
+import { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import {
-  Package,
-  Truck,
-  MapPin,
-  Clock,
-  CheckCircle,
-  AlertTriangle,
-  XCircle,
-  Eye,
-  Search,
-  Filter,
-  ChevronDown,
-  Calendar,
-  TrendingUp,
-  Plane,
-  Ship,
-  ArrowRight,
-  Box,
-  FileText,
-  User,
-  Phone,
-  Globe,
-  BarChart3,
-  Activity
-} from 'lucide-react';
+  Cell,
+  Legend,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip
+} from 'recharts';
 import { apiconnector } from '../../services/apiconnector';
 import { dashboardEndpoints } from '../../services/apis';
-import {
-  PieChart,
-  Pie,
-  Cell,
-  ResponsiveContainer,
-  Tooltip,
-  Legend
-} from 'recharts';
 
 const DashboardShipments = () => {
   const { token } = useSelector((state) => state.auth);
@@ -185,7 +184,8 @@ const DashboardShipments = () => {
         setShipments(shipmentsData);
         calculateStats(shipmentsData);
       }
-    } catch (error) {
+    } catch (error) {
+
       setShipments([]);
       calculateStats([]);
     } finally {
@@ -262,7 +262,7 @@ const DashboardShipments = () => {
     const weeks = 12;
     const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     const data = [];
-    
+
     // Create a map of activity counts by date
     const activityMap = {};
     shipments.forEach(shipment => {
@@ -276,16 +276,16 @@ const DashboardShipments = () => {
 
     // Generate last 12 weeks of data
     const today = new Date();
-    
+
     // If no real data, generate sample visualization data
     const hasRealData = Object.keys(activityMap).length > 0;
-    
+
     for (let week = weeks - 1; week >= 0; week--) {
       for (let day = 0; day < 7; day++) {
         const date = new Date(today);
         date.setDate(date.getDate() - (week * 7) - (6 - day));
         const dateStr = date.toISOString().split('T')[0];
-        
+
         // Use real data if available, otherwise generate sample pattern
         let count = activityMap[dateStr] || 0;
         if (!hasRealData) {
@@ -306,7 +306,7 @@ const DashboardShipments = () => {
           ];
           count = samplePatterns[week % 12][day];
         }
-        
+
         data.push({
           week: weeks - 1 - week,
           day,
@@ -317,7 +317,7 @@ const DashboardShipments = () => {
         });
       }
     }
-    
+
     return data;
   }, [shipments]);
 
@@ -403,7 +403,7 @@ const DashboardShipments = () => {
               <p className="text-xs sm:text-sm text-gray-500">Breakdown by shipment status</p>
             </div>
           </div>
-          
+
           {doughnutChartData.length > 0 ? (
             <div className="h-56 sm:h-80">
               <ResponsiveContainer width="100%" height="100%">
@@ -429,8 +429,8 @@ const DashboardShipments = () => {
                         return (
                           <div className="bg-white/95 backdrop-blur-sm px-4 py-3 rounded-xl shadow-xl border border-gray-200">
                             <div className="flex items-center gap-2">
-                              <div 
-                                className="w-3 h-3 rounded-full" 
+                              <div
+                                className="w-3 h-3 rounded-full"
                                 style={{ backgroundColor: data.color }}
                               />
                               <span className="font-semibold text-gray-900">{data.name}</span>
@@ -478,7 +478,7 @@ const DashboardShipments = () => {
               <p className="text-xs sm:text-sm text-gray-500">Last 12 weeks activity heatmap</p>
             </div>
           </div>
-          
+
           <div className="space-y-2">
             {/* Week labels */}
             <div className="flex gap-1 mb-3">
@@ -488,7 +488,7 @@ const DashboardShipments = () => {
                 <span>Now</span>
               </div>
             </div>
-            
+
             {/* Heatmap grid */}
             {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day, dayIndex) => (
               <div key={day} className="flex gap-1 items-center">
@@ -498,18 +498,18 @@ const DashboardShipments = () => {
                     const cellData = heatmapData.find(d => d.week === weekIndex && d.day === dayIndex);
                     const count = cellData?.count || 0;
                     const intensity = count / maxActivity;
-                    
+
                     // Color gradient from light gray to teal
-                    const bgColor = count === 0 
-                      ? 'bg-gray-100' 
-                      : intensity < 0.25 
-                        ? 'bg-teal-200' 
-                        : intensity < 0.5 
-                          ? 'bg-teal-400' 
-                          : intensity < 0.75 
-                            ? 'bg-teal-500' 
+                    const bgColor = count === 0
+                      ? 'bg-gray-100'
+                      : intensity < 0.25
+                        ? 'bg-teal-200'
+                        : intensity < 0.5
+                          ? 'bg-teal-400'
+                          : intensity < 0.75
+                            ? 'bg-teal-500'
                             : 'bg-teal-600';
-                    
+
                     return (
                       <div
                         key={`${day}-${weekIndex}`}
@@ -521,7 +521,7 @@ const DashboardShipments = () => {
                 </div>
               </div>
             ))}
-            
+
             {/* Legend */}
             <div className="flex items-center justify-end gap-2 mt-4 pt-4 border-t border-gray-100">
               <span className="text-[10px] sm:text-xs text-gray-500">Less</span>
@@ -641,7 +641,7 @@ const StatCard = ({ title, value, icon: Icon, badge, badgeColor, iconBg, iconCol
 const ShipmentCard = ({ shipment, config, formatDate, shippingMethodIcons, onViewDetails }) => {
   const StatusIcon = config.icon;
   const MethodIcon = shippingMethodIcons[shipment.shippingMethod] || Truck;
-  
+
   return (
     <div className="bg-white rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.08)] border-2 border-gray-100 hover:shadow-[0_8px_30px_rgba(0,0,0,0.12)] hover:border-teal-200 transition-all duration-300 hover:-translate-y-1 overflow-hidden group">
       <div className="p-3 sm:p-6">
@@ -714,7 +714,7 @@ const ShipmentCard = ({ shipment, config, formatDate, shippingMethodIcons, onVie
               <span className="font-semibold text-gray-900 truncate ml-2">{shipment.currentLocation}</span>
             </div>
           )}
-          
+
           <div className="flex items-center justify-between text-xs sm:text-sm bg-gray-50 rounded-lg px-2 py-1.5 sm:px-3 sm:py-2 border border-gray-100 shadow-sm">
             <span className="text-gray-600 flex items-center gap-1.5 sm:gap-2">
               <Calendar className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-500" />
@@ -859,7 +859,7 @@ const ShipmentDetailsModal = ({ shipment, onClose, config, statusConfig, formatD
                     )}
                   </div>
                 </div>
-                
+
                 {/* Destination */}
                 <div className="bg-white/60 backdrop-blur-sm rounded-xl p-3 sm:p-5 shadow-sm">
                   <div className="flex items-center gap-2 text-sm text-rose-700 font-bold mb-4">
@@ -945,23 +945,23 @@ const ShipmentDetailsModal = ({ shipment, onClose, config, statusConfig, formatD
                     {shipment.timeline.filter(t => t.isCompleted).length}/{shipment.timeline.length}
                   </span>
                 </h3>
-                
+
                 <div className="relative">
                   {/* Timeline line */}
                   <div className="absolute left-4 sm:left-6 top-0 bottom-0 w-0.5 bg-gradient-to-b from-teal-400 via-blue-400 to-purple-400" />
-                  
+
                   <div className="space-y-1">
                     {[...shipment.timeline].reverse().map((event, index) => {
                       const eventConfig = statusConfig[event.status] || statusConfig['In Transit'];
                       const EventIcon = eventConfig.icon;
-                      
+
                       return (
                         <div key={index} className="relative flex gap-2 sm:gap-4 group">
                           {/* Timeline node */}
                           <div className="relative z-10 flex-shrink-0">
                             <div className={`w-8 h-8 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl flex items-center justify-center shadow-lg transition-all duration-300 group-hover:scale-110 ${
-                              event.isCompleted 
-                                ? `bg-gradient-to-br ${eventConfig.gradient}` 
+                              event.isCompleted
+                                ? `bg-gradient-to-br ${eventConfig.gradient}`
                                 : 'bg-gray-200'
                             }`}>
                               {event.isCompleted ? (
@@ -971,7 +971,7 @@ const ShipmentDetailsModal = ({ shipment, onClose, config, statusConfig, formatD
                               )}
                             </div>
                           </div>
-                          
+
                           {/* Content */}
                           <div className={`flex-1 bg-white rounded-xl p-3 sm:p-4 border shadow-sm mb-2 sm:mb-3 transition-all duration-300 group-hover:shadow-md ${
                             event.isCompleted ? 'border-gray-200' : 'border-gray-100 opacity-60'

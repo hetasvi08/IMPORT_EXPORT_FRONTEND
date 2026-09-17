@@ -1,23 +1,25 @@
-import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { getProductById } from '../../services/operations/productAPI';
-import { getProductReviews, createReview, toggleReviewHelpful } from '../../services/operations/reviewAPI';
-import { getCatalogsByCategory } from '../../services/operations/catalogAPI';
-import { apiconnector } from '../../services/apiconnector';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
 import ContactModal from '../../components/ContactModal';
-import { contactSupportAboutProduct } from '../../utils/whatsapp';
-import { addToCart } from '../../services/operations/cartAPI';
 import useCurrency from '../../hooks/useCurrency';
+import { apiconnector } from '../../services/apiconnector';
+import { quoteEndpoints } from '../../services/apis';
+import { addToCart } from '../../services/operations/cartAPI';
+import { getCatalogsByCategory } from '../../services/operations/catalogAPI';
+import { deleteProduct, getProductById, updateProduct } from '../../services/operations/productAPI';
+import { createReview, getProductReviews, toggleReviewHelpful } from '../../services/operations/reviewAPI';
+import { contactSupportAboutProduct } from '../../utils/whatsapp';
 
 const ProductDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user, token } = useSelector((state) => state.auth);
+  const isAdmin = user?.role === 'admin';
   const { formatAmount } = useCurrency();
-  
+
   const [loading, setLoading] = useState(true);
   const [product, setProduct] = useState(null);
   const [activeTab, setActiveTab] = useState('specifications');
@@ -31,7 +33,7 @@ const ProductDetail = () => {
   const [isEditingSummary, setIsEditingSummary] = useState(false);
   const [summaryText, setSummaryText] = useState('');
   const [savingSummary, setSavingSummary] = useState(false);
-  
+
   // Review states
   const [reviews, setReviews] = useState([]);
   const [reviewStats, setReviewStats] = useState({ avgRating: 0, totalReviews: 0 });
@@ -91,11 +93,8 @@ const ProductDetail = () => {
   const fetchProduct = async () => {
     try {
       setLoading(true);
-      // Use admin API if admin, otherwise use regular API
-      const response = isAdmin 
-        ? await getAdminProductById(id, token)
-        : await getProductById(id);
-      
+      const response = await getProductById(id);
+
       if (response.success) {
         setProduct(response.data);
         setSummaryText(response.data.summary || '');
@@ -238,7 +237,8 @@ const ProductDetail = () => {
       } else {
         throw new Error(response.data.message);
       }
-    } catch (error) {
+    } catch {
+      // no unused parameter needed
     } finally {
       setSubmittingQuote(false);
     }
@@ -276,11 +276,11 @@ const ProductDetail = () => {
 
   const handleSaveSummary = async () => {
     if (!isAdmin || !id) return;
-    
+
     try {
       setSavingSummary(true);
-      const response = await updateProductSummary(id, summaryText, token);
-      
+      const response = await updateProduct(id, { summary: summaryText }, token);
+
       if (response.success) {
         setProduct({ ...product, summary: summaryText });
         setIsEditingSummary(false);
@@ -289,6 +289,19 @@ const ProductDetail = () => {
       void 0;
     } finally {
       setSavingSummary(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!isAdmin || !id) return;
+
+    try {
+      await deleteProduct(id, token);
+      navigate('/products');
+    } catch {
+      void 0;
+    } finally {
+      setDeleteModal(false);
     }
   };
 
@@ -328,14 +341,14 @@ const ProductDetail = () => {
             </button>
             <div className="hidden sm:flex items-center gap-2 text-sm min-w-0">
               <i className="fas fa-chevron-right text-slate-400 text-xs flex-shrink-0"></i>
-              <button 
+              <button
                 onClick={() => navigate('/')}
                 className="text-slate-600 hover:text-orange-600 transition-colors font-medium flex-shrink-0"
               >
                 Home
               </button>
               <i className="fas fa-chevron-right text-slate-400 text-xs flex-shrink-0"></i>
-              <button 
+              <button
                 onClick={() => navigate('/products')}
                 className="text-slate-600 hover:text-orange-600 transition-colors font-medium flex-shrink-0"
               >
@@ -359,7 +372,7 @@ const ProductDetail = () => {
             <div className="relative group">
               <div className="bg-white/90 backdrop-blur-sm rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl border border-orange-100/50 relative h-[280px] sm:h-[400px] lg:h-[500px] flex items-center justify-center">
                 {product.images && product.images.length > 0 ? (
-                  <div 
+                  <div
                     className="relative w-full h-full flex items-center justify-center cursor-crosshair"
                     onMouseMove={handleMouseMove}
                     onMouseEnter={() => {
@@ -371,8 +384,8 @@ const ProductDetail = () => {
                       setIsAutoSliding(true);
                     }}
                   >
-                    <img 
-                      src={product.images[selectedImage]?.url} 
+                    <img
+                      src={product.images[selectedImage]?.url}
                       alt={product.name}
                       className="w-full h-full object-contain p-4 transition-all duration-300"
                     />
@@ -425,7 +438,7 @@ const ProductDetail = () => {
               {/* Zoomed Image Overlay - Amazon Style */}
               {showZoom && product.images && product.images.length > 0 && (
                 <div className="hidden lg:block absolute top-0 left-full ml-4 w-[450px] h-[500px] bg-white shadow-2xl border-2 border-orange-300 rounded-2xl overflow-hidden z-20">
-                  <div 
+                  <div
                     className="w-full h-full"
                     style={{
                       backgroundImage: `url(${product.images[selectedImage]?.url})`,
@@ -455,13 +468,13 @@ const ProductDetail = () => {
                       setTimeout(() => setIsAutoSliding(true), 5000);
                     }}
                     className={`flex-shrink-0 bg-white rounded-xl overflow-hidden shadow-md transition-all duration-300 transform hover:scale-105 w-20 h-20 ${
-                      selectedImage === index 
-                        ? 'ring-3 ring-orange-500 shadow-xl scale-105' 
+                      selectedImage === index
+                        ? 'ring-3 ring-orange-500 shadow-xl scale-105'
                         : 'ring-1 ring-slate-200 hover:ring-orange-300 opacity-70 hover:opacity-100'
                     }`}
                   >
-                    <img 
-                      src={image.url} 
+                    <img
+                      src={image.url}
                       alt={`${product.name} ${index + 1}`}
                       className="w-full h-full object-contain"
                     />
@@ -535,7 +548,7 @@ const ProductDetail = () => {
                   {product?.summary || (
                     <p className="text-slate-500 italic flex items-center gap-2">
                       <i className="fas fa-info-circle"></i>
-                      {isAdmin 
+                      {isAdmin
                         ? 'No summary available. Click "Edit" to add a detailed product summary.'
                         : 'No summary available for this product.'
                       }
@@ -555,7 +568,7 @@ const ProductDetail = () => {
             <div className="flex items-center gap-2 sm:gap-4 mb-4 sm:mb-6 flex-wrap">
               <div className="flex items-center gap-1">
                 {[...Array(5)].map((_, i) => (
-                  <i 
+                  <i
                     key={i}
                     className={`fas fa-star transition-all duration-300 ${i < Math.floor(product.rating) ? 'text-amber-400' : 'text-slate-300'}`}
                   ></i>
@@ -636,20 +649,20 @@ const ProductDetail = () => {
                   Quantity
                 </h3>
                 <div className="flex items-center gap-2 sm:gap-3">
-                  <button 
+                  <button
                     onClick={() => setQuantity(Math.max(product.moq || 1, quantity - 1))}
                     className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-orange-100 to-amber-100 hover:from-orange-200 hover:to-amber-200 rounded-xl flex items-center justify-center font-bold transition-all duration-200 transform hover:scale-105 shadow-md hover:shadow-lg"
                   >
                     <i className="fas fa-minus text-orange-600"></i>
                   </button>
-                  <input 
-                    type="number" 
-                    value={quantity} 
+                  <input
+                    type="number"
+                    value={quantity}
                     min={product.moq || 1}
                     onChange={(e) => setQuantity(Math.max(product.moq || 1, parseInt(e.target.value) || 1))}
                     className="w-16 sm:w-20 h-10 sm:h-12 bg-white border-2 border-orange-200 rounded-xl text-center font-bold focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition-all shadow-sm text-sm sm:text-base"
                   />
-                  <button 
+                  <button
                     onClick={() => setQuantity(quantity + 1)}
                     className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-orange-100 to-amber-100 hover:from-orange-200 hover:to-amber-200 rounded-xl flex items-center justify-center font-bold transition-all duration-200 transform hover:scale-105 shadow-md hover:shadow-lg"
                   >
@@ -663,7 +676,7 @@ const ProductDetail = () => {
             {!isAdmin && (
               <div className="flex flex-col gap-2.5 sm:gap-3 mb-4 sm:mb-6">
                 {/* Add to Cart Button */}
-                <button 
+                <button
                   onClick={() => dispatch(addToCart(product._id, quantity, token, product))}
                   className="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-xl sm:rounded-2xl font-black text-sm shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2"
                 >
@@ -671,23 +684,23 @@ const ProductDetail = () => {
                   Add to Cart
                 </button>
                 <div className="grid grid-cols-2 gap-2.5 sm:gap-3">
-                  <button 
+                  <button
                     onClick={() => setContactModalOpen(true)}
                     className="bg-gradient-to-r from-orange-500 via-amber-500 to-yellow-500 hover:from-orange-600 hover:via-amber-600 hover:to-yellow-600 text-white px-4 py-3 sm:px-8 sm:py-4 rounded-xl sm:rounded-2xl font-black text-xs sm:text-sm shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center gap-1.5 sm:gap-2"
                   >
-                  
+
                     Contact Team
                   </button>
-                  <button 
+                  <button
                     onClick={handleRequestQuote}
                     className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white px-4 py-3 sm:px-8 sm:py-4 rounded-xl sm:rounded-2xl font-black text-xs sm:text-sm shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center gap-1.5 sm:gap-2"
                   >
-                   
+
                     Request Quote
                   </button>
                 </div>
                 <div className="grid grid-cols-1 gap-2.5 sm:gap-3">
-                  <button 
+                  <button
                     onClick={() => contactSupportAboutProduct(product, window.location.href)}
                     className="bg-gradient-to-r from-slate-600 to-slate-700 hover:from-slate-700 hover:to-slate-800 text-white px-4 py-3 sm:px-8 sm:py-4 rounded-xl sm:rounded-2xl font-black text-xs sm:text-sm shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center gap-1.5 sm:gap-2"
                   >
@@ -967,7 +980,7 @@ const ProductDetail = () => {
                       </span>
                     </div>
                   </div>
-                  
+
                   {user && (
                     <button
                       onClick={() => setShowReviewForm(!showReviewForm)}
@@ -1156,7 +1169,7 @@ const ProductDetail = () => {
       {fullImageModal && product.images && product.images.length > 0 && (
         <div className="fixed inset-0 z-[1200] flex items-center justify-center p-3 sm:p-6 md:p-8 animate-fadeIn">
           {/* Blurry Background Overlay */}
-          <div 
+          <div
             className="absolute inset-0 bg-black/80 backdrop-blur-xl"
             onClick={() => setFullImageModal(false)}
           ></div>
@@ -1174,8 +1187,8 @@ const ProductDetail = () => {
             {/* Image Container */}
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-white/20">
               <div className="relative h-[58vh] sm:h-[70vh] flex items-center justify-center p-3 sm:p-6">
-                <img 
-                  src={product.images[selectedImage]?.url} 
+                <img
+                  src={product.images[selectedImage]?.url}
                   alt={product.name}
                   className="max-w-full max-h-full object-contain transition-all duration-500"
                 />
@@ -1213,13 +1226,13 @@ const ProductDetail = () => {
                         key={index}
                         onClick={() => setSelectedImage(index)}
                         className={`flex-shrink-0 bg-white rounded-lg overflow-hidden shadow-lg transition-all duration-300 transform hover:scale-110 w-14 h-14 sm:w-20 sm:h-20 ${
-                          selectedImage === index 
-                            ? 'ring-4 ring-orange-500 scale-110' 
+                          selectedImage === index
+                            ? 'ring-4 ring-orange-500 scale-110'
                             : 'ring-2 ring-white/30 opacity-60 hover:opacity-100'
                         }`}
                       >
-                        <img 
-                          src={image.url} 
+                        <img
+                          src={image.url}
                           alt={`${product.name} ${index + 1}`}
                           className="w-full h-full object-contain"
                         />
@@ -1302,8 +1315,8 @@ const ProductDetail = () => {
             {/* Product Info */}
             <div className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 bg-gradient-to-r from-slate-50 to-blue-50 rounded-xl mb-4 sm:mb-6 border border-slate-200">
               {product.images?.[0]?.url ? (
-                <img 
-                  src={product.images[0].url} 
+                <img
+                  src={product.images[0].url}
                   alt={product.name}
                   className="w-12 h-12 sm:w-16 sm:h-16 object-cover rounded-lg flex-shrink-0"
                 />

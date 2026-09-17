@@ -1,4 +1,4 @@
-import { createSlice, createSelector } from '@reduxjs/toolkit';
+import { createSelector, createSlice } from '@reduxjs/toolkit';
 
 // Exchange rates relative to INR (base currency)
 // These are approximate rates - in production, you'd fetch real-time rates from an API
@@ -30,7 +30,9 @@ const getSavedCurrency = () => {
     if (saved && exchangeRates[saved]) {
       return saved;
     }
-  } catch (e) {}
+  } catch {
+    // no unused parameter needed
+}
   return 'INR';
 };
 
@@ -52,7 +54,9 @@ const currencySlice = createSlice({
         // Save to localStorage
         try {
           localStorage.setItem('selectedCurrency', currency);
-        } catch (e) {}
+        } catch {
+          // no unused parameter needed
+}
       }
     },
     updateExchangeRates: (state, action) => {

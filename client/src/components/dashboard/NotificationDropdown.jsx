@@ -1,27 +1,39 @@
-import { useState, useEffect, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { 
-  Bell, X, Check, CheckCheck, Trash2, ExternalLink, 
-  ShoppingCart, CreditCard, Truck, FileText, MessageCircle,
-  Star, Package, Info, Gift, Clock, AlertCircle
-} from 'lucide-react';
 import {
+  Bell,
+  CheckCheck,
+  Clock,
+  CreditCard,
+  ExternalLink,
+  FileText,
+  Gift,
+  Info,
+  MessageCircle,
+  Package,
+  ShoppingCart,
+  Star,
+  Trash2,
+  Truck,
+  X
+} from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import {
+  deleteAllNotifications as deleteAllNotifAPI,
+  deleteNotification,
+  getUnreadCount as fetchUnreadCount,
+  getAllNotifications,
+  markAllNotificationsAsRead,
+  markNotificationAsRead,
+} from '../../services/operations/notificationAPI';
+import {
+  clearAllNotifications,
+  markAllRead,
+  markOneAsRead,
+  removeNotification,
   setNotifications,
   setUnreadCount,
-  markOneAsRead,
-  markAllRead,
-  removeNotification,
-  clearAllNotifications,
 } from '../../store/slices/notificationSlice';
-import {
-  getAllNotifications,
-  getUnreadCount as fetchUnreadCount,
-  markNotificationAsRead,
-  markAllNotificationsAsRead,
-  deleteNotification,
-  deleteAllNotifications as deleteAllNotifAPI,
-} from '../../services/operations/notificationAPI';
 
 const NotificationDropdown = ({ variant = 'user' }) => {
   const dispatch = useDispatch();
@@ -46,7 +58,8 @@ const NotificationDropdown = ({ variant = 'user' }) => {
       if (countRes?.success) {
         dispatch(setUnreadCount(countRes.data?.count || 0));
       }
-    } catch (error) {}
+    } catch (error) {
+}
   };
 
   // Initial fetch and polling
@@ -146,7 +159,7 @@ const NotificationDropdown = ({ variant = 'user' }) => {
     const minutes = Math.floor(diff / 60000);
     const hours = Math.floor(diff / 3600000);
     const days = Math.floor(diff / 86400000);
-    
+
     if (minutes < 1) return 'Just now';
     if (minutes < 60) return `${minutes}m ago`;
     if (hours < 24) return `${hours}h ago`;
@@ -190,14 +203,14 @@ const NotificationDropdown = ({ variant = 'user' }) => {
         <>
           {/* Mobile Overlay */}
           <div className="fixed inset-0 bg-black/30 z-40 sm:hidden" onClick={() => setIsOpen(false)} />
-          
+
           <div className={`
-            fixed sm:absolute 
-            inset-x-2 sm:inset-x-auto sm:right-0 
-            top-16 sm:top-auto sm:mt-2 
-            w-auto sm:w-[380px] md:w-[420px] 
-            max-h-[70vh] sm:max-h-[520px] 
-            bg-white rounded-2xl shadow-2xl border border-gray-200 z-50 overflow-hidden 
+            fixed sm:absolute
+            inset-x-2 sm:inset-x-auto sm:right-0
+            top-16 sm:top-auto sm:mt-2
+            w-auto sm:w-[380px] md:w-[420px]
+            max-h-[70vh] sm:max-h-[520px]
+            bg-white rounded-2xl shadow-2xl border border-gray-200 z-50 overflow-hidden
             ${isAdmin ? '' : 'ring-1 ring-black/5'}
           `}
             style={{ animation: 'fadeInDown 0.2s ease-out' }}
@@ -257,15 +270,15 @@ const NotificationDropdown = ({ variant = 'user' }) => {
               notifications.map((notif) => {
                 const NotifIcon = getNotifIcon(notif.type);
                 const colorClass = getNotifColor(notif.type);
-                
+
                 return (
                   <div
                     key={notif._id}
                     onClick={() => handleNotificationClick(notif)}
                     className={`
                       flex items-start gap-2 sm:gap-3 px-3 sm:px-5 py-3 sm:py-3.5 cursor-pointer transition-all duration-200 group
-                      ${notif.isRead 
-                        ? 'bg-white hover:bg-gray-50' 
+                      ${notif.isRead
+                        ? 'bg-white hover:bg-gray-50'
                         : 'bg-blue-50/40 hover:bg-blue-50/70 border-l-3 border-l-blue-500'
                       }
                     `}

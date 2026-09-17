@@ -1,9 +1,9 @@
+import { ArrowLeft, Mail, MapPin, MessageSquare, Minus, Package, Phone, Plus, RotateCcw, Send, ShieldCheck, ShoppingCart, Sparkles, Trash2, Truck, User } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { ShoppingCart, Trash2, Plus, Minus, ArrowLeft, Package, ShieldCheck, Truck, RotateCcw, CreditCard, Sparkles, MessageSquare, Send, User, Mail, Phone, MapPin } from 'lucide-react';
-import { getCart, updateCartItem, removeFromCart, clearCart, raiseCartInquiry } from '../../services/operations/cartAPI';
 import useCurrency from '../../hooks/useCurrency';
+import { clearCart, getCart, raiseCartInquiry, removeFromCart, updateCartItem } from '../../services/operations/cartAPI';
 
 const CartPage = () => {
   const dispatch = useDispatch();
@@ -13,7 +13,7 @@ const CartPage = () => {
   const [showInquiryForm, setShowInquiryForm] = useState(false);
   const { token, isAuthenticated, user } = useSelector((state) => state.auth);
   const { items, totalItems, totalQuantity, totalAmount, loading } = useSelector((state) => state.cart);
-  
+
   // Inquiry form state
   const [inquiryForm, setInquiryForm] = useState({
     name: '',
@@ -46,7 +46,7 @@ const CartPage = () => {
   const handleUpdateQuantity = (productId, currentQuantity, change, moq = 1) => {
     const newQuantity = currentQuantity + change;
     const minQuantity = moq || 1;
-    
+
     if (newQuantity < minQuantity) {
       // If trying to go below MOQ, remove item
       handleRemoveItem(productId);
@@ -88,7 +88,7 @@ const CartPage = () => {
     if (!inquiryForm.country.trim()) {
       return;
     }
-    
+
     setSubmittingInquiry(true);
     try {
       const result = await dispatch(raiseCartInquiry(token, inquiryForm));
@@ -129,7 +129,7 @@ const CartPage = () => {
       <div className="relative bg-gradient-to-br from-slate-800 via-slate-900 to-emerald-900 pt-20 pb-8 overflow-hidden">
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSA2MCAwIEwgMCAwIDAgNjAiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjAzKSIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyaWQpIi8+PC9zdmc+')] opacity-40"></div>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <button 
+          <button
             onClick={() => navigate(-1)}
             className="flex items-center gap-2 text-slate-400 hover:text-emerald-400 transition-colors mb-4 group"
           >
@@ -180,13 +180,13 @@ const CartPage = () => {
               </div>
 
               {items.map((item, index) => (
-                <div 
-                  key={item.product._id} 
+                <div
+                  key={item.product._id}
                   className="bg-gradient-to-r from-white/95 via-slate-50/85 to-emerald-50/70 backdrop-blur-sm rounded-xl shadow-md shadow-slate-900/5 border border-slate-200/90 p-3 flex gap-3 hover:shadow-xl hover:shadow-emerald-100/70 hover:border-emerald-300/80 transition-all group"
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
                   {/* Product Image */}
-                  <div 
+                  <div
                     className="w-20 h-20 bg-gradient-to-br from-slate-100 to-slate-50 rounded-lg overflow-hidden flex-shrink-0 ring-1 ring-slate-200/50 cursor-pointer"
                     onClick={() => navigate(`/products/${item.product._id}`)}
                   >
@@ -199,7 +199,7 @@ const CartPage = () => {
 
                   {/* Product Info */}
                   <div className="flex-1 min-w-0">
-                    <h3 
+                    <h3
                       className="font-semibold text-slate-800 text-sm mb-0.5 truncate cursor-pointer hover:text-emerald-600 transition-colors"
                       onClick={() => navigate(`/products/${item.product._id}`)}
                     >
@@ -221,7 +221,7 @@ const CartPage = () => {
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
-                    
+
                     <div className="flex flex-col items-end gap-1">
                       <div className="flex items-center gap-1 bg-white/90 border border-slate-300/70 rounded-lg p-0.5 shadow-sm">
                         <button
@@ -262,7 +262,7 @@ const CartPage = () => {
                     Order Summary
                   </h2>
                 </div>
-                
+
                 <div className="p-5">
                   {/* Price Breakdown */}
                   <div className="space-y-2.5 mb-4">
@@ -278,9 +278,9 @@ const CartPage = () => {
                       <span className="text-slate-500">Tax (10%)</span>
                       <span className="font-semibold text-slate-700">{formatAmount(totalAmount * 0.1)}</span>
                     </div>
-                    
+
                     <div className="h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent my-3"></div>
-                    
+
                     <div className="flex justify-between items-center">
                       <span className="font-bold text-slate-800">Total</span>
                       <div className="text-right">
@@ -298,7 +298,7 @@ const CartPage = () => {
                         <User className="w-4 h-4 text-orange-500" />
                         Contact Information
                       </h4>
-                      
+
                       {/* Name */}
                       <div>
                         <label className="block text-xs font-medium text-slate-600 mb-1">Full Name *</label>
@@ -414,7 +414,7 @@ const CartPage = () => {
                     <CreditCard className="w-4 h-4" />
                     Proceed to Checkout
                   </button> */}
-                  
+
                   <button
                     onClick={() => navigate('/products')}
                     className="w-full bg-gradient-to-r from-slate-600 to-slate-700 hover:from-slate-700 hover:to-slate-800 text-white py-2.5 rounded-xl font-semibold text-sm transition-all shadow-md hover:shadow-lg"

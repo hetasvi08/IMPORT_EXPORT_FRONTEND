@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 const SupplierDashboard = () => {
@@ -10,9 +10,9 @@ const SupplierDashboard = () => {
     pendingProducts: 0,
     rejectedProducts: 0,
     totalOrders: 0,
-    totalRevenue: 0  
+    totalRevenue: 0
   });
- 
+
   useEffect(() => {
     fetchDashboardStats();
   }, []);
@@ -29,7 +29,8 @@ const SupplierDashboard = () => {
         totalOrders: 0,
         totalRevenue: 0
       });
-    } catch (error) {
+    } catch {
+      // no unused parameter needed
     } finally {
       setLoading(false);
     }

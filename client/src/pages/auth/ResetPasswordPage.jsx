@@ -1,16 +1,16 @@
+import { CheckCircle, Eye, EyeOff, Lock } from 'lucide-react';
 import { useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { Lock, Eye, EyeOff, CheckCircle } from 'lucide-react';
 import { apiconnector } from '../../services/apiconnector';
 import { authEndpoints } from '../../services/apis';
 
 const ResetPasswordPage = () => {
   const navigate = useNavigate();
   const { token } = useParams();
-  
+
   const [formData, setFormData] = useState({
     password: '',
-    confirmPassword: ''     
+    confirmPassword: ''
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -54,7 +54,7 @@ const ResetPasswordPage = () => {
 
         {/* Card */}
         <div className="bg-white rounded-3xl shadow-2xl p-8">
-          
+
           {/* Icon */}
           <div className="w-20 h-20 bg-gradient-to-br from-teal-500 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-6">
             <Lock className="text-white" size={40} />

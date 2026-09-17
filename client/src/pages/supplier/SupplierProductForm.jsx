@@ -1,21 +1,21 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-// import { uploadProductImage } from '../../services/operations/adminProductAPI';
+import { useNavigate } from 'react-router-dom';
 import { getAllCategories } from '../../services/operations/categoryAPI';
+import { uploadSupplierProductImage as uploadProductImage } from '../../services/operations/supplierDashboardAPI';
 
 const SupplierProductForm = () => {
   const navigate = useNavigate();
-  const { user } = useSelector((state) => state.auth);
-  const token = localStorage.getItem('token');
+  const { user, token: authToken } = useSelector((state) => state.auth);
+  const token = authToken || localStorage.getItem('token');
 
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
   const [uploadingImages, setUploadingImages] = useState([]);
-    
+
   const [formData, setFormData] = useState({
     name: '',
-    description: '',    
+    description: '',
     shortDescription: '',
     sku: '',
     category: '',
@@ -52,8 +52,9 @@ const SupplierProductForm = () => {
       if (response.success) {
         setCategories(response.data);
       }
-    } catch (error) {
-}
+    } catch {
+      // no unused parameter needed
+    }
   };
 
   const handleInputChange = (e) => {
@@ -66,7 +67,7 @@ const SupplierProductForm = () => {
 
   const handleImageUpload = async (e) => {
     const files = Array.from(e.target.files);
-    
+
     for (const file of files) {
       const tempId = Date.now() + Math.random();
       setUploadingImages(prev => [...prev, { id: tempId, name: file.name }]);
@@ -78,10 +79,10 @@ const SupplierProductForm = () => {
           images: [...prev.images, result]
         }));
         setUploadingImages(prev => prev.filter(img => img.id !== tempId));
-        
-      } catch (error) {
+
+      } catch {
         setUploadingImages(prev => prev.filter(img => img.id !== tempId));
-}
+      }
     }
   };
 
@@ -134,15 +135,15 @@ const SupplierProductForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     // Validation
     if (!formData.name || !formData.description || !formData.category) {
-      
+
       return;
     }
 
     if (formData.images.length === 0) {
-      
+
       return;
     }
 
@@ -177,9 +178,9 @@ const SupplierProductForm = () => {
       // TODO: Call supplier product creation API
 
       navigate('/supplier/products');
-      
-    } catch (error) {
 
+    } catch {
+      // no unused parameter needed
     } finally {
       setLoading(false);
     }
@@ -226,7 +227,7 @@ const SupplierProductForm = () => {
                 <i className="fas fa-info-circle text-orange-500"></i>
                 Basic Information
               </h3>
-              
+
               <div className="space-y-4">
                 <div>
                   <label className="block text-sm font-semibold text-slate-700 mb-2">
@@ -671,7 +672,7 @@ const SupplierProductForm = () => {
             </div>
           </div>
         </div>
-        
+
         {/* Spacer for fixed bottom bar */}
         <div className="h-24"></div>
       </form>

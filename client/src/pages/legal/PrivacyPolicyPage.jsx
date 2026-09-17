@@ -1,8 +1,8 @@
 import { useRef } from 'react';
 // eslint-disable-next-line no-unused-vars
 import { motion, useInView } from 'framer-motion';
+import { AlertCircle, Database, Eye, FileText, Globe, Lock, Mail, Shield, Users } from 'lucide-react';
 import { SUPPORT_CONTACT_NUMBERS_TEXT } from '../../utils/whatsapp';
-import { Shield, Lock, Eye, Database, Mail, Globe, Users, FileText, AlertCircle } from 'lucide-react';
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 40 },
@@ -152,7 +152,7 @@ const PrivacyPolicyPage = () => {
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '32px 32px' }}></div>
         </div>
-        
+
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -163,15 +163,15 @@ const PrivacyPolicyPage = () => {
               <Shield className="w-4 h-4 text-emerald-400" />
               <span className="text-emerald-400 font-semibold text-sm">Your Privacy Matters</span>
             </div>
-            
+
             <h1 className="text-4xl md:text-5xl font-black text-white mb-4">
               Privacy <span className="bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">Policy</span>
             </h1>
-            
+
             <p className="text-lg text-slate-300 max-w-2xl mx-auto mb-4">
               At Nexarion Global Exports, we are committed to protecting your privacy and ensuring the security of your personal information.
             </p>
-            
+
             <p className="text-sm text-slate-400">
               Last Updated: {lastUpdated}
             </p>
@@ -202,7 +202,7 @@ const PrivacyPolicyPage = () => {
                   </div>
                   <h2 className="text-2xl font-bold text-slate-800">{section.title}</h2>
                 </div>
-                
+
                 <div className="space-y-4">
                   {section.content.map((item, itemIndex) => (
                     <div key={itemIndex} className="pl-4 border-l-2 border-emerald-200">

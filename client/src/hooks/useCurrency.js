@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { selectCurrency, selectCurrencyInfo } from '../store/slices/currencySlice';
-import { convertPrice, convertAndFormatPrice, getCurrencySymbol, convertToINR } from '../utils/currency';
+import { convertAndFormatPrice, convertPrice, convertToINR, getCurrencySymbol } from '../utils/currency';
 
 /**
  * Custom hook for currency conversion and formatting

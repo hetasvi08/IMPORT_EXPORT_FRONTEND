@@ -1,24 +1,21 @@
-import { useState, useEffect, useCallback } from 'react';
-import { useSelector } from 'react-redux';
 import {
-  Package,
-  Search,
-  Filter,
-  Eye,
-  Clock,
   CheckCircle,
-  XCircle,
-  Truck,
-  Loader2,
   ChevronLeft,
   ChevronRight,
-  X,
-  Calendar,
-  DollarSign,
-  User,
+  Clock,
+  Eye,
+  Filter,
+  Loader2,
   MapPin,
-  AlertCircle
+  Package,
+  Search,
+  Truck,
+  User,
+  X,
+  XCircle
 } from 'lucide-react';
+import { useCallback, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { getSupplierOrders, updateSupplierOrderStatus } from '../../services/operations/supplierDashboardAPI';
 
 const SupplierOrders = () => {
@@ -44,7 +41,7 @@ const SupplierOrders = () => {
         limit: 10,
         status: statusFilter !== 'all' ? statusFilter : undefined
       };
-      
+
       const response = await getSupplierOrders(token, params);
       if (response.success) {
         setOrders(response.data || []);
@@ -54,7 +51,8 @@ const SupplierOrders = () => {
           total: response.total || 0
         });
       }
-    } catch (error) {// Don't show error for empty orders
+    } catch (error) {
+// Don't show error for empty orders
       setOrders([]);
     } finally {
       setLoading(false);
@@ -70,11 +68,12 @@ const SupplierOrders = () => {
       setUpdatingStatus(true);
       const response = await updateSupplierOrderStatus(orderId, newStatus, token);
       if (response.success) {
-        
+
         fetchOrders();
         setShowDetailModal(false);
       }
-    } catch (error) {
+    } catch (error) {
+
     } finally {
       setUpdatingStatus(false);
     }
@@ -183,8 +182,8 @@ const SupplierOrders = () => {
           <Package className="w-16 h-16 text-gray-300 mx-auto mb-4" />
           <h3 className="text-lg font-bold text-gray-900 mb-2">No orders yet</h3>
           <p className="text-gray-500">
-            {statusFilter !== 'all' 
-              ? `No ${statusFilter} orders found` 
+            {statusFilter !== 'all'
+              ? `No ${statusFilter} orders found`
               : "You haven't received any orders yet"}
           </p>
         </div>

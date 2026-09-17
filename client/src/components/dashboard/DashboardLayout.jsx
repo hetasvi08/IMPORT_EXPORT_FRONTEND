@@ -1,36 +1,35 @@
-import { useState, useEffect } from 'react';
-import { Link, Outlet, useLocation } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { 
-  LayoutDashboard, 
-  Package, 
-  ShoppingCart, 
-  FileText, 
-  Truck, 
-  Heart, 
-  User, 
-  Settings, 
-  LogOut,
+import {
+  Building2,
   ChevronLeft,
   ChevronRight,
-  Bell,
-  Search,
+  FileText,
+  Globe,
+  Heart,
+  LayoutDashboard,
+  LogOut,
   Menu,
-  X,
-  ShoppingBag,
-  Store,
-  PackagePlus,
-  Building2,
   MessageCircle,
-  Globe
+  Package,
+  PackagePlus,
+  Search,
+  Settings,
+  ShoppingBag,
+  ShoppingCart,
+  Store,
+  Truck,
+  User,
+  X
 } from 'lucide-react';
-import { logout } from '../../store/slices/authSlice';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, Outlet, useLocation } from 'react-router-dom';
 import nexarionLogo from '../../assets/nexarion_logo.png';
-import NotificationDropdown from './NotificationDropdown';
-import CurrencySelector from '../CurrencySelector';
 import { getCart } from '../../services/operations/cartAPI';
 import { getFavorites } from '../../services/operations/favoritesAPI';
 import { getUnreadCount } from '../../services/operations/supportTicketAPI';
+import { logout } from '../../store/slices/authSlice';
+import CurrencySelector from '../CurrencySelector';
+import NotificationDropdown from './NotificationDropdown';
 
 
 const DashboardLayout = () => {
@@ -39,7 +38,7 @@ const DashboardLayout = () => {
   const { user, token } = useSelector((state) => state.auth);
   const { totalItems: cartCount } = useSelector((state) => state.cart);
   const { totalItems: favoritesCount } = useSelector((state) => state.favorites);
-  
+
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
@@ -88,11 +87,11 @@ const DashboardLayout = () => {
   ];
 
   // Combine menu items based on role
-  const menuItems = isSupplier 
+  const menuItems = isSupplier
     ? [...baseMenuItems, ...supplierMenuItems]
     : baseMenuItems;
 
-  const sections = isSupplier 
+  const sections = isSupplier
     ? ['MAIN', 'SUPPLIER', 'MANAGE', 'SUPPORT', 'ACCOUNT']
     : ['MAIN', 'MANAGE', 'SUPPORT', 'ACCOUNT'];
 
@@ -128,9 +127,9 @@ const DashboardLayout = () => {
 
   return (
     <div className="flex h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50 overflow-hidden">
-      
+
       {/* Sidebar */}
-      <aside 
+      <aside
         className={`${
           sidebarCollapsed ? 'w-20' : 'w-64'
         } bg-gradient-to-b from-slate-900 via-teal-950 to-slate-950 border-r border-teal-900/30 transition-all duration-300 ease-in-out hidden lg:flex flex-col shadow-2xl`}
@@ -197,8 +196,8 @@ const DashboardLayout = () => {
                       to={item.path}
                       className={`
                         relative flex items-center gap-3 px-3 py-2.5 rounded-xl mb-1 transition-all duration-200
-                        ${active 
-                          ? 'bg-gradient-to-r from-teal-500 to-cyan-600 text-white shadow-lg shadow-teal-500/20' 
+                        ${active
+                          ? 'bg-gradient-to-r from-teal-500 to-cyan-600 text-white shadow-lg shadow-teal-500/20'
                           : 'text-gray-400 hover:text-teal-300 hover:bg-teal-900/30'
                         }
                         ${sidebarCollapsed ? 'justify-center' : ''}
@@ -323,8 +322,8 @@ const DashboardLayout = () => {
                         onClick={() => setMobileSidebarOpen(false)}
                         className={`
                           flex items-center gap-3 px-3 py-2.5 rounded-xl mb-1 transition-all
-                          ${active 
-                            ? 'bg-gradient-to-r from-teal-500 to-cyan-600 text-white shadow-lg shadow-teal-500/20' 
+                          ${active
+                            ? 'bg-gradient-to-r from-teal-500 to-cyan-600 text-white shadow-lg shadow-teal-500/20'
                             : 'text-gray-400 hover:text-teal-300 hover:bg-teal-900/30'
                           }
                         `}
@@ -367,12 +366,12 @@ const DashboardLayout = () => {
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        
+
         {/* Header */}
         <header className="bg-gradient-to-r from-slate-900 via-teal-950 to-slate-900 border-b border-teal-800/30 shadow-lg">
           <div className="px-4 lg:px-8 py-3">
             <div className="flex items-center justify-between">
-              
+
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setMobileSidebarOpen(true)}
@@ -397,7 +396,7 @@ const DashboardLayout = () => {
               <div className="flex items-center gap-2 sm:gap-3">
                 {/* Currency Selector */}
                 <CurrencySelector compact />
-                
+
                 {/* Back to Site - Mobile */}
                 <Link
                   to="/"

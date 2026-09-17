@@ -1,8 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { deleteSupplierProduct, getSupplierProducts } from '../../services/operations/supplierDashboardAPI';
 
 const SupplierProducts = () => {
   const navigate = useNavigate();
+  const { token: reduxToken } = useSelector((state) => state.auth);
+  const token = reduxToken || localStorage.getItem('token');
+
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
   const [activeTab, setActiveTab] = useState('all');
@@ -13,8 +18,6 @@ const SupplierProducts = () => {
     limit: 12
   });
 
-  const token = localStorage.getItem('token');
-
   useEffect(() => {
     fetchProducts();
   }, [filters, activeTab]);
@@ -22,27 +25,51 @@ const SupplierProducts = () => {
   const fetchProducts = async () => {
     try {
       setLoading(true);
-      // TODO: Implement supplier products API call
+      if (token) {
+        const response = await getSupplierProducts(token, {
+          search: filters.search,
+          status: filters.status,
+          page: filters.page,
+          limit: filters.limit
+        });
+        if (response?.success) {
+          setProducts(response.data?.products || response.data || []);
+        } else {
+          setProducts([]);
+        }
+      } else {
+        setProducts([]);
+      }
+    } catch {
       setProducts([]);
-    } catch (error) {
     } finally {
       setLoading(false);
     }
   };
 
+  const handleDeleteProduct = async (productId) => {
+    if (!token || !productId) return;
+    try {
+      await deleteSupplierProduct(productId, token);
+      fetchProducts();
+    } catch {
+      // ignore
+    }
+  };
+
   const getFilteredProducts = () => {
     let filtered = products;
-    
+
     if (activeTab !== 'all') {
       filtered = filtered.filter(p => p.isApproved === activeTab);
     }
-    
+
     if (filters.search) {
-      filtered = filtered.filter(p => 
+      filtered = filtered.filter(p =>
         p.name.toLowerCase().includes(filters.search.toLowerCase())
       );
     }
-    
+
     return filtered;
   };
 
@@ -130,7 +157,7 @@ const SupplierProducts = () => {
               </div>
               <h3 className="text-lg font-semibold text-slate-900 mb-2">No Products Found</h3>
               <p className="text-slate-600 mb-6">
-                {activeTab === 'all' 
+                {activeTab === 'all'
                   ? 'Start by adding your first product to the marketplace.'
                   : `You don't have any ${activeTab} products yet.`
                 }
@@ -148,17 +175,17 @@ const SupplierProducts = () => {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {filteredProducts.map((product) => (
-                <div 
-                  key={product._id} 
+                <div
+                  key={product._id}
                   className="border border-slate-200 rounded-lg overflow-hidden hover:shadow-lg transition-all group bg-white"
                 >
                   {/* Product Image */}
                   <div className="relative h-48 bg-slate-100 flex items-center justify-center overflow-hidden">
                     {product.images?.[0]?.url ? (
-                      <img 
-                        src={product.images[0].url} 
-                        alt={product.name} 
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" 
+                      <img
+                        src={product.images[0].url}
+                        alt={product.name}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                     ) : (
                       <i className="fas fa-box text-5xl text-slate-300"></i>
@@ -185,7 +212,7 @@ const SupplierProducts = () => {
                     <h4 className="font-semibold text-slate-900 mb-2 line-clamp-2 text-sm">
                       {product.name}
                     </h4>
-                    
+
                     <div className="flex items-center justify-between mb-3">
                       <div>
                         <p className="text-xs text-slate-500">Price Range</p>
@@ -209,14 +236,14 @@ const SupplierProducts = () => {
 
                     {/* Action Buttons */}
                     <div className="grid grid-cols-3 gap-2">
-                      <button 
+                      <button
                         onClick={() => navigate(`/products/${product._id}`)}
                         className="bg-slate-100 text-slate-700 px-3 py-2 rounded-lg text-xs font-semibold hover:bg-slate-200 transition-colors"
                         title="View Product"
                       >
                         <i className="fas fa-eye"></i>
                       </button>
-                      <button 
+                      <button
                         onClick={() => navigate(`/supplier/products/edit/${product._id}`)}
                         className="bg-blue-500 text-white px-3 py-2 rounded-lg text-xs font-semibold hover:bg-blue-600 transition-colors"
                         title="Edit Product"
@@ -225,6 +252,7 @@ const SupplierProducts = () => {
                         <i className="fas fa-edit"></i>
                       </button>
                       <button
+                        onClick={() => handleDeleteProduct(product._id)}
                         className="bg-red-500 text-white px-3 py-2 rounded-lg text-xs font-semibold hover:bg-red-600 transition-colors"
                         title="Delete Product"
                         disabled={product.isApproved === 'approved'}

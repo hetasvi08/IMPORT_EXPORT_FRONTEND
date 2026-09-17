@@ -20,11 +20,11 @@ export const getAllProducts = async (params = {}) => {
     const response = await apiconnector("GET", GET_ALL_PRODUCTS_API, null, null, params);
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to fetch products");
     }
     return response.data;
   } catch (error) {
-    throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -34,12 +34,12 @@ export const getProductById = async (id) => {
     const response = await apiconnector("GET", GET_PRODUCT_BY_ID_API(id));
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to fetch product");
     }
 
     return response.data;
   } catch (error) {
-    throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -49,25 +49,26 @@ export const getFeaturedProducts = async () => {
     const response = await apiconnector("GET", GET_FEATURED_PRODUCTS_API);
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to fetch featured products");
     }
 
     return response.data;
   } catch (error) {
-    throw error;
+    throw error.response?.data || error;
   }
 };
+
 // Get products by category
 export const getProductsByCategory = async (categoryId) => {
   try {
     const response = await apiconnector("GET", GET_PRODUCTS_BY_CATEGORY_API(categoryId));
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to fetch products by category");
     }
     return response.data;
   } catch (error) {
-    throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -77,11 +78,11 @@ export const getProductsBySupplier = async (supplierId) => {
     const response = await apiconnector("GET", GET_PRODUCTS_BY_SUPPLIER_API(supplierId));
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to fetch products by supplier");
     }
     return response.data;
   } catch (error) {
-    throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -93,12 +94,12 @@ export const createProduct = async (productData, token) => {
     });
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to create product");
     }
 
     return response.data;
   } catch (error) {
-    throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -110,12 +111,12 @@ export const updateProduct = async (id, productData, token) => {
     });
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to update product");
     }
 
     return response.data;
   } catch (error) {
-    throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -127,12 +128,12 @@ export const deleteProduct = async (id, token) => {
     });
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to delete product");
     }
 
     return response.data;
   } catch (error) {
-    throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -144,12 +145,12 @@ export const updateStock = async (id, stockData, token) => {
     });
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to update stock");
     }
 
     return response.data;
   } catch (error) {
-    throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -161,11 +162,11 @@ export const toggleFeatured = async (id, token) => {
     });
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to toggle featured status");
     }
 
     return response.data;
   } catch (error) {
-    throw error;
+    throw error.response?.data || error;
   }
 };

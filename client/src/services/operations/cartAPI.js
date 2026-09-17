@@ -1,14 +1,14 @@
+import {
+  addToCartLocal,
+  clearCartLocal,
+  removeFromCartLocal,
+  setCart,
+  setCartError,
+  setCartLoading,
+  updateCartItemLocal
+} from '../../store/slices/cartSlice';
 import { apiconnector } from '../apiconnector';
 import { dashboardEndpoints } from '../apis';
-import {
-  setCartLoading,
-  setCart,
-  addToCartLocal,
-  updateCartItemLocal,
-  removeFromCartLocal,
-  clearCartLocal,
-  setCartError
-} from '../../store/slices/cartSlice';
 
 const {
   GET_CART_API,
@@ -102,7 +102,7 @@ export const removeFromCart = (productId, token) => async (dispatch) => {
 };
 
 // Clear cart
-export const clearCart = (token, silent = false) => async (dispatch) => {
+export const clearCart = (token) => async (dispatch) => {
   try {
     const response = await apiconnector(
       'DELETE',

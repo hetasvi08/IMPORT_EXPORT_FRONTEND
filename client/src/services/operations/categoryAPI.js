@@ -35,12 +35,12 @@ export const getAllCategories = async () => {
     const response = await apiconnector("GET", GET_ALL_CATEGORIES_API);
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to fetch categories");
     }
 
     return response.data;
   } catch (error) {
-throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -50,12 +50,12 @@ export const getCategoryById = async (id) => {
     const response = await apiconnector("GET", GET_CATEGORY_BY_ID_API(id));
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to fetch category");
     }
 
     return response.data;
   } catch (error) {
-throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -65,12 +65,12 @@ export const getCategoryBySlug = async (slug) => {
     const response = await apiconnector("GET", GET_CATEGORY_BY_SLUG_API(slug));
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to fetch category by slug");
     }
 
     return response.data;
   } catch (error) {
-throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -80,12 +80,12 @@ export const getFeaturedCategories = async (limit = 6) => {
     const response = await apiconnector("GET", GET_FEATURED_CATEGORIES_API, null, null, { limit });
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to fetch featured categories");
     }
 
     return response.data;
   } catch (error) {
-throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -95,12 +95,12 @@ export const getHotCategories = async (limit = 4) => {
     const response = await apiconnector("GET", GET_HOT_CATEGORIES_API, null, null, { limit });
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to fetch hot categories");
     }
 
     return response.data;
   } catch (error) {
-throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -110,12 +110,12 @@ export const getTrendingCategories = async (limit = 4) => {
     const response = await apiconnector("GET", GET_TRENDING_CATEGORIES_API, null, null, { limit });
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to fetch trending categories");
     }
 
     return response.data;
   } catch (error) {
-throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -125,12 +125,12 @@ export const getTopSellingCategories = async (limit = 4) => {
     const response = await apiconnector("GET", GET_TOP_SELLING_CATEGORIES_API, null, null, { limit });
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to fetch top selling categories");
     }
 
     return response.data;
   } catch (error) {
-throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -140,12 +140,12 @@ export const getNewCategories = async (limit = 4) => {
     const response = await apiconnector("GET", GET_NEW_CATEGORIES_API, null, null, { limit });
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to fetch new categories");
     }
 
     return response.data;
   } catch (error) {
-throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -155,12 +155,12 @@ export const getCategoryStats = async () => {
     const response = await apiconnector("GET", GET_CATEGORY_STATS_API);
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to fetch category stats");
     }
 
     return response.data;
   } catch (error) {
-throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -174,12 +174,12 @@ export const getAdminCategories = async (token, params = {}) => {
     }, params);
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to fetch admin categories");
     }
 
     return response.data;
   } catch (error) {
-    throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -191,12 +191,12 @@ export const createCategory = async (formData, token) => {
     });
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to create category");
     }
 
     return response.data;
   } catch (error) {
-    throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -208,12 +208,12 @@ export const updateCategory = async (id, formData, token) => {
     });
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to update category");
     }
 
     return response.data;
   } catch (error) {
-    throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -225,12 +225,12 @@ export const deleteCategory = async (id, token) => {
     });
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to delete category");
     }
 
     return response.data;
   } catch (error) {
-    throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -245,12 +245,12 @@ export const uploadCategoryImage = async (imageFile, token) => {
     });
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to upload category image");
     }
 
     return response.data;
   } catch (error) {
-    throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -262,12 +262,12 @@ export const toggleCategoryActive = async (id, token) => {
     });
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to toggle category active status");
     }
 
     return response.data;
   } catch (error) {
-    throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -279,12 +279,12 @@ export const toggleCategoryFeatured = async (id, token) => {
     });
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to toggle category featured status");
     }
 
     return response.data;
   } catch (error) {
-    throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -296,12 +296,12 @@ export const toggleCategoryHot = async (id, token) => {
     });
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to toggle category hot status");
     }
 
     return response.data;
   } catch (error) {
-    throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -313,12 +313,12 @@ export const toggleCategoryTrending = async (id, token) => {
     });
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to toggle category trending status");
     }
 
     return response.data;
   } catch (error) {
-    throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -330,12 +330,12 @@ export const toggleCategoryNew = async (id, token) => {
     });
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to toggle category new status");
     }
 
     return response.data;
   } catch (error) {
-    throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -347,12 +347,12 @@ export const toggleCategoryTopSelling = async (id, token) => {
     });
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to toggle category top selling status");
     }
 
     return response.data;
   } catch (error) {
-    throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -364,12 +364,12 @@ export const updateCategoryOrder = async (id, order, token) => {
     });
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to update category order");
     }
 
     return response.data;
   } catch (error) {
-    throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -381,12 +381,12 @@ export const bulkUpdateCategoryOrder = async (categories, token) => {
     });
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to bulk update category orders");
     }
 
     return response.data;
   } catch (error) {
-    throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -398,11 +398,11 @@ export const syncProductCounts = async (token) => {
     });
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to sync product counts");
     }
 
     return response.data;
   } catch (error) {
-    throw error;
+    throw error.response?.data || error;
   }
 };

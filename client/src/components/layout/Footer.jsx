@@ -1,5 +1,5 @@
+import { Instagram, Linkedin, Mail, MapPin, MessageCircle, Phone, Twitter } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { Mail, Phone, MapPin, MessageCircle, Linkedin, Instagram, Twitter } from 'lucide-react';
 import nexarionLogo from '../../assets/nexarion_logo.png';
 import { SUPPORT_CONTACT_NUMBERS, WHATSAPP_API_URL } from '../../utils/whatsapp';
 
@@ -12,10 +12,10 @@ const Footer = () => {
       <div className="absolute top-0 left-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
       <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
-      
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
-          
+
           {/* Company Info */}
           <div>
             <div className="flex items-center gap-3 mb-4">

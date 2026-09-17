@@ -1,16 +1,15 @@
-import { useNavigate } from 'react-router-dom';
-import { 
-  CheckCircle, 
-  Package, 
-  Mail, 
-  Truck, 
-  ArrowRight,
-  Home,
-  FileText,
-  Download
-} from 'lucide-react';
 import confetti from 'canvas-confetti';
+import {
+  ArrowRight,
+  CheckCircle,
+  FileText,
+  Home,
+  Mail,
+  Package,
+  Truck
+} from 'lucide-react';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const CheckoutSuccess = ({ order }) => {
   const navigate = useNavigate();
@@ -59,13 +58,13 @@ const CheckoutSuccess = ({ order }) => {
               <div className="absolute -top-10 -left-10 w-40 h-40 bg-white/10 rounded-full"></div>
               <div className="absolute -bottom-10 -right-10 w-60 h-60 bg-white/10 rounded-full"></div>
             </div>
-            
+
             <div className="relative">
               {/* Success Icon */}
               <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg animate-bounce">
                 <CheckCircle className="w-14 h-14 text-emerald-500" />
               </div>
-              
+
               <h1 className="text-3xl font-black text-white mb-2">Order Confirmed!</h1>
               <p className="text-emerald-100 text-lg">
                 Thank you for your purchase

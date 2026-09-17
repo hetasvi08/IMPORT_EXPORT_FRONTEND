@@ -59,7 +59,7 @@ export const reportService = {
     if (month !== undefined) params.push(`month=${month}`);
     if (year !== undefined) params.push(`year=${year}`);
     if (params.length > 0) url += `?${params.join('&')}`;
-    
+
     const response = await apiConnector('GET', url, null, getAuthHeaders());
     return response.data;
   },
@@ -71,7 +71,7 @@ export const reportService = {
     if (quarter !== undefined) params.push(`quarter=${quarter}`);
     if (year !== undefined) params.push(`year=${year}`);
     if (params.length > 0) url += `?${params.join('&')}`;
-    
+
     const response = await apiConnector('GET', url, null, getAuthHeaders());
     return response.data;
   },
@@ -80,7 +80,7 @@ export const reportService = {
   getYearlyReport: async (year) => {
     let url = GET_YEARLY_REPORT_API;
     if (year) url += `?year=${year}`;
-    
+
     const response = await apiConnector('GET', url, null, getAuthHeaders());
     return response.data;
   },
@@ -165,7 +165,7 @@ export const reportService = {
         kpiRes
       ] = await Promise.all([
         reportService.getReportOverview(period).catch(() => ({ success: false, data: null })),
-        period === 'weekly' 
+        period === 'weekly'
           ? reportService.getWeeklyReport().catch(() => ({ success: false, data: null }))
           : period === 'monthly'
           ? reportService.getMonthlyReport().catch(() => ({ success: false, data: null }))
@@ -193,7 +193,8 @@ export const reportService = {
           kpiMetrics: kpiRes?.data || null
         }
       };
-    } catch (error) {return { success: false, error: error.message };
+    } catch (error) {
+      return { success: false, error: error.message };
     }
   },
 
@@ -207,14 +208,14 @@ export const reportService = {
           'Authorization': `Bearer ${token}`
         }
       });
-      
+
       if (!response.ok) {
         throw new Error('Failed to generate PDF');
       }
-      
+
       // Get the blob from response
       const blob = await response.blob();
-      
+
       // Create download link
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
@@ -222,13 +223,14 @@ export const reportService = {
       link.download = `${period}-report-${new Date().toISOString().split('T')[0]}.pdf`;
       document.body.appendChild(link);
       link.click();
-      
+
       // Cleanup
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
-      
+
       return { success: true };
-    } catch (error) {throw error;
+    } catch (error) {
+      throw error.response?.data || error;
     }
   },
 
@@ -242,14 +244,14 @@ export const reportService = {
           'Authorization': `Bearer ${token}`
         }
       });
-      
+
       if (!response.ok) {
         throw new Error('Failed to generate CSV');
       }
-      
+
       // Get the blob from response
       const blob = await response.blob();
-      
+
       // Create download link
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
@@ -257,13 +259,14 @@ export const reportService = {
       link.download = `${period}-report-${new Date().toISOString().split('T')[0]}.csv`;
       document.body.appendChild(link);
       link.click();
-      
+
       // Cleanup
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
-      
+
       return { success: true };
-    } catch (error) {throw error;
+    } catch (error) {
+      throw error.response?.data || error;
     }
   },
 

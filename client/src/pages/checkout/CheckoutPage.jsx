@@ -1,24 +1,24 @@
-import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { 
-  ShoppingCart, 
-  MapPin, 
-  CreditCard, 
-  Check, 
-  ArrowLeft, 
+import {
+  ArrowLeft,
   ArrowRight,
+  Check,
+  CreditCard,
+  Lock,
+  MapPin,
   Package,
   ShieldCheck,
-  Truck,
-  Lock
+  ShoppingCart,
+  Truck
 } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 // Import checkout step components
-import ShippingAddressStep from './ShippingAddressStep';
+import CheckoutSuccess from './CheckoutSuccess';
 import OrderSummaryStep from './OrderSummaryStep';
 import PaymentStep from './PaymentStep';
-import CheckoutSuccess from './CheckoutSuccess';
+import ShippingAddressStep from './ShippingAddressStep';
 
 // Import Redux actions
 import { clearCartLocal } from '../../store/slices/cartSlice';
@@ -144,14 +144,14 @@ const CheckoutPage = () => {
       <div className="relative bg-gradient-to-br from-slate-800 via-slate-900 to-emerald-900 py-6 overflow-hidden">
         <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <button 
+          <button
             onClick={() => navigate('/cart')}
             className="flex items-center gap-2 text-slate-400 hover:text-emerald-400 transition-colors mb-4 group"
           >
             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
             <span className="text-sm">Back to Cart</span>
           </button>
-          
+
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/25">
@@ -162,7 +162,7 @@ const CheckoutPage = () => {
                 <p className="text-slate-400 text-sm">Complete your order in 3 simple steps</p>
               </div>
             </div>
-            
+
             {/* Security Badge */}
             <div className="hidden md:flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-lg">
               <ShieldCheck className="w-5 h-5 text-emerald-400" />
@@ -179,12 +179,12 @@ const CheckoutPage = () => {
             {STEPS.map((step, index) => (
               <div key={step.id} className="flex items-center flex-1">
                 <div className="flex items-center gap-3">
-                  <div 
+                  <div
                     className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${
-                      currentStep > step.id 
-                        ? 'bg-emerald-500 text-white' 
-                        : currentStep === step.id 
-                          ? 'bg-emerald-500 text-white ring-4 ring-emerald-100' 
+                      currentStep > step.id
+                        ? 'bg-emerald-500 text-white'
+                        : currentStep === step.id
+                          ? 'bg-emerald-500 text-white ring-4 ring-emerald-100'
                           : 'bg-slate-100 text-slate-400'
                     }`}
                   >
@@ -205,7 +205,7 @@ const CheckoutPage = () => {
                     </p>
                   </div>
                 </div>
-                
+
                 {index < STEPS.length - 1 && (
                   <div className={`flex-1 h-1 mx-4 rounded-full ${
                     currentStep > step.id ? 'bg-emerald-500' : 'bg-slate-200'
@@ -230,7 +230,7 @@ const CheckoutPage = () => {
                 setOrderNotes={setOrderNotes}
               />
             )}
-            
+
             {currentStep === 2 && (
               <OrderSummaryStep
                 items={items}
@@ -243,7 +243,7 @@ const CheckoutPage = () => {
                 orderNotes={orderNotes}
               />
             )}
-            
+
             {currentStep === 3 && (
               <PaymentStep
                 items={items}
@@ -273,7 +273,7 @@ const CheckoutPage = () => {
                 ) : (
                   <div></div>
                 )}
-                
+
                 <button
                   onClick={handleNextStep}
                   className="flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-bold rounded-xl hover:from-emerald-600 hover:to-teal-700 transition-all shadow-lg shadow-emerald-500/25 hover:shadow-emerald-500/40"
@@ -295,7 +295,7 @@ const CheckoutPage = () => {
                   Order Summary
                 </h2>
               </div>
-              
+
               <div className="p-5">
                 {/* Items Preview */}
                 <div className="max-h-48 overflow-y-auto space-y-3 mb-4">
@@ -344,9 +344,9 @@ const CheckoutPage = () => {
                     <span className="text-slate-500">Tax (10%)</span>
                     <span className="font-semibold text-slate-700">${taxAmount.toFixed(2)}</span>
                   </div>
-                  
+
                   <div className="h-px bg-slate-200 my-3"></div>
-                  
+
                   <div className="flex justify-between items-center">
                     <span className="font-bold text-slate-800">Total</span>
                     <span className="text-2xl font-black bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">

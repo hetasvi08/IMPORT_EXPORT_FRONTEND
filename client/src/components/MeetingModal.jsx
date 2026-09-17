@@ -1,25 +1,25 @@
-import { useState, useEffect } from 'react';
-import { createPortal } from 'react-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useSelector } from 'react-redux';
+import { AnimatePresence } from 'framer-motion';
 import {
-  X,
-  User,
-  Mail,
-  Phone,
   Building2,
-  Video,
+  Calendar,
   CalendarDays,
   Clock,
   Globe,
+  Loader2,
+  Mail,
   MessageCircle,
-  Calendar,
-  Loader2
+  Phone,
+  User,
+  Video,
+  X
 } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
+import { useSelector } from 'react-redux';
 import { bookMeeting } from '../services/operations/contactAPI';
 
 const MeetingModal = ({ isOpen, onClose }) => {
-  const user = useSelector((state) => state.profile?.user);
+  const user = useSelector((state) => state.auth?.user || state.profile?.user);
   const [bookingMeeting, setBookingMeeting] = useState(false);
   const [meetingData, setMeetingData] = useState({
     name: '',

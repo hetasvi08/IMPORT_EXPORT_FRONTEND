@@ -1,4 +1,4 @@
-import { Package, MapPin, FileText, CreditCard, Truck, Tag } from 'lucide-react';
+import { CreditCard, FileText, MapPin, Package, Tag, Truck } from 'lucide-react';
 
 const OrderSummaryStep = ({
   items,
@@ -28,8 +28,8 @@ const OrderSummaryStep = ({
         <div className="p-6">
           <div className="space-y-4">
             {items.map((item, index) => (
-              <div 
-                key={item.product._id} 
+              <div
+                key={item.product._id}
                 className={`flex gap-4 pb-4 ${index < items.length - 1 ? 'border-b border-slate-100' : ''}`}
               >
                 {/* Product Image */}
@@ -93,9 +93,9 @@ const OrderSummaryStep = ({
                 </span>
                 <span className="font-semibold text-slate-700">${taxAmount.toFixed(2)}</span>
               </div>
-              
+
               <div className="h-px bg-slate-200 my-3"></div>
-              
+
               <div className="flex justify-between items-center">
                 <span className="text-lg font-bold text-slate-800">Order Total</span>
                 <span className="text-2xl font-black bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
@@ -203,7 +203,7 @@ const OrderSummaryStep = ({
           <div>
             <h4 className="font-semibold text-emerald-800 mb-1">Estimated Delivery</h4>
             <p className="text-sm text-emerald-700">
-              Your order will be processed within 1-2 business days. 
+              Your order will be processed within 1-2 business days.
               Standard shipping typically takes 5-7 business days.
               {shippingCost === 0 && (
                 <span className="block mt-1 font-medium text-emerald-600">

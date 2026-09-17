@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { setCredentials } from '../../store/slices/authSlice';
 
 const GoogleCallbackPage = () => {
@@ -15,11 +15,11 @@ const GoogleCallbackPage = () => {
     if (token && userStr) {
       try {
         const user = JSON.parse(decodeURIComponent(userStr));
-        
+
         dispatch(setCredentials({ user, token }));
         localStorage.setItem('token', token);
         localStorage.setItem('user', JSON.stringify(user));
-        
+
         // Navigate to unified dashboard
         navigate('/dashboard');
       } catch {

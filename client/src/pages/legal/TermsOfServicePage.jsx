@@ -1,8 +1,8 @@
 import { useRef } from 'react';
 // eslint-disable-next-line no-unused-vars
 import { motion, useInView } from 'framer-motion';
+import { AlertTriangle, Ban, CheckCircle, FileText, Mail, RefreshCw, Scale, Shield, ShoppingCart, Users } from 'lucide-react';
 import { SUPPORT_CONTACT_NUMBERS_TEXT } from '../../utils/whatsapp';
-import { FileText, Users, ShoppingCart, Shield, AlertTriangle, Scale, Ban, RefreshCw, Mail, CheckCircle } from 'lucide-react';
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 40 },
@@ -188,7 +188,7 @@ const TermsOfServicePage = () => {
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '32px 32px' }}></div>
         </div>
-        
+
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -199,15 +199,15 @@ const TermsOfServicePage = () => {
               <FileText className="w-4 h-4 text-cyan-400" />
               <span className="text-cyan-400 font-semibold text-sm">Legal Agreement</span>
             </div>
-            
+
             <h1 className="text-4xl md:text-5xl font-black text-white mb-4">
               Terms of <span className="bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">Service</span>
             </h1>
-            
+
             <p className="text-lg text-slate-300 max-w-2xl mx-auto mb-4">
               Please read these terms carefully before using the Nexarion Global Exports platform. These terms govern your use of our services.
             </p>
-            
+
             <p className="text-sm text-slate-400">
               Last Updated: {lastUpdated}
             </p>
@@ -238,7 +238,7 @@ const TermsOfServicePage = () => {
                   </div>
                   <h2 className="text-2xl font-bold text-slate-800">{section.title}</h2>
                 </div>
-                
+
                 <div className="space-y-4">
                   {section.content.map((item, itemIndex) => (
                     <div key={itemIndex} className="pl-4 border-l-2 border-cyan-200">

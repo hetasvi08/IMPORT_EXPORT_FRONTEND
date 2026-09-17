@@ -1,34 +1,33 @@
-import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { 
-  Heart, 
-  Loader2, 
-  ShoppingCart, 
-  Star, 
-  Trash2, 
-  Eye, 
-  Package, 
-  Search,
-  Filter,
-  ChevronDown,
-  TrendingUp,
-  DollarSign,
+import {
   Box,
+  ChevronDown,
+  DollarSign,
+  Filter,
   Grid,
+  Heart,
   List,
-  X,
+  Loader2,
   Mail,
-  Send
+  Package,
+  Search,
+  Send,
+  ShoppingCart,
+  Star,
+  Trash2,
+  TrendingUp,
+  X
 } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
+import useCurrency from '../../hooks/useCurrency';
 import { apiconnector } from '../../services/apiconnector';
 import { dashboardEndpoints } from '../../services/apis';
-import { getFavorites, removeFromFavorites } from '../../services/operations/favoritesAPI';
 import { addToCart } from '../../services/operations/cartAPI';
-import InquiryModal from '../InquiryModal';
+import { getFavorites, removeFromFavorites } from '../../services/operations/favoritesAPI';
 import ContactModal from '../ContactModal';
-import useCurrency from '../../hooks/useCurrency';
+import InquiryModal from '../InquiryModal';
 
 const DashboardFavorites = () => {
   const dispatch = useDispatch();
@@ -69,7 +68,7 @@ const DashboardFavorites = () => {
     try {
       // First try Redux
       await dispatch(getFavorites(token));
-      
+
       // Also fetch directly as backup
       const response = await apiconnector(
         'GET',
@@ -83,7 +82,8 @@ const DashboardFavorites = () => {
       if (response.data.success) {
         setFavorites(response.data.data || []);
       }
-    } catch (error) {
+    } catch (error) {
+
     } finally {
       setLoading(false);
     }
@@ -103,7 +103,7 @@ const DashboardFavorites = () => {
 
     // Category filter
     if (categoryFilter !== 'all') {
-      filtered = filtered.filter(product => 
+      filtered = filtered.filter(product =>
         product.category?.name?.toLowerCase() === categoryFilter.toLowerCase()
       );
     }
@@ -134,7 +134,8 @@ const DashboardFavorites = () => {
     try {
       await dispatch(removeFromFavorites(productId, token));
       setFavorites(favorites.filter(product => product._id !== productId));
-    } catch (error) {
+    } catch (error) {
+
     }
   };
 
@@ -318,8 +319,8 @@ const DashboardFavorites = () => {
             {favorites.length === 0 ? 'No Favorites Yet' : 'No Products Found'}
           </h3>
           <p className="text-gray-600">
-            {favorites.length === 0 
-              ? 'Start adding products to your favorites!' 
+            {favorites.length === 0
+              ? 'Start adding products to your favorites!'
               : 'Try adjusting your filters or search query'}
           </p>
         </div>
@@ -429,7 +430,7 @@ const ProductCard = ({ product, index, onRemove, onAddToCart, onContact, onRaise
           alt={product.name}
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
         />
-        
+
         {/* Remove Button */}
         <button
           onClick={() => onRemove(product._id, product.name)}

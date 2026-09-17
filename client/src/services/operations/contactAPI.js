@@ -1,6 +1,5 @@
 import { apiconnector } from "../apiconnector";
 import { contactEndpoints } from "../apis";
-import axios from "axios";
 
 const {
   SUBMIT_CONTACT_API,
@@ -23,12 +22,12 @@ export const submitContact = async (contactData) => {
     const response = await apiconnector("POST", SUBMIT_CONTACT_API, contactData);
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to submit contact");
     }
 
     return response.data;
   } catch (error) {
-    throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -38,12 +37,12 @@ export const bookMeeting = async (meetingData) => {
     const response = await apiconnector("POST", BOOK_MEETING_API, meetingData);
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to book meeting");
     }
 
     return response.data;
   } catch (error) {
-    throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -53,12 +52,12 @@ export const raiseQuery = async (queryData) => {
     const response = await apiconnector("POST", RAISE_QUERY_API, queryData);
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to raise query");
     }
 
     return response.data;
   } catch (error) {
-    throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -70,12 +69,12 @@ export const getAllContacts = async (params, token) => {
     }, params);
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to fetch contacts");
     }
 
     return response.data;
   } catch (error) {
-    throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -87,12 +86,12 @@ export const getContactById = async (id, token) => {
     });
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to fetch contact");
     }
 
     return response.data;
   } catch (error) {
-    throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -104,12 +103,12 @@ export const getContactStats = async (token) => {
     });
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to fetch contact stats");
     }
 
     return response.data;
   } catch (error) {
-    throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -121,12 +120,12 @@ export const updateContactStatus = async (id, status, token) => {
     });
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to update contact status");
     }
 
     return response.data;
   } catch (error) {
-    throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -136,20 +135,17 @@ export const uploadContactAttachment = async (file, token) => {
     const formData = new FormData();
     formData.append("file", file);
 
-    const response = await axios.post(UPLOAD_ATTACHMENT_API, formData, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "multipart/form-data",
-      },
+    const response = await apiconnector("POST", UPLOAD_ATTACHMENT_API, formData, {
+      Authorization: `Bearer ${token}`,
     });
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to upload attachment");
     }
 
     return response.data.data; // Returns { name, url, publicId, type, size }
   } catch (error) {
-    throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -157,7 +153,7 @@ export const uploadContactAttachment = async (file, token) => {
 export const respondToContact = async (id, message, attachments, token) => {
   try {
     // Ensure attachments is properly formatted
-    const formattedAttachments = Array.isArray(attachments) 
+    const formattedAttachments = Array.isArray(attachments)
       ? attachments.map(att => ({
           name: att.name,
           url: att.url,
@@ -166,21 +162,21 @@ export const respondToContact = async (id, message, attachments, token) => {
           size: att.size
         }))
       : [];
-    
-    const response = await apiconnector("PUT", RESPOND_TO_CONTACT_API(id), { 
-      message, 
-      attachments: formattedAttachments 
+
+    const response = await apiconnector("PUT", RESPOND_TO_CONTACT_API(id), {
+      message,
+      attachments: formattedAttachments
     }, {
       Authorization: `Bearer ${token}`,
     });
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to send response");
     }
 
     return response.data;
   } catch (error) {
-    throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -192,12 +188,12 @@ export const assignContact = async (id, userId, token) => {
     });
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to assign contact");
     }
 
     return response.data;
   } catch (error) {
-    throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -209,12 +205,12 @@ export const addNote = async (id, note, token) => {
     });
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to add note");
     }
 
     return response.data;
   } catch (error) {
-    throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -226,11 +222,11 @@ export const deleteContact = async (id, token) => {
     });
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to delete contact");
     }
 
     return response.data;
   } catch (error) {
-    throw error;
+    throw error.response?.data || error;
   }
 };

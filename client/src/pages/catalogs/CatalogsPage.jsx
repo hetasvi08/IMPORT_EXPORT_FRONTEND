@@ -1,34 +1,31 @@
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 // eslint-disable-next-line no-unused-vars
 import { motion, useInView } from 'framer-motion';
-import { 
-  FileText, 
-  Download, 
-  Eye, 
-  Search, 
-  Filter, 
-  Grid, 
-  List, 
-  Star, 
-  FolderOpen,
-  BookOpen,
-  ChevronRight,
-  Mail,
-  X,
-  Calendar,
-  Layers,
-  TrendingUp,
-  Loader2,
-  Package,
+import {
   ArrowRight,
+  BookOpen,
+  Download,
+  Eye,
+  FileText,
+  FolderOpen,
+  Grid,
+  Layers,
+  List,
+  Loader2,
+  Mail,
+  Package,
+  Search,
+  ShoppingBag,
   Sparkles,
-  ShoppingBag
+  Star,
+  TrendingUp,
+  X
 } from 'lucide-react';
-import { 
-  getAllCatalogs, 
-  getCategoriesWithCatalogCounts, 
+import {
   downloadCatalog,
+  getAllCatalogs,
+  getCategoriesWithCatalogCounts,
   getFeaturedCatalogs,
   trackCatalogView
 } from '../../services/operations/catalogAPI';
@@ -172,7 +169,7 @@ const CatalogsPage = () => {
     if (searchQuery) match = match && cat.title.toLowerCase().includes(searchQuery.toLowerCase());
     return match;
   });
-  
+
   const displayFeatured = featuredCatalogs.length > 0 ? featuredCatalogs : dummyFeaturedCatalogs;
   const displayCategories = categories.length > 0 ? categories : dummyCategories;
   const displayPagination = catalogs.length > 0 ? pagination : {
@@ -210,11 +207,11 @@ const CatalogsPage = () => {
         page: pagination.page,
         limit: 12
       };
-      
+
       if (selectedCategory) {
         params.category = selectedCategory;
       }
-      
+
       if (searchQuery) {
         params.search = searchQuery;
       }
@@ -241,24 +238,24 @@ const CatalogsPage = () => {
 
   const processDownload = async () => {
     const { catalog } = downloadModal;
-    
+
     try {
       setDownloading(true);
       const response = await downloadCatalog(catalog._id, downloadForm);
-      
+
       if (response.success) {
         // Fetch the PDF and trigger download
         const pdfResponse = await fetch(response.data.downloadUrl);
         const blob = await pdfResponse.blob();
         const blobUrl = window.URL.createObjectURL(blob);
-        
+
         const link = document.createElement('a');
         link.href = blobUrl;
         link.download = response.data.fileName || `${catalog.title}.pdf`;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-        
+
         // Clean up the blob URL
         window.URL.revokeObjectURL(blobUrl);
       }
@@ -275,20 +272,20 @@ const CatalogsPage = () => {
     try {
       setDownloading(true);
       const response = await downloadCatalog(catalog._id, {});
-      
+
       if (response.success) {
         // Fetch the PDF and trigger download
         const pdfResponse = await fetch(response.data.downloadUrl);
         const blob = await pdfResponse.blob();
         const blobUrl = window.URL.createObjectURL(blob);
-        
+
         const link = document.createElement('a');
         link.href = blobUrl;
         link.download = response.data.fileName || `${catalog.title}.pdf`;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-        
+
         // Clean up the blob URL
         window.URL.revokeObjectURL(blobUrl);
       }
@@ -320,7 +317,7 @@ const CatalogsPage = () => {
           <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '40px 40px' }}></div>
         </div>
         <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-transparent to-cyan-500/10"></div>
-        
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <AnimatedSection variants={scaleIn} className="text-center">
             <div className="inline-flex items-center gap-2 bg-emerald-500 rounded-full px-4 py-2 mb-4">
@@ -354,7 +351,7 @@ const CatalogsPage = () => {
       {/* Stats Section */}
       <div className="bg-gradient-to-r from-white via-emerald-50/50 to-white py-6 sm:py-8 border-y border-emerald-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div 
+          <motion.div
             className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4"
             variants={staggerContainer}
             initial="hidden"
@@ -405,7 +402,7 @@ const CatalogsPage = () => {
               </div>
             </AnimatedSection>
 
-            <motion.div 
+            <motion.div
               className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6"
               variants={staggerContainer}
               initial="hidden"
@@ -423,11 +420,11 @@ const CatalogsPage = () => {
                       <Star size={10} /> Featured
                     </span>
                   </div>
-                  
+
                   <div className="h-48 bg-gradient-to-br from-amber-50 to-orange-50 flex items-center justify-center overflow-hidden">
                     {catalog.coverImage?.url ? (
-                      <img 
-                        src={catalog.coverImage.url} 
+                      <img
+                        src={catalog.coverImage.url}
                         alt={catalog.title}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                       />
@@ -435,14 +432,14 @@ const CatalogsPage = () => {
                       <BookOpen className="text-amber-300" size={64} />
                     )}
                   </div>
-                  
+
                   <div className="p-5">
                     <span className="inline-block bg-amber-100 text-amber-700 text-xs font-semibold px-2 py-1 rounded mb-2 border border-amber-200">
                       {catalog.category?.name || 'General'}
                     </span>
                     <h3 className="font-bold text-slate-900 mb-2 line-clamp-2 group-hover:text-amber-600 transition-colors">{catalog.title}</h3>
                     <p className="text-sm text-slate-600 mb-4 line-clamp-2">{catalog.description}</p>
-                    
+
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3 text-xs text-slate-500">
                         <span className="flex items-center gap-1">
@@ -461,7 +458,7 @@ const CatalogsPage = () => {
                     </div>
 
                     {/* View Products Link */}
-                    <Link 
+                    <Link
                       to={catalog.category?._id ? `/products?category=${catalog.category._id}` : '/products'}
                       onClick={() => handleViewTracking(catalog._id)}
                       className="mt-4 flex items-center justify-center gap-2 text-sm text-amber-600 hover:text-amber-700 transition-colors py-2 border-t border-amber-100"
@@ -501,8 +498,8 @@ const CatalogsPage = () => {
                 <button
                   onClick={() => handleCategoryClick('')}
                   className={`w-full flex items-center justify-between p-3 rounded-xl transition-all duration-300 ${
-                    selectedCategory === '' 
-                      ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-lg shadow-emerald-200' 
+                    selectedCategory === ''
+                      ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-lg shadow-emerald-200'
                       : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200'
                   }`}
                 >
@@ -522,8 +519,8 @@ const CatalogsPage = () => {
                     key={category._id}
                     onClick={() => handleCategoryClick(category._id)}
                     className={`w-full flex items-center justify-between p-3 rounded-xl transition-all duration-300 ${
-                      selectedCategory === category._id 
-                        ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-lg shadow-emerald-200' 
+                      selectedCategory === category._id
+                        ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-lg shadow-emerald-200'
                         : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200'
                     }`}
                   >
@@ -569,7 +566,7 @@ const CatalogsPage = () => {
                 <p className="text-xs text-slate-600 mb-3">
                   Looking for specific products? Check out our full product catalog.
                 </p>
-                <Link 
+                <Link
                   to="/products"
                   className="flex items-center justify-center gap-2 bg-gradient-to-r from-indigo-500 to-purple-500 text-white py-2.5 rounded-xl text-sm font-semibold hover:from-indigo-600 hover:to-purple-600 transition-all shadow-lg shadow-indigo-200"
                 >
@@ -616,7 +613,7 @@ const CatalogsPage = () => {
             ) : (
               <>
                 {/* Catalogs Grid */}
-                <div 
+                <div
                   className={`grid ${viewMode === 'grid' ? 'grid-cols-1 sm:grid-cols-2 xl:grid-cols-3' : 'grid-cols-1'} gap-4 sm:gap-6 justify-items-center`}
                 >
                   {displayCatalogs.map((catalog) => (
@@ -631,15 +628,15 @@ const CatalogsPage = () => {
                         viewMode === 'list' ? 'w-48 h-full' : 'h-48'
                       }`}>
                         {catalog.coverImage?.url ? (
-                          <img 
-                            src={catalog.coverImage.url} 
+                          <img
+                            src={catalog.coverImage.url}
                             alt={catalog.title}
                             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                           />
                         ) : (
                           <BookOpen className="text-slate-400" size={64} />
                         )}
-                        
+
                         {catalog.isFeatured && (
                           <div className="absolute top-3 left-3">
                             <span className="bg-gradient-to-r from-amber-500 to-orange-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg flex items-center gap-1">
@@ -654,11 +651,11 @@ const CatalogsPage = () => {
                         <span className="inline-block bg-emerald-100 text-emerald-700 text-xs font-semibold px-2 py-1 rounded mb-2 border border-emerald-200">
                           {catalog.category?.name || 'General'}
                         </span>
-                        
+
                         <h3 className="font-bold text-slate-900 mb-2 line-clamp-2 group-hover:text-emerald-600 transition-colors">
                           {catalog.title}
                         </h3>
-                        
+
                         <p className="text-sm text-slate-600 mb-4 line-clamp-2">
                           {catalog.description}
                         </p>
@@ -695,7 +692,7 @@ const CatalogsPage = () => {
                         </div>
 
                         {/* View Products Link */}
-                        <Link 
+                        <Link
                           to={catalog.category?._id ? `/products?category=${catalog.category._id}` : '/products'}
                           onClick={() => handleViewTracking(catalog._id)}
                           className="mt-3 flex items-center justify-center gap-2 text-sm text-emerald-600 hover:text-emerald-700 transition-colors py-2 border-t border-slate-200"
@@ -717,7 +714,7 @@ const CatalogsPage = () => {
                     >
                       Previous
                     </button>
-                    
+
                     {[...Array(displayPagination.pages)].map((_, i) => (
                       <button
                         key={i}
@@ -731,7 +728,7 @@ const CatalogsPage = () => {
                         {i + 1}
                       </button>
                     ))}
-                    
+
                     <button
                       onClick={() => setPagination({ ...pagination, page: Math.min(displayPagination.pages, displayPagination.page + 1) })}
                       disabled={displayPagination.page === displayPagination.pages}

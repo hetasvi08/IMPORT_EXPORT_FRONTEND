@@ -1,17 +1,17 @@
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
-import { Link, useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 // eslint-disable-next-line no-unused-vars
 import { motion, useInView } from 'framer-motion';
-import { getAllProducts } from '../../services/operations/productAPI';
-import { getAllCategories } from '../../services/operations/categoryAPI';
-import { addToCart } from '../../services/operations/cartAPI';
-import { toggleFavorite, getFavorites } from '../../services/operations/favoritesAPI';
-import InquiryModal from '../../components/InquiryModal';
 import ContactModal from '../../components/ContactModal';
-import { contactSupportAboutProduct } from '../../utils/whatsapp';
+import InquiryModal from '../../components/InquiryModal';
 import useCurrency from '../../hooks/useCurrency';
+import { addToCart } from '../../services/operations/cartAPI';
+import { getAllCategories } from '../../services/operations/categoryAPI';
+import { getFavorites, toggleFavorite } from '../../services/operations/favoritesAPI';
+import { getAllProducts } from '../../services/operations/productAPI';
+import { contactSupportAboutProduct } from '../../utils/whatsapp';
 
 // Animation variants
 const fadeInUp = {
@@ -255,10 +255,10 @@ const originalOverflow = document.body.style.overflow;
     try {
       setLoading(true);
       const params = {};
-      
+
       if (filters.search) params.search = filters.search;
       if (filters.category) params.category = filters.category;
-      
+
       // Convert price filters from selected currency to INR (base currency)
       // For predefined ranges, values are already in INR
       // For custom inputs, convert from selected currency
@@ -270,12 +270,12 @@ const originalOverflow = document.body.style.overflow;
       if (filters.maxPrice) {
         params.maxPrice = filters.priceRange ? filters.maxPrice : Math.round(toINR(Number(filters.maxPrice)));
       }
-      
+
       if (filters.country) params.country = filters.country;
       params.page = filters.page;
       params.limit = filters.limit;
       params.isApproved = 'approved'; // Only show approved products
-      
+
       // Add sorting parameters
       if (sortBy === 'priceAsc') {
         params.sort = 'price';
@@ -612,7 +612,7 @@ setIsMobileFiltersOpen(true);
                     Showing <span className="font-semibold text-slate-900">{products.length}</span> of{' '}
                     <span className="font-semibold text-slate-900">{pagination.total}</span> products
                   </p>
-                  <select 
+                  <select
                     value={sortBy}
                     onChange={handleSortChange}
                     className="px-4 py-2 border border-slate-300 rounded-lg text-sm focus:border-emerald-500 focus:outline-none"
@@ -625,7 +625,7 @@ setIsMobileFiltersOpen(true);
                 </AnimatedSection>
 
                 {/* Products Grid */}
-                <motion.div 
+                <motion.div
                   className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
                   variants={staggerContainer}
                   initial="hidden"
@@ -633,8 +633,8 @@ setIsMobileFiltersOpen(true);
                   viewport={{ once: true, margin: "-50px" }}
                 >
                   {products.map((product, index) => (
-                    <motion.div 
-                      key={product._id} 
+                    <motion.div
+                      key={product._id}
                       className="bg-white rounded-xl shadow-md border border-slate-200 overflow-hidden hover:shadow-2xl transition-all duration-300 group flex flex-col h-full"
                       variants={fadeInUp}
                       transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -646,7 +646,7 @@ setIsMobileFiltersOpen(true);
                           alt={product.name}
                           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                         />
-                        
+
                         {/* Badges */}
                         <div className="absolute top-3 left-3 flex flex-col gap-2">
                           {product.isFeatured && (
@@ -800,7 +800,7 @@ setIsMobileFiltersOpen(true);
                     >
                       <i className="fas fa-chevron-left"></i>
                     </button>
-                    
+
                     {[...Array(pagination.pages)].map((_, i) => (
                       <button
                         key={i}
@@ -814,7 +814,7 @@ setIsMobileFiltersOpen(true);
                         {i + 1}
                       </button>
                     ))}
-                    
+
                     <button
                       onClick={() => handleFilterChange('page', Math.min(pagination.pages, filters.page + 1))}
                       disabled={filters.page === pagination.pages}
@@ -832,13 +832,13 @@ setIsMobileFiltersOpen(true);
 
       {/* Mobile Filter Panel - using Portal to avoid stacking context issues */}
       {isMobileFiltersOpen && ReactDOM.createPortal(
-        <div 
+        <div
           className="fixed inset-0 z-[9999] lg:hidden bg-black/35"
           onClick={() => {
 setIsMobileFiltersOpen(false);
           }}
         >
-          <div 
+          <div
             className="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl shadow-2xl"
             style={{ height: '75vh', display: 'flex', flexDirection: 'column', maxHeight: '80vh' }}
             onClick={(e) => {

@@ -1,31 +1,30 @@
-import { useState, useRef, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { motion, useInView, AnimatePresence } from 'framer-motion';
-import { useSelector } from 'react-redux';
-import { createPortal } from 'react-dom';
-import { 
-  Mail, 
-  Phone, 
-  MessageSquare, 
-  Calendar,
-  User,
+import { motion, AnimatePresence, useInView } from 'framer-motion';
+import {
   Building2,
-  Tag,
-  MessageCircle,
-  Send,
-  Globe,
+  Calendar,
+  CalendarDays,
   Clock,
-  Share2,
+  Globe,
   HelpCircle,
-  Twitter,
   Instagram,
   Linkedin,
   Loader2,
-  X,
-  CalendarDays,
-  Video
+  Mail,
+  MessageCircle,
+  Phone,
+  Send,
+  Share2,
+  Tag,
+  Twitter,
+  User,
+  Video,
+  X
 } from 'lucide-react';
-import { submitContact, bookMeeting } from '../../services/operations/contactAPI';
+import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
+import { useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
+import { bookMeeting, submitContact } from '../../services/operations/contactAPI';
 import { SUPPORT_CONTACT_NUMBERS, SUPPORT_CONTACT_NUMBERS_TEXT, WHATSAPP_API_URL } from '../../utils/whatsapp';
 
 // Animation variants
@@ -83,7 +82,7 @@ const ContactPage = () => {
   const { register, handleSubmit, formState: { errors, isSubmitting }, reset, setValue } = useForm();
   const [newsletterOptIn, setNewsletterOptIn] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  
+
   // Meeting modal state
   const [showMeetingModal, setShowMeetingModal] = useState(false);
   const [meetingData, setMeetingData] = useState({
@@ -296,7 +295,7 @@ const ContactPage = () => {
       <div className="bg-gradient-to-br from-slate-800 via-slate-900 to-slate-800 pt-24 pb-10 md:pt-28 md:pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <div 
+            <div
               className="inline-block bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-full px-6 py-2 mb-6"
             >
               <p className="font-bold text-xs uppercase tracking-wide">Get In Touch</p>
@@ -306,7 +305,7 @@ const ContactPage = () => {
             >
               Let's Start a <span className="bg-gradient-to-r from-cyan-400 via-blue-400 to-indigo-400 bg-clip-text text-transparent">Conversation</span>
             </h1>
-            <p 
+            <p
               className="text-base text-slate-300 max-w-3xl mx-auto leading-relaxed mb-5"
             >
               We're here to help you succeed. Whether you have questions, need support, or want to explore partnership opportunities, our team is ready to assist you 24/7.
@@ -323,7 +322,7 @@ const ContactPage = () => {
             <p className="text-sm text-slate-600">We're available through multiple channels for your convenience</p>
           </AnimatedSection>
 
-          <motion.div 
+          <motion.div
             ref={contactMethodsRef}
             className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
             initial="hidden"
@@ -333,13 +332,13 @@ const ContactPage = () => {
             {contactMethods.map((method, index) => {
               const IconComponent = method.icon;
               return (
-                <motion.div 
-                  key={index} 
+                <motion.div
+                  key={index}
                   className="group relative"
                   variants={fadeInUp}
                 >
                   <div className={`absolute -top-3 -left-3 w-20 h-20 bg-gradient-to-br ${method.gradient.replace('to-', 'from-')} rounded-full opacity-20 blur-2xl group-hover:opacity-30 transition-opacity`}></div>
-                  
+
                   <div className={`relative bg-gradient-to-br ${method.bg} rounded-[25px] p-5 border-2 ${method.border} hover:shadow-2xl hover:-translate-y-2 transition-all text-center h-full`}>
                     <div className={`w-16 h-16 bg-gradient-to-br ${method.gradient} rounded-2xl flex items-center justify-center shadow-xl mx-auto mb-4 group-hover:scale-110 group-hover:rotate-6 transition-all`}>
                       <IconComponent className="text-white" size={28} />
@@ -363,7 +362,7 @@ const ContactPage = () => {
                         ))}
                       </div>
                     ) : method.actionType === 'meeting' ? (
-                      <button 
+                      <button
                         onClick={() => setShowMeetingModal(true)}
                         className={`inline-block bg-gradient-to-r ${method.buttonGradient} text-white px-6 py-2 rounded-lg text-xs font-bold hover:shadow-lg transition-all`}
                       >
@@ -386,17 +385,17 @@ const ContactPage = () => {
       <div className="py-8 bg-gradient-to-br from-slate-50/80 via-indigo-50/40 to-purple-50/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-5 gap-6">
-            
+
             {/* Left Side - Contact Form */}
             <AnimatedSection variants={slideInLeft} className="lg:col-span-3 relative">
               <div className="absolute -top-6 -left-6 w-40 h-40 bg-gradient-to-br from-indigo-300 to-purple-300 rounded-full opacity-20 blur-3xl"></div>
-              
+
               <div className="relative bg-gradient-to-br from-white/95 to-indigo-50/70 backdrop-blur-sm rounded-[30px] p-6 border-2 border-indigo-200 shadow-2xl">
                 <div className="mb-5">
                   <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-3">Send Us a Message</h2>
                   <p className="text-sm text-slate-600">Fill out the form and we'll respond within 24 hours. Fields marked with * are required.</p>
                 </div>
-                
+
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                   {/* Name & Company Row */}
                   <div className="grid md:grid-cols-2 gap-5">
@@ -405,9 +404,9 @@ const ContactPage = () => {
                         <User size={16} className="text-indigo-500" />
                         Full Name *
                       </label>
-                      <input 
-                        type="text" 
-                        placeholder="Enter your full name" 
+                      <input
+                        type="text"
+                        placeholder="Enter your full name"
                         {...register('name', { required: 'Full name is required' })}
                         className={`w-full px-4 py-3.5 bg-white/90 backdrop-blur-sm border-2 ${errors.name ? 'border-red-500' : 'border-slate-200'} rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:outline-none transition-all`}
                       />
@@ -418,11 +417,11 @@ const ContactPage = () => {
                         <Building2 size={16} className="text-indigo-500" />
                         Company Name
                       </label>
-                      <input 
-                        type="text" 
-                        placeholder="Enter your company name" 
+                      <input
+                        type="text"
+                        placeholder="Enter your company name"
                         {...register('company')}
-                        className="w-full px-4 py-3.5 bg-white/90 backdrop-blur-sm border-2 border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:outline-none transition-all" 
+                        className="w-full px-4 py-3.5 bg-white/90 backdrop-blur-sm border-2 border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:outline-none transition-all"
                       />
                     </div>
                   </div>
@@ -434,10 +433,10 @@ const ContactPage = () => {
                         <Mail size={16} className="text-indigo-500" />
                         Email Address *
                       </label>
-                      <input 
-                        type="email" 
-                        placeholder="Enter your email address" 
-                        {...register('email', { 
+                      <input
+                        type="email"
+                        placeholder="Enter your email address"
+                        {...register('email', {
                           required: 'Email is required',
                           pattern: {
                             value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
@@ -453,10 +452,10 @@ const ContactPage = () => {
                         <Phone size={16} className="text-indigo-500" />
                         Phone Number *
                       </label>
-                      <input 
-                        type="tel" 
-                        placeholder="Enter your phone number" 
-                        {...register('phone', { 
+                      <input
+                        type="tel"
+                        placeholder="Enter your phone number"
+                        {...register('phone', {
                           required: 'Phone number is required',
                           minLength: {
                             value: 10,
@@ -475,7 +474,7 @@ const ContactPage = () => {
                       <Tag size={16} className="text-indigo-500" />
                       How can we help you? *
                     </label>
-                    <select 
+                    <select
                       {...register('subject', { required: 'Please select a subject' })}
                       className={`w-full px-4 py-3.5 bg-white/90 backdrop-blur-sm border-2 ${errors.subject ? 'border-red-500' : 'border-slate-200'} rounded-xl text-sm text-slate-900 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:outline-none transition-all`}
                     >
@@ -497,10 +496,10 @@ const ContactPage = () => {
                       <MessageCircle size={16} className="text-indigo-500" />
                       Your Message *
                     </label>
-                    <textarea 
-                      rows="6" 
-                      placeholder="Tell us more about your inquiry or how we can help you..." 
-                      {...register('message', { 
+                    <textarea
+                      rows="6"
+                      placeholder="Tell us more about your inquiry or how we can help you..."
+                      {...register('message', {
                         required: 'Message is required',
                         minLength: {
                           value: 10,
@@ -515,19 +514,19 @@ const ContactPage = () => {
 
                   {/* Checkbox */}
                   <div className="flex items-start gap-3">
-                    <input 
-                      type="checkbox" 
-                      id="newsletter" 
+                    <input
+                      type="checkbox"
+                      id="newsletter"
                       checked={newsletterOptIn}
                       onChange={(e) => setNewsletterOptIn(e.target.checked)}
-                      className="w-5 h-5 mt-0.5 rounded border-2 border-slate-300 text-indigo-600 focus:ring-2 focus:ring-indigo-200" 
+                      className="w-5 h-5 mt-0.5 rounded border-2 border-slate-300 text-indigo-600 focus:ring-2 focus:ring-indigo-200"
                     />
                     <label htmlFor="newsletter" className="text-xs text-slate-600 leading-relaxed">I'd like to receive updates, news, and special offers from Nexarion via email</label>
                   </div>
 
                   {/* Submit Button */}
-                  <button 
-                    type="submit" 
+                  <button
+                    type="submit"
                     disabled={submitting}
                     className="w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-600 text-white px-8 py-4 rounded-xl font-black text-base hover:shadow-2xl transform hover:scale-[1.02] transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                   >
@@ -550,11 +549,11 @@ const ContactPage = () => {
 
             {/* Right Side - Additional Info */}
             <AnimatedSection variants={slideInRight} className="lg:col-span-2 space-y-4">
-              
+
               {/* Office Locations */}
               <div className="relative">
                 <div className="absolute -top-3 -left-3 w-24 h-24 bg-gradient-to-br from-purple-300 to-pink-300 rounded-full opacity-20 blur-2xl"></div>
-                
+
                 <div className="relative bg-gradient-to-br from-purple-50 to-pink-100/60 rounded-[25px] p-5 border-2 border-purple-200 shadow-lg">
                   <div className="flex items-start gap-4 mb-4">
                     <div className="w-14 h-14 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center shadow-md flex-shrink-0">
@@ -565,7 +564,7 @@ const ContactPage = () => {
                       <p className="text-xs text-slate-600">Visit us in person</p>
                     </div>
                   </div>
-                  
+
                   <div className="space-y-3">
                     {offices.map((office, index) => (
                       <div key={index} className="bg-white/70 backdrop-blur-sm rounded-lg p-4 border border-purple-200">
@@ -580,7 +579,7 @@ const ContactPage = () => {
               {/* Business Hours */}
               <div className="relative">
                 <div className="absolute -top-3 -left-3 w-24 h-24 bg-gradient-to-br from-cyan-300 to-blue-300 rounded-full opacity-20 blur-2xl"></div>
-                
+
                 <div className="relative bg-gradient-to-br from-cyan-50 to-blue-100/60 rounded-[25px] p-5 border-2 border-cyan-200 shadow-lg">
                   <div className="flex items-start gap-4 mb-4">
                     <div className="w-14 h-14 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-xl flex items-center justify-center shadow-md flex-shrink-0">
@@ -591,7 +590,7 @@ const ContactPage = () => {
                       <p className="text-xs text-slate-600">We're here to help you anytime</p>
                     </div>
                   </div>
-                  
+
                   <div className="space-y-3">
                     {businessHours.map((schedule, index) => (
                       <div key={index} className="flex justify-between items-center text-sm bg-white/70 backdrop-blur-sm rounded-lg p-3 border border-cyan-200">
@@ -615,7 +614,7 @@ const ContactPage = () => {
             <p className="text-sm text-slate-600">Quick answers to common questions about contacting us</p>
           </AnimatedSection>
 
-          <motion.div 
+          <motion.div
             ref={faqRef}
             className="grid md:grid-cols-2 gap-4"
             initial="hidden"
@@ -623,8 +622,8 @@ const ContactPage = () => {
             variants={staggerContainer}
           >
             {faqs.map((faq, index) => (
-              <motion.div 
-                key={index} 
+              <motion.div
+                key={index}
                 className={`bg-gradient-to-br ${faq.bg} backdrop-blur-sm rounded-[20px] p-5 border-2 ${faq.border} hover:shadow-xl hover:-translate-y-1 transition-all`}
                 variants={fadeInUp}
               >
@@ -658,7 +657,7 @@ const ContactPage = () => {
             </div>
           </AnimatedSection>
 
-          <motion.div 
+          <motion.div
             ref={socialRef}
             className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto"
             initial="hidden"
@@ -668,9 +667,9 @@ const ContactPage = () => {
             {socialMedia.map((social, index) => {
               const IconComponent = social.icon;
               return (
-                <motion.a 
-                  key={index} 
-                  href={social.link} 
+                <motion.a
+                  key={index}
+                  href={social.link}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={`bg-gradient-to-br ${social.gradient} ${social.hoverColor} rounded-2xl p-6 flex flex-col items-center justify-center gap-3 shadow-xl hover:shadow-2xl hover:scale-105 transition-all group text-center`}

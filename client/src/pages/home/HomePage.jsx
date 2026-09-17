@@ -1,16 +1,16 @@
+import { ArrowRight, Box, CheckCircle, FileText, Globe, Handshake, Headphones, Loader2, Lock, Package, Phone, Plus, Rocket, Search, Send, Shield, Star, Truck, UserPlus, X, Zap } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Search, FileText, Box, Shield, Truck, CheckCircle, Globe, Lock, Headphones, UserPlus, Handshake, Phone, Rocket, Zap, Plus, X, Loader2, Send, Package, ArrowRight, TrendingUp, Star, Flame } from 'lucide-react';
 // eslint-disable-next-line no-unused-vars
 import { motion, useInView } from 'framer-motion';
-import { useRef, useState, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { apiconnector } from '../../services/apiconnector';
-import { quoteEndpoints } from '../../services/apis';
-import { fetchHotCategories } from '../../store/slices/categorySlice';
-import { getFeaturedProducts } from '../../services/operations/productAPI';
+import { useDispatch, useSelector } from 'react-redux';
 import useCurrency from '../../hooks/useCurrency';
 import useSiteStats from '../../hooks/useSiteStats';
+import { apiconnector } from '../../services/apiconnector';
+import { quoteEndpoints } from '../../services/apis';
+import { getFeaturedProducts } from '../../services/operations/productAPI';
+import { fetchHotCategories } from '../../store/slices/categorySlice';
 
 // Animation variants
 const fadeInUp = {
@@ -154,7 +154,7 @@ const HomePage = () => {
 
   return (
     <div className="min-h-screen">
-      
+
       {/* Hero Section */}
       <div className="relative bg-gradient-to-br from-slate-700 via-slate-800 to-slate-900 pt-20 sm:pt-24 lg:pt-16 py-10 sm:py-12 lg:py-20 overflow-hidden">
         {/* Background Pattern */}
@@ -164,11 +164,11 @@ const HomePage = () => {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="flex flex-col-reverse lg:flex-row gap-12 items-center">
-            
+
             {/* Left Content */}
             <AnimatedSection variants={slideInLeft} className="text-white lg:w-1/2">
               {/* Trust Badge */}
-              <motion.div 
+              <motion.div
                 className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-2 mb-6"
                 variants={scaleIn}
                 initial="hidden"
@@ -183,7 +183,7 @@ const HomePage = () => {
                 <p className="text-xs font-semibold">Trusted by Growing Businesses Worldwide</p>
                 <CheckCircle size={14} className="text-emerald-400" />
               </motion.div>
-              
+
               <h1 className="text-3xl sm:text-4xl lg:text-6xl font-black mb-6 leading-tight">
                 Connect Global
                 <span className="block bg-gradient-to-r from-emerald-400 to-yellow-400 bg-clip-text text-transparent">
@@ -218,7 +218,7 @@ const HomePage = () => {
               </div>
 
               {/* CTA Buttons */}
-              <motion.div 
+              <motion.div
                 className="flex flex-col sm:flex-row flex-wrap gap-4 mb-10"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -241,13 +241,13 @@ const HomePage = () => {
               </motion.div>
 
               {/* Stats */}
-              <motion.div 
+              <motion.div
                 className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 pt-6 max-w-sm sm:max-w-xl"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 1 }}
               >
-                <motion.div 
+                <motion.div
                   className="relative group bg-gradient-to-br from-amber-500/20 to-orange-500/20 backdrop-blur-sm border-2 border-amber-400/30 rounded-2xl p-4 text-center shadow-lg shadow-amber-500/20 hover:shadow-xl hover:shadow-amber-500/30 hover:border-amber-400/50 transition-all duration-300"
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -260,7 +260,7 @@ const HomePage = () => {
                     <p className="text-[10px] text-amber-100 font-bold uppercase tracking-wider leading-tight">Active Users</p>
                   </div>
                 </motion.div>
-                <motion.div 
+                <motion.div
                   className="relative group bg-gradient-to-br from-emerald-500/20 to-teal-500/20 backdrop-blur-sm border-2 border-emerald-400/30 rounded-2xl p-4 text-center shadow-lg shadow-emerald-500/20 hover:shadow-xl hover:shadow-emerald-500/30 hover:border-emerald-400/50 transition-all duration-300"
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -273,7 +273,7 @@ const HomePage = () => {
                     <p className="text-[10px] text-emerald-100 font-bold uppercase tracking-wider leading-tight">Countries</p>
                   </div>
                 </motion.div>
-                <motion.div 
+                <motion.div
                   className="relative group bg-gradient-to-br from-cyan-500/20 to-blue-500/20 backdrop-blur-sm border-2 border-cyan-400/30 rounded-2xl p-4 text-center shadow-lg shadow-cyan-500/20 hover:shadow-xl hover:shadow-cyan-500/30 hover:border-cyan-400/50 transition-all duration-300"
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -300,16 +300,16 @@ const HomePage = () => {
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent"></div>
-                  
+
                   {/* Floating Stats Card */}
-                  <motion.div 
+                  <motion.div
                     className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 bg-gradient-to-br from-white/15 via-white/10 to-white/5 backdrop-blur-xl border-2 border-white/30 rounded-[25px] p-4 sm:p-5 shadow-2xl"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.8 }}
                   >
                     <div className="grid grid-cols-3 gap-2 sm:gap-3 text-center">
-                      <motion.div 
+                      <motion.div
                         className="relative group"
                         whileHover={{ scale: 1.03 }}
                         transition={{ type: "spring", stiffness: 300 }}
@@ -320,7 +320,7 @@ const HomePage = () => {
                           <p className="text-[9px] sm:text-[10px] text-white font-semibold leading-tight">{getDisplayStatLabel('productsListed', 'Active Products')}</p>
                         </div>
                       </motion.div>
-                      <motion.div 
+                      <motion.div
                         className="relative group"
                         whileHover={{ scale: 1.03 }}
                         transition={{ type: "spring", stiffness: 300 }}
@@ -331,7 +331,7 @@ const HomePage = () => {
                           <p className="text-[9px] sm:text-[10px] text-white font-semibold leading-tight">{getDisplayStatLabel('verifiedSuppliers', 'Verified Trade Partners')}</p>
                         </div>
                       </motion.div>
-                      <motion.div 
+                      <motion.div
                         className="relative group"
                         whileHover={{ scale: 1.03 }}
                         transition={{ type: "spring", stiffness: 300 }}
@@ -353,7 +353,7 @@ const HomePage = () => {
                     { icon: Lock, title: 'Secure Payments', subtitle: '100% Protected', gradient: 'from-emerald-400 to-emerald-600' },
                     { icon: Zap, title: 'Faster Delivery', subtitle: 'Express Shipping', gradient: 'from-cyan-400 to-blue-600' },
                     { icon: Headphones, title: '24/7 Support', subtitle: 'Always Available', gradient: 'from-purple-400 to-pink-600' }
-                  ].map((card, index) => ( 
+                  ].map((card, index) => (
                     <motion.div
                       key={index}
                       initial={{ opacity: 0, y: 20 }}
@@ -393,7 +393,7 @@ const HomePage = () => {
 
           {/* Features Grid - 3 columns */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-6xl mx-auto">
-            
+
             {[
               { gradient: 'from-emerald-500 to-teal-600', icon: Globe, title: 'Global Trade Network', desc: 'Connect with trusted importers, exporters, and distribution partners across multiple countries.', link: '/services', delay: 0.1 },
               { gradient: 'from-amber-500 to-orange-600', icon: Shield, title: 'Verified Trade Partners', desc: 'Our business network is validated for reliability and consistent product quality.', link: '/services', delay: 0.15 },
@@ -430,10 +430,10 @@ const HomePage = () => {
           <div className="absolute inset-0 opacity-40">
             <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(16, 185, 129, 0.15) 1px, transparent 0)', backgroundSize: '32px 32px' }}></div>
           </div>
-          
+
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <AnimatedSection className="text-center mb-12">
-              <motion.div 
+              <motion.div
                 className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-full px-6 py-2.5 mb-6 shadow-xl shadow-amber-500/25"
                 animate={{ scale: [1, 1.02, 1] }}
                 transition={{ repeat: Infinity, duration: 2 }}
@@ -501,7 +501,7 @@ const HomePage = () => {
                             </span>
                           </div>
                         </div>
-                        
+
                         {/* Product Info */}
                         <div className="p-4">
                           {/* Category */}
@@ -516,17 +516,17 @@ const HomePage = () => {
                               </span>
                             )}
                           </div>
-                          
+
                           {/* Name */}
                           <h3 className="font-bold text-slate-900 text-lg mb-1 line-clamp-1 group-hover:text-emerald-600 transition-colors">
                             {product.name}
                           </h3>
-                          
+
                           {/* Description */}
                           <p className="text-slate-500 text-sm line-clamp-2 mb-3">
                             {product.shortDescription || product.description || 'Quality export-ready product from our verified catalog'}
                           </p>
-                          
+
                           {/* Price & Source */}
                           <div className="flex items-center justify-between">
                             <div>
@@ -573,10 +573,10 @@ const HomePage = () => {
           <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-teal-500/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-emerald-600/10 to-teal-600/10 rounded-full blur-3xl"></div>
         </div>
-        
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <AnimatedSection className="text-center mb-12">
-            <motion.div 
+            <motion.div
               className="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-full px-6 py-2.5 mb-6 shadow-xl shadow-emerald-500/25"
               animate={{ scale: [1, 1.02, 1] }}
               transition={{ repeat: Infinity, duration: 2 }}
@@ -612,8 +612,8 @@ const HomePage = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: index * 0.1, type: "spring", stiffness: 100 }}
-                  whileHover={{ 
-                    y: -12, 
+                  whileHover={{
+                    y: -12,
                     scale: 1.02,
                     transition: { duration: 0.3 }
                   }}
@@ -626,8 +626,8 @@ const HomePage = () => {
                     {/* Card Header with Image */}
                     <div className="h-44 sm:h-56 relative overflow-hidden">
                       {category.image?.url ? (
-                        <motion.img 
-                          src={category.image.url} 
+                        <motion.img
+                          src={category.image.url}
                           alt={category.name}
                           className="w-full h-full object-cover"
                           whileHover={{ scale: 1.1 }}
@@ -638,25 +638,25 @@ const HomePage = () => {
                           <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.3),transparent)]"></div>
                         </div>
                       )}
-                      
+
                       {/* Light Overlay */}
                       <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-slate-900/20 to-transparent"></div>
-                      
+
                       {/* Animated Decorative Elements */}
-                      <motion.div 
+                      <motion.div
                         className="absolute top-0 right-0 w-40 h-40 bg-white/20 rounded-full -mr-20 -mt-20"
                         animate={{ scale: [1, 1.2, 1] }}
                         transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
                       ></motion.div>
-                      <motion.div 
+                      <motion.div
                         className="absolute bottom-0 left-0 w-32 h-32 bg-emerald-400/30 rounded-full -ml-16 -mb-16"
                         animate={{ scale: [1, 1.3, 1] }}
                         transition={{ repeat: Infinity, duration: 4 }}
                       ></motion.div>
-                      
+
                       {/* Premium Badge */}
                       <div className="absolute top-4 left-4">
-                        <motion.div 
+                        <motion.div
                           className="bg-gradient-to-r from-amber-400 to-orange-500 text-white text-xs px-3 py-1.5 rounded-full font-bold shadow-lg flex items-center gap-1"
                           animate={{ scale: [1, 1.05, 1] }}
                           transition={{ repeat: Infinity, duration: 2 }}
@@ -665,11 +665,11 @@ const HomePage = () => {
                           Featured
                         </motion.div>
                       </div>
-                      
+
                       {/* Category Tags - Right Top Corner */}
                       <div className="absolute top-4 right-4 flex flex-col gap-1.5">
                         {category.isHot && (
-                          <motion.span 
+                          <motion.span
                             className="bg-gradient-to-r from-red-500 to-orange-500 text-white text-xs px-3 py-1 rounded-full font-bold shadow-lg flex items-center gap-1"
                             animate={{ scale: [1, 1.1, 1] }}
                             transition={{ repeat: Infinity, duration: 1.5 }}
@@ -678,7 +678,7 @@ const HomePage = () => {
                           </motion.span>
                         )}
                         {category.isTrending && (
-                          <motion.span 
+                          <motion.span
                             className="bg-gradient-to-r from-purple-500 to-pink-500 text-white text-xs px-3 py-1 rounded-full font-bold shadow-lg flex items-center gap-1"
                             animate={{ y: [0, -2, 0] }}
                             transition={{ repeat: Infinity, duration: 1 }}
@@ -687,7 +687,7 @@ const HomePage = () => {
                           </motion.span>
                         )}
                         {category.isNew && (
-                          <motion.span 
+                          <motion.span
                             className="bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-xs px-3 py-1 rounded-full font-bold shadow-lg"
                             animate={{ rotate: [-2, 2, -2] }}
                             transition={{ repeat: Infinity, duration: 0.5 }}
@@ -696,16 +696,16 @@ const HomePage = () => {
                           </motion.span>
                         )}
                       </div>
-                      
+
                       {/* Icon with Glow */}
-                      <motion.div 
+                      <motion.div
                         className="absolute bottom-4 left-4 w-16 h-16 bg-white/90 backdrop-blur-sm rounded-2xl flex items-center justify-center shadow-xl border-2 border-white"
                         whileHover={{ rotate: 10, scale: 1.1 }}
                         transition={{ type: "spring", stiffness: 300 }}
                       >
                         <span className="text-3xl">{getIconEmoji(category.icon)}</span>
                       </motion.div>
-                      
+
                       {/* Product Count Badge */}
                       <div className="absolute bottom-4 right-4">
                         <div className="bg-white/90 backdrop-blur-sm text-slate-800 text-sm px-4 py-2 rounded-full font-bold shadow-lg border border-white">
@@ -722,7 +722,7 @@ const HomePage = () => {
                       <p className="text-sm text-slate-500 mb-4 leading-relaxed line-clamp-2 flex-grow">
                         {category.description || 'Explore our premium collection of quality products'}
                       </p>
-                      
+
                       <div className="flex items-center justify-between pt-4 border-t border-slate-100 mt-auto">
                         <div className="flex items-center gap-2">
                           <div className="flex -space-x-2">
@@ -732,7 +732,7 @@ const HomePage = () => {
                           </div>
                           <span className="text-xs text-slate-500 font-medium">Trusted Network</span>
                         </div>
-                        <motion.div 
+                        <motion.div
                           className="w-12 h-12 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center shadow-lg shadow-emerald-500/30 group-hover:shadow-emerald-500/50 transition-all"
                           whileHover={{ scale: 1.1, x: 5 }}
                         >
@@ -781,7 +781,7 @@ const HomePage = () => {
           </AnimatedSection>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            
+
             {[
               { num: 1, icon: UserPlus, title: 'Sign Up Free', desc: 'Create your account in minutes. No credit card required to get started.', color: 'emerald', borderColor: 'border-emerald-500/30 hover:border-emerald-500', bgGradient: 'from-emerald-400 to-emerald-600', iconGradient: 'from-emerald-500 to-emerald-600', delay: 0.1 },
               { num: 2, icon: Search, title: 'Browse Products', desc: 'Explore active listings across our curated import-export categories.', color: 'amber', borderColor: 'border-amber-500/30 hover:border-amber-500', bgGradient: 'from-amber-400 to-amber-600', iconGradient: 'from-amber-500 to-amber-600', delay: 0.2 },
@@ -795,7 +795,7 @@ const HomePage = () => {
                     <div className={`absolute -top-5 right-4 sm:right-6 w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br ${step.bgGradient} rounded-full flex items-center justify-center shadow-xl`}>
                       <span className="text-xl sm:text-2xl font-black text-white">{step.num}</span>
                     </div>
-                    
+
                     <div className={`w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br ${step.iconGradient} rounded-3xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform flex-shrink-0`}>
                       <step.icon className="text-white" size={28} />
                     </div>
@@ -856,7 +856,7 @@ const HomePage = () => {
         {/* Decorative circles */}
         <div className="absolute top-0 left-0 w-96 h-96 bg-white/5 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
         <div className="absolute bottom-0 right-0 w-96 h-96 bg-white/5 rounded-full translate-x-1/2 translate-y-1/2"></div>
-        
+
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
           <AnimatedSection>
             <h2 className="text-3xl md:text-5xl font-black text-white mb-5 leading-tight">
@@ -1017,7 +1017,7 @@ const QuoteRequestModal = ({ onClose, onSuccess, token }) => {
       category: categoryName || 'General',
       targetPrice: product.price || '',
       description: product.description || prev.description,
-      specifications: Array.isArray(product.specifications) 
+      specifications: Array.isArray(product.specifications)
         ? product.specifications.map(s => typeof s === 'object' ? `${s.key}: ${s.value}` : s).join('\n')
         : prev.specifications
     }));
@@ -1115,8 +1115,8 @@ const response = await apiconnector(
         }
       }
     } catch (error) {
-const errorMessage = error.response?.data?.errors?.[0]?.message || 
-                          error.response?.data?.message || 
+const errorMessage = error.response?.data?.errors?.[0]?.message ||
+                          error.response?.data?.message ||
                           'Failed to create quote request';
     } finally {
       setLoading(false);
@@ -1151,7 +1151,7 @@ const errorMessage = error.response?.data?.errors?.[0]?.message ||
 
         <form onSubmit={handleSubmit} className="flex-1 p-4 sm:p-6 overflow-y-auto scrollbar-hide">
           <div className="space-y-4">
-            
+
             {/* Product Type Toggle */}
             <div className="bg-gradient-to-r from-slate-50 to-gray-50 p-3 sm:p-4 rounded-xl border border-slate-200">
               <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2 sm:mb-3">
@@ -1198,7 +1198,7 @@ const errorMessage = error.response?.data?.errors?.[0]?.message ||
                 </button>
               </div>
               <p className="text-[10px] sm:text-xs text-gray-500 mt-1.5 sm:mt-2">
-                {productType === 'catalog' 
+                {productType === 'catalog'
                   ? '📦 Select an existing product from our catalog'
                   : '✏️ Describe your custom product requirements'}
               </p>
@@ -1210,7 +1210,7 @@ const errorMessage = error.response?.data?.errors?.[0]?.message ||
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Select Product *
                 </label>
-                
+
                 {/* Selected Product Display */}
                 {selectedProduct ? (
                   <div className="bg-gradient-to-r from-teal-50 to-cyan-50 border-2 border-teal-200 rounded-xl p-4 flex items-center gap-4">
@@ -1256,7 +1256,7 @@ const errorMessage = error.response?.data?.errors?.[0]?.message ||
                       </span>
                       <ArrowRight className={`w-5 h-5 text-gray-400 transition-transform ${showProductDropdown ? 'rotate-90' : ''}`} />
                     </button>
-                    
+
                     {/* Dropdown */}
                     {showProductDropdown && (
                       <div className="absolute z-50 w-full mt-2 bg-white border border-gray-200 rounded-xl shadow-2xl overflow-hidden">
@@ -1286,7 +1286,7 @@ const errorMessage = error.response?.data?.errors?.[0]?.message ||
                             {productSearch ? `${filteredProducts.length} results` : `${products.length} products available`}
                           </p>
                         </div>
-                        
+
                         {/* Products List */}
                         <div className="max-h-64 overflow-y-auto">
                           {loadingProducts ? (

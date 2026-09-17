@@ -1,24 +1,24 @@
-import { useState, useEffect, useCallback } from 'react';
-import { useSelector } from 'react-redux';
 import {
-  MessageSquare,
-  Search,
-  Filter,
-  Eye,
-  Clock,
+  Calendar,
   CheckCircle,
-  XCircle,
-  Send,
-  Loader2,
   ChevronLeft,
   ChevronRight,
-  X,
-  Calendar,
+  Clock,
   DollarSign,
-  User,
+  Eye,
+  FileText,
+  Filter,
+  Loader2,
+  MessageSquare,
   Package,
-  FileText
+  Search,
+  Send,
+  User,
+  X,
+  XCircle
 } from 'lucide-react';
+import { useCallback, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { getSupplierQuotes, respondToSupplierQuote } from '../../services/operations/supplierDashboardAPI';
 
 const SupplierQuotes = () => {
@@ -51,7 +51,7 @@ const SupplierQuotes = () => {
         limit: 10,
         status: statusFilter !== 'all' ? statusFilter : undefined
       };
-      
+
       const response = await getSupplierQuotes(token, params);
       if (response.success) {
         setQuotes(response.data || []);
@@ -61,7 +61,8 @@ const SupplierQuotes = () => {
           total: response.total || 0
         });
       }
-    } catch (error) {// Don't show error toast for empty quotes
+    } catch (error) {
+// Don't show error toast for empty quotes
       setQuotes([]);
     } finally {
       setLoading(false);
@@ -80,7 +81,7 @@ const SupplierQuotes = () => {
       setResponding(true);
       const response = await respondToSupplierQuote(selectedQuote._id, responseData, token);
       if (response.success) {
-        
+
         setShowResponseModal(false);
         setResponseData({
           status: 'accepted',
@@ -90,7 +91,8 @@ const SupplierQuotes = () => {
         });
         fetchQuotes();
       }
-    } catch (error) {
+    } catch (error) {
+
     } finally {
       setResponding(false);
     }
@@ -209,8 +211,8 @@ const SupplierQuotes = () => {
           <MessageSquare className="w-16 h-16 text-gray-300 mx-auto mb-4" />
           <h3 className="text-lg font-bold text-gray-900 mb-2">No quotes yet</h3>
           <p className="text-gray-500">
-            {statusFilter !== 'all' 
-              ? `No ${statusFilter} quotes found` 
+            {statusFilter !== 'all'
+              ? `No ${statusFilter} quotes found`
               : "You haven't received any quote requests yet"}
           </p>
         </div>
@@ -502,8 +504,8 @@ const SupplierQuotes = () => {
                 <label className="block text-sm font-semibold text-gray-700 mb-2">Response Type</label>
                 <div className="flex gap-3">
                   <label className={`flex-1 p-3 border-2 rounded-xl cursor-pointer text-center transition-all ${
-                    responseData.status === 'accepted' 
-                      ? 'border-green-500 bg-green-50' 
+                    responseData.status === 'accepted'
+                      ? 'border-green-500 bg-green-50'
                       : 'border-gray-200 hover:border-gray-300'
                   }`}>
                     <input
@@ -522,8 +524,8 @@ const SupplierQuotes = () => {
                     }`}>Accept</span>
                   </label>
                   <label className={`flex-1 p-3 border-2 rounded-xl cursor-pointer text-center transition-all ${
-                    responseData.status === 'rejected' 
-                      ? 'border-red-500 bg-red-50' 
+                    responseData.status === 'rejected'
+                      ? 'border-red-500 bg-red-50'
                       : 'border-gray-200 hover:border-gray-300'
                   }`}>
                     <input
@@ -594,8 +596,8 @@ const SupplierQuotes = () => {
                   onChange={(e) => setResponseData(prev => ({ ...prev, message: e.target.value }))}
                   rows={4}
                   className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
-                  placeholder={responseData.status === 'accepted' 
-                    ? "Thank you for your interest. We're happy to offer you..." 
+                  placeholder={responseData.status === 'accepted'
+                    ? "Thank you for your interest. We're happy to offer you..."
                     : "Thank you for your inquiry. Unfortunately..."
                   }
                 />

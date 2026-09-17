@@ -1,44 +1,40 @@
-import { useState, useEffect, useRef } from 'react';
+import {
+  AlertCircle,
+  ArrowLeft,
+  CheckCircle2,
+  Clock,
+  CreditCard,
+  FileText,
+  HelpCircle,
+  Loader2,
+  MessageCircle,
+  MessageSquare,
+  Package,
+  Plus,
+  RefreshCw,
+  Search,
+  Send,
+  Settings,
+  Star,
+  Truck,
+  User,
+  XCircle
+} from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import {
-  MessageCircle,
-  Plus,
-  Search,
-  Filter,
-  ChevronDown,
-  Clock,
-  CheckCircle2,
-  AlertCircle,
-  XCircle,
-  Loader2,
-  Send,
-  Paperclip,
-  ArrowLeft,
-  User,
-  RefreshCw,
-  Star,
-  MessageSquare,
-  HelpCircle,
-  Package,
-  CreditCard,
-  Truck,
-  Settings,
-  FileText,
-  MoreHorizontal
-} from 'lucide-react';
-import { 
-  getMyTickets, 
-  getTicketById, 
-  createTicket, 
-  replyToTicket, 
   closeTicket,
-  rateTicket 
+  createTicket,
+  getMyTickets,
+  getTicketById,
+  rateTicket,
+  replyToTicket
 } from '../../services/operations/supportTicketAPI';
 
 const DashboardMessages = () => {
   const { token } = useSelector((state) => state.auth);
   const { user } = useSelector((state) => state.auth);
-  
+
   // State
   const [tickets, setTickets] = useState([]);
   const [selectedTicket, setSelectedTicket] = useState(null);
@@ -54,7 +50,7 @@ const DashboardMessages = () => {
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  
+
   // New ticket form state
   const [newTicket, setNewTicket] = useState({
     subject: '',
@@ -63,13 +59,13 @@ const DashboardMessages = () => {
     department: 'support',
     message: ''
   });
-  
+
   // Rating state
   const [rating, setRating] = useState({
     score: 5,
     feedback: ''
   });
-  
+
   const messagesEndRef = useRef(null);
 
   // Fetch tickets
@@ -86,11 +82,12 @@ const DashboardMessages = () => {
         ...(statusFilter !== 'all' && { status: statusFilter }),
         ...(categoryFilter !== 'all' && { category: categoryFilter })
       };
-      
+
       const response = await getMyTickets(token, params);
       setTickets(response.data || []);
       setTotalPages(response.pages || 1);
-    } catch (error) {} finally {
+    } catch (error) {
+} finally {
       setLoading(false);
     }
   };
@@ -105,7 +102,8 @@ const DashboardMessages = () => {
       setTimeout(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
       }, 100);
-    } catch (error) {} finally {
+    } catch (error) {
+} finally {
       setTicketLoading(false);
     }
   };
@@ -128,13 +126,14 @@ const DashboardMessages = () => {
       if (response.data) {
         setSelectedTicket(response.data);
       }
-    } catch (error) {}
+    } catch (error) {
+}
   };
 
   // Reply to ticket
   const handleReply = async () => {
     if (!replyMessage.trim() || !selectedTicket) return;
-    
+
     try {
       setSendingReply(true);
       const response = await replyToTicket(selectedTicket._id, replyMessage, token);
@@ -144,7 +143,8 @@ const DashboardMessages = () => {
       setTimeout(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
       }, 100);
-    } catch (error) {} finally {
+    } catch (error) {
+} finally {
       setSendingReply(false);
     }
   };
@@ -157,24 +157,26 @@ const DashboardMessages = () => {
   // Confirm close ticket
   const confirmCloseTicket = async () => {
     if (!selectedTicket) return;
-    
+
     try {
       await closeTicket(selectedTicket._id, token);
       setShowCloseModal(false);
       fetchTicketDetails(selectedTicket._id);
       fetchTickets();
-    } catch (error) {}
+    } catch (error) {
+}
   };
 
   // Rate ticket
   const handleRateTicket = async () => {
     if (!selectedTicket) return;
-    
+
     try {
       await rateTicket(selectedTicket._id, rating, token);
       setShowRatingModal(false);
       fetchTicketDetails(selectedTicket._id);
-    } catch (error) {}
+    } catch (error) {
+}
   };
 
   // Status badge component
@@ -186,9 +188,9 @@ const DashboardMessages = () => {
       'resolved': { bg: 'bg-green-100', text: 'text-green-800', icon: CheckCircle2, label: 'Resolved' },
       'closed': { bg: 'bg-gray-100', text: 'text-gray-800', icon: XCircle, label: 'Closed' }
     };
-    
+
     const { bg, text, icon: Icon, label } = config[status] || config['open'];
-    
+
     return (
       <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${bg} ${text}`}>
         <Icon className="w-3 h-3" />
@@ -205,9 +207,9 @@ const DashboardMessages = () => {
       'high': { bg: 'bg-orange-100', text: 'text-orange-600' },
       'urgent': { bg: 'bg-red-100', text: 'text-red-600' }
     };
-    
+
     const { bg, text } = config[priority] || config['medium'];
-    
+
     return (
       <span className={`px-2 py-0.5 rounded text-xs font-medium ${bg} ${text} capitalize`}>
         {priority}
@@ -250,7 +252,7 @@ const DashboardMessages = () => {
     const diffMins = Math.floor(diffMs / 60000);
     const diffHours = Math.floor(diffMs / 3600000);
     const diffDays = Math.floor(diffMs / 86400000);
-    
+
     if (diffMins < 1) return 'Just now';
     if (diffMins < 60) return `${diffMins}m ago`;
     if (diffHours < 24) return `${diffHours}h ago`;
@@ -296,7 +298,7 @@ const DashboardMessages = () => {
               <span className="sm:hidden">New Ticket</span>
             </button>
           </div>
-          
+
           {/* Quick Stats */}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 mt-4 sm:mt-6">
             <div className="bg-white rounded-2xl p-3 sm:p-5 border border-gray-100 shadow-sm hover:shadow-md transition-shadow relative">
@@ -427,8 +429,8 @@ const DashboardMessages = () => {
                     key={ticket._id}
                     onClick={() => fetchTicketDetails(ticket._id)}
                     className={`w-full p-3.5 sm:p-5 text-left transition-all rounded-2xl border-2 hover:shadow-lg group ${
-                      selectedTicket?._id === ticket._id 
-                        ? 'bg-blue-50 border-blue-500 shadow-lg' 
+                      selectedTicket?._id === ticket._id
+                        ? 'bg-blue-50 border-blue-500 shadow-lg'
                         : 'bg-white border-gray-100 hover:border-blue-200 hover:bg-blue-50/30'
                     }`}
                   >
@@ -590,7 +592,7 @@ const DashboardMessages = () => {
                   </button>
                 </div>
               </div>
-              
+
               {/* Assigned To Info */}
               {selectedTicket.assignedTo && (
                 <div className="mt-2 sm:mt-3 flex items-center gap-2 text-xs sm:text-sm text-gray-600">
@@ -641,8 +643,8 @@ const DashboardMessages = () => {
                           </span>
                         </div>
                         <div className={`p-4 rounded-2xl ${
-                          isUser 
-                            ? 'bg-blue-600 text-white rounded-br-md' 
+                          isUser
+                            ? 'bg-blue-600 text-white rounded-br-md'
                             : 'bg-white text-gray-800 rounded-bl-md border border-gray-200'
                         }`}>
                           <p className="text-sm whitespace-pre-wrap">{message.content}</p>

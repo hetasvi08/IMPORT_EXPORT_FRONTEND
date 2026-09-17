@@ -1,13 +1,14 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Mail, Lock, Phone, User, Download, Upload, ShoppingBag, CheckCircle, Globe, Shield, Package, TrendingUp, Users, Truck, Store } from 'lucide-react';
-import { useDispatch } from 'react-redux';
-import { register, setCredentials } from '../../store/slices/authSlice';
-import { auth } from '../../config/firebase';
-import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import axios from 'axios';
-import nexarionLogo from '../../assets/nexarion_logo.png';
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { CheckCircle, Download, Lock, Mail, Package, Phone, Shield, ShoppingBag, Store, TrendingUp, Truck, Upload, User } from 'lucide-react';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { auth } from '../../config/firebase';
 import useSiteStats from '../../hooks/useSiteStats';
+import { authEndpoints } from '../../services/apis';
+import { register, setCredentials } from '../../store/slices/authSlice';
+import nexarionLogo from '../../assets/nexarion_logo.png';
 
 const SignupPage = () => {
   const navigate = useNavigate();
@@ -36,9 +37,9 @@ const SignupPage = () => {
       setLoading(true);
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
-      
+
       // Send to backend
-      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/auth/google`, {
+      const response = await axios.post(authEndpoints.GOOGLE_AUTH_API, {
         email: result.user.email,
         name: result.user.displayName,
         photoURL: result.user.photoURL
@@ -47,13 +48,13 @@ const SignupPage = () => {
       // Store token and user
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.user));
-      
+
       // Update Redux store
       dispatch(setCredentials({
         user: response.data.user,
         token: response.data.token
       }));
-      
+
       navigate('/');
     } catch (error) {
     } finally {
@@ -79,7 +80,7 @@ const SignupPage = () => {
     setLoading(true);
     try {
       const result = await dispatch(register(formData)).unwrap();
-      
+
       // Always redirect to verification page
       navigate('/verify-email', { state: { email: formData.email } });
     } catch (error) {
@@ -90,16 +91,16 @@ const SignupPage = () => {
 
   return (
     <div className="min-h-screen h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-cyan-100 to-teal-100 p-3 overflow-hidden">
-      
+
       {/* Contained Card */}
       <div className="w-full max-w-5xl h-[90vh] bg-white rounded-3xl shadow-2xl overflow-hidden flex">
-      
+
       {/* Left Side - Branding */}
       <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-blue-700 via-cyan-700 to-teal-700 p-6 flex-col justify-between relative overflow-hidden">
         {/* Decorative Elements */}
         <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-200/15 rounded-full -translate-y-1/2 translate-x-1/2"></div>
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-teal-200/15 rounded-full translate-y-1/2 -translate-x-1/2"></div>
-        
+
         <div className="relative z-10">
           {/* Logo */}
           <Link to="/" className="inline-flex items-center gap-2 mb-4 animate-[fadeInUp_0.6s_ease-out]">
@@ -195,7 +196,7 @@ const SignupPage = () => {
         <div className="absolute top-10 right-10 w-32 h-32 bg-teal-100/40 rounded-full blur-2xl"></div>
         <div className="absolute bottom-20 left-5 w-24 h-24 bg-blue-100/40 rounded-full blur-xl"></div>
         <div className="absolute top-1/2 right-5 w-16 h-16 bg-emerald-100/30 rounded-full blur-lg"></div>
-        
+
         <div className="w-full max-w-md relative z-10">
 
           {/* Mobile Logo */}
@@ -208,7 +209,7 @@ const SignupPage = () => {
               <p className="text-xs text-gray-600 font-medium uppercase tracking-wide">Global Exports</p>
             </div>
           </Link>
-          
+
           {/* Header */}
           <div className="mb-2">
             <h2 className="text-xl font-black text-gray-900 mb-1">Create Account</h2>
@@ -241,7 +242,7 @@ const SignupPage = () => {
 
           {/* Signup Form */}
           <form onSubmit={handleSubmit} className="space-y-2">
-            
+
             {/* Account Type */}
             <div>
               <label className="block text-[10px] font-bold text-gray-700 mb-1.5 uppercase tracking-wide">

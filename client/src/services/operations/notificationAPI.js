@@ -28,7 +28,7 @@ export const getAllNotifications = async (token) => {
     }
 
     return response.data;
-  } catch (error) {
+  } catch {
     return { success: false, data: [] };
   }
 };
@@ -50,7 +50,7 @@ export const getUnreadNotifications = async (token) => {
     }
 
     return response.data;
-  } catch (error) {
+  } catch {
     return { success: false, data: [] };
   }
 };
@@ -72,7 +72,7 @@ export const getUnreadCount = async (token) => {
     }
 
     return response.data;
-  } catch (error) {
+  } catch {
     return { success: false, data: { count: 0 } };
   }
 };
@@ -94,7 +94,7 @@ export const markNotificationAsRead = async (notificationId, token) => {
     }
 
     return response.data;
-  } catch (error) {
+  } catch {
     return { success: false };
   }
 };
@@ -116,7 +116,7 @@ export const markAllNotificationsAsRead = async (token) => {
     }
 
     return response.data;
-  } catch (error) {
+  } catch {
     return { success: false };
   }
 };
@@ -138,7 +138,7 @@ export const deleteNotification = async (notificationId, token) => {
     }
 
     return response.data;
-  } catch (error) {
+  } catch {
     return { success: false };
   }
 };
@@ -160,7 +160,7 @@ export const deleteAllNotifications = async (token) => {
     }
 
     return response.data;
-  } catch (error) {
+  } catch {
     return { success: false };
   }
 };

@@ -1,16 +1,16 @@
-import { useState } from 'react';
-import { 
-  CreditCard, 
-  Building2, 
-  Lock, 
-  AlertCircle,
-  CheckCircle,
-  Loader2,
-  ShieldCheck,
-  ExternalLink
-} from 'lucide-react';
 import { loadStripe } from '@stripe/stripe-js';
 import axios from 'axios';
+import {
+  AlertCircle,
+  Building2,
+  CheckCircle,
+  CreditCard,
+  ExternalLink,
+  Loader2,
+  Lock,
+  ShieldCheck
+} from 'lucide-react';
+import { useState } from 'react';
 import { paymentEndpoints } from '../../services/apis';
 
 // Initialize Stripe
@@ -40,7 +40,7 @@ const PaymentForm = ({
 
     try {
       const stripe = await stripePromise;
-      
+
       if (!stripe) {
         throw new Error('Stripe failed to load');
       }
@@ -189,7 +189,7 @@ setError(err.response?.data?.message || err.message || 'Failed to place order');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     if (paymentMethod === 'card') {
       handleStripeCheckout();
     } else if (paymentMethod === 'bank') {
@@ -268,7 +268,7 @@ setError(err.response?.data?.message || err.message || 'Failed to place order');
             Secure Stripe Checkout
           </h4>
           <p className="text-sm text-blue-700 mb-3">
-            You will be redirected to Stripe&apos;s secure payment page to complete your payment. 
+            You will be redirected to Stripe&apos;s secure payment page to complete your payment.
             This ensures your card details are handled with the highest security standards.
           </p>
           <div className="flex flex-wrap gap-3 text-xs text-blue-600">
@@ -293,7 +293,7 @@ setError(err.response?.data?.message || err.message || 'Failed to place order');
             Bank Transfer Instructions
           </h4>
           <p className="text-sm text-amber-700 mb-3">
-            After placing your order, you&apos;ll receive bank details via email. 
+            After placing your order, you&apos;ll receive bank details via email.
             Your order will be processed once payment is verified (1-2 business days).
           </p>
           <div className="text-xs text-amber-600">
@@ -370,7 +370,7 @@ const PaymentStep = (props) => {
         </div>
 
         <div className="p-6">
-          <PaymentForm 
+          <PaymentForm
             {...props}
             paymentMethod={paymentMethod}
             setPaymentMethod={setPaymentMethod}

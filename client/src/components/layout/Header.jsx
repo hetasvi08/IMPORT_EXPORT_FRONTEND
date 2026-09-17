@@ -1,9 +1,9 @@
+import { Heart, LayoutDashboard, LogOut, Menu, ShoppingCart, X } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { logout } from '../../store/slices/authSlice';
-import { Shield, Menu, X, LogOut, LayoutDashboard, Heart, ShoppingCart } from 'lucide-react';
-import { useState, useEffect, useRef } from 'react';
 import nexarionLogo from '../../assets/nexarion_logo.png';
+import { logout } from '../../store/slices/authSlice';
 import CurrencySelector from '../CurrencySelector';
 
 const Header = () => {
@@ -80,14 +80,14 @@ const Header = () => {
     { name: 'About', path: '/about' },
     { name: 'Services', path: '/services' },
     { name: 'Contact', path: '/contact' },
-  ];  
+  ];
 
   return (
     <>
       <nav className="fixed top-0 left-0 right-0 z-[999] bg-gradient-to-r from-slate-700 via-slate-800 to-slate-900 shadow-[0_2px_20px_rgba(0,0,0,0.4)] border-b-2 border-emerald-400/40" style={{ transform: 'translate3d(0,0,0)', backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' }}>
         <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-[60px] w-full">
-          
+
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group cursor-pointer flex-shrink-0">
             <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl overflow-hidden shadow-lg group-hover:scale-110 transition-transform">
@@ -98,7 +98,7 @@ const Header = () => {
               <p className="text-[10px] text-emerald-400 font-semibold">Global Exports</p>
             </div>
           </Link>
-          
+
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-7">
             {navLinks.map((link) => (
@@ -116,7 +116,7 @@ const Header = () => {
           <div className="hidden lg:flex items-center gap-2">
             {/* Currency Selector */}
             <CurrencySelector compact />
-            
+
             {isAuthenticated && (
               <>
                 {/* Favorites Button */}
@@ -174,7 +174,7 @@ const Header = () => {
                   <div className="absolute right-0 mt-2 w-52 bg-slate-800 rounded-xl shadow-2xl overflow-hidden border border-slate-700 animate-fadeIn z-50">
                     {/* Notification Badge */}
                     <div className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border border-slate-800"></div>
-                    
+
                     {/* User Info Header */}
                     <div className="bg-gradient-to-r from-slate-700 via-slate-800 to-slate-900 p-3 border-b border-slate-700">
                       <div className="flex items-center gap-2">
@@ -320,13 +320,13 @@ const Header = () => {
                   {link.name}
                 </Link>
               ))}
-              
+
               {/* Mobile Currency Selector */}
               <div className="flex items-center justify-between py-2 border-b border-slate-700">
                 <span className="text-slate-400 text-sm">Currency</span>
                 <CurrencySelector compact />
               </div>
-              
+
               {isAuthenticated ? (
                 <>
                   <Link

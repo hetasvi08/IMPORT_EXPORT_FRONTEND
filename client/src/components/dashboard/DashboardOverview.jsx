@@ -1,42 +1,36 @@
-import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { 
-  TrendingUp, 
-  Package, 
-  ShoppingCart, 
-  Truck, 
-  FileText, 
-  Clock, 
-  CheckCircle,
-  XCircle,
-  AlertCircle,
+import {
   ArrowUpRight,
-  DollarSign,
-  Loader2,
   BarChart3,
-  PieChart as PieChartIcon
+  CheckCircle,
+  Clock,
+  DollarSign,
+  FileText,
+  Package,
+  PieChart as PieChartIcon,
+  ShoppingCart,
+  Truck
 } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { apiconnector } from '../../services/apiconnector';
-import { dashboardEndpoints } from '../../services/apis';
 import {
-  ComposedChart,
-  AreaChart,
   Area,
   Bar,
-  Line,
-  XAxis,
-  YAxis,
   CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  PieChart,
-  Pie,
   Cell,
+  ComposedChart,
+  LabelList,
   Legend,
-  LabelList
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis
 } from 'recharts';
+import { apiconnector } from '../../services/apiconnector';
+import { dashboardEndpoints } from '../../services/apis';
 
 const DashboardOverview = () => {
   const { user, token } = useSelector((state) => state.auth);
@@ -66,7 +60,7 @@ const DashboardOverview = () => {
 
   const fetchDashboardData = async () => {
 setLoading(true);
-    
+
     try {
       const response = await apiconnector(
         'GET',
@@ -105,7 +99,7 @@ if (response.data.success) {
         null,
         { Authorization: `Bearer ${token}` }
       );
-      
+
       if (spendingResponse.data.success) {
         setSpendingTrendData(spendingResponse.data.data.chartData);
       }
@@ -226,10 +220,10 @@ if (response.data.success) {
   };
 
   const formatDate = (date) => {
-    return new Date(date).toLocaleDateString('en-US', { 
-      year: 'numeric', 
-      month: 'short', 
-      day: 'numeric' 
+    return new Date(date).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
     });
   };
 
@@ -238,7 +232,7 @@ if (response.data.success) {
     if (amount === null || amount === undefined) return '$0';
     const num = Number(amount);
     if (isNaN(num)) return '$0';
-    
+
     if (num >= 1000000000) {
       return '$' + (num / 1000000000).toFixed(1).replace(/\.0$/, '') + 'B';
     }
@@ -269,7 +263,7 @@ if (response.data.success) {
 
   return (
     <div className="space-y-6 animate-[fadeInUp_0.6s_ease-out]">
-      
+
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 sm:gap-4">
         <div>
@@ -309,8 +303,8 @@ if (response.data.success) {
                   <Icon className={`${stat.iconColor} w-4 h-4 sm:w-6 sm:h-6`} />
                 </div>
                 <span className={`text-[10px] sm:text-xs font-bold px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-lg shadow-sm border ${
-                  stat.change.startsWith('+') 
-                    ? 'bg-green-100 text-green-700 border-green-300' 
+                  stat.change.startsWith('+')
+                    ? 'bg-green-100 text-green-700 border-green-300'
                     : 'bg-red-100 text-red-700 border-red-300'
                 }`}>
                   {stat.change}
@@ -379,16 +373,16 @@ if (response.data.success) {
                       </linearGradient>
                     </defs>
                     <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" vertical={false} />
-                    <XAxis 
-                      dataKey="date" 
-                      stroke="#6b7280" 
+                    <XAxis
+                      dataKey="date"
+                      stroke="#6b7280"
                       fontSize={11}
                       tickLine={false}
                       axisLine={{ stroke: '#e5e7eb' }}
                     />
-                    <YAxis 
+                    <YAxis
                       yAxisId="left"
-                      stroke="#14b8a6" 
+                      stroke="#14b8a6"
                       fontSize={10}
                       tickLine={false}
                       axisLine={false}
@@ -399,19 +393,19 @@ if (response.data.success) {
                         return `$${value}`;
                       }}
                     />
-                    <YAxis 
+                    <YAxis
                       yAxisId="right"
                       orientation="right"
-                      stroke="#8b5cf6" 
+                      stroke="#8b5cf6"
                       fontSize={10}
                       tickLine={false}
                       axisLine={false}
                       width={25}
                       allowDecimals={false}
                     />
-                    <Tooltip 
-                      contentStyle={{ 
-                        backgroundColor: '#fff', 
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: '#fff',
                         border: '2px solid #e5e7eb',
                         borderRadius: '12px',
                         boxShadow: '0 10px 25px rgba(0,0,0,0.15)',
@@ -427,8 +421,8 @@ if (response.data.success) {
                       }}
                       labelStyle={{ fontWeight: 'bold', marginBottom: '4px' }}
                     />
-                    <Legend 
-                      verticalAlign="top" 
+                    <Legend
+                      verticalAlign="top"
                       height={36}
                       formatter={(value) => (
                         <span className="text-sm font-medium text-gray-700">
@@ -444,11 +438,11 @@ if (response.data.success) {
                       barSize={20}
                       animationDuration={1500}
                     >
-                      <LabelList 
-                        dataKey="orders" 
-                        position="top" 
-                        fill="#8b5cf6" 
-                        fontSize={11} 
+                      <LabelList
+                        dataKey="orders"
+                        position="top"
+                        fill="#8b5cf6"
+                        fontSize={11}
                         fontWeight="bold"
                         formatter={(value) => value > 0 ? value : ''}
                       />
@@ -518,17 +512,17 @@ if (response.data.success) {
                       labelLine={{ stroke: '#9ca3af', strokeWidth: 1 }}
                     >
                       {orderStatusData.map((entry, index) => (
-                        <Cell 
-                          key={`cell-${index}`} 
+                        <Cell
+                          key={`cell-${index}`}
                           fill={entry.color || CHART_COLORS[index % CHART_COLORS.length]}
                           stroke="#fff"
                           strokeWidth={2}
                         />
                       ))}
                     </Pie>
-                    <Tooltip 
-                      contentStyle={{ 
-                        backgroundColor: '#fff', 
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: '#fff',
                         border: '2px solid #e5e7eb',
                         borderRadius: '12px',
                         boxShadow: '0 10px 25px rgba(0,0,0,0.15)',
@@ -540,8 +534,8 @@ if (response.data.success) {
                         return [`${value} orders (${percent}%)`, name];
                       }}
                     />
-                    <Legend 
-                      verticalAlign="bottom" 
+                    <Legend
+                      verticalAlign="bottom"
                       height={40}
                       formatter={(value, entry) => (
                         <span className="text-gray-700 font-medium text-xs sm:text-sm">
@@ -568,7 +562,7 @@ if (response.data.success) {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
-        
+
         {/* Recent Orders */}
         <div className="lg:col-span-2 bg-white rounded-xl sm:rounded-2xl border-2 border-gray-200 shadow-xl">
           <div className="p-3 sm:p-6 border-b-2 border-gray-200 flex items-center justify-between">

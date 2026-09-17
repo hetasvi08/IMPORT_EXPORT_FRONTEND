@@ -2,18 +2,18 @@ import { useState } from 'react';
 import { MapPin, User, Mail, Phone, Building, Globe, FileText, ChevronDown } from 'lucide-react';
 
 const COUNTRIES = [
-  'United States', 'Canada', 'United Kingdom', 'Australia', 'Germany', 
+  'United States', 'Canada', 'United Kingdom', 'Australia', 'Germany',
   'France', 'India', 'China', 'Japan', 'Brazil', 'Mexico', 'Spain',
   'Italy', 'Netherlands', 'Singapore', 'South Korea', 'UAE', 'Other'
 ];
 
-const ShippingAddressStep = ({ 
-  shippingAddress, 
-  setShippingAddress, 
-  billingAddress, 
+const ShippingAddressStep = ({
+  shippingAddress,
+  setShippingAddress,
+  billingAddress,
   setBillingAddress,
   orderNotes,
-  setOrderNotes 
+  setOrderNotes
 }) => {
   const [showBilling, setShowBilling] = useState(!billingAddress.sameAsShipping);
 

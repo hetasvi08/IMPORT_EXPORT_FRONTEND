@@ -1,21 +1,21 @@
+import {
+  AlertCircle,
+  Building2,
+  CheckCircle,
+  Loader2,
+  Mail,
+  MapPin,
+  MessageSquare,
+  Package,
+  Phone,
+  Send,
+  User,
+  X
+} from 'lucide-react';
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { 
-  X, 
-  Send, 
-  Package, 
-  User, 
-  Mail, 
-  Phone, 
-  Building2, 
-  MapPin, 
-  MessageSquare,
-  AlertCircle,
-  Loader2,
-  CheckCircle
-} from 'lucide-react';
 import { createInquiry } from '../services/operations/inquiryAPI';
 
 import useCurrency from '../hooks/useCurrency';
@@ -109,7 +109,7 @@ const InquiryModal = ({ isOpen, onClose, product }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!formData.description.trim()) {
       return;
     }
@@ -123,7 +123,7 @@ const InquiryModal = ({ isOpen, onClose, product }) => {
     }
 
     setLoading(true);
-    
+
     const inquiryData = {
       product: product._id,
       productName: product.name,

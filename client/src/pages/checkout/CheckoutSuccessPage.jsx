@@ -1,21 +1,21 @@
-import { useEffect, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
-import { 
-  CheckCircle, 
-  Package, 
-  Mail, 
-  Truck, 
-  ArrowRight,
-  Home,
-  FileText,
-  Loader2,
-  AlertCircle
-} from 'lucide-react';
 import confetti from 'canvas-confetti';
-import { clearCart } from '../../services/operations/cartAPI';
+import {
+  AlertCircle,
+  ArrowRight,
+  CheckCircle,
+  FileText,
+  Home,
+  Loader2,
+  Mail,
+  Package,
+  Truck
+} from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { paymentEndpoints } from '../../services/apis';
+import { clearCart } from '../../services/operations/cartAPI';
 
 const CheckoutSuccessPage = () => {
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ const CheckoutSuccessPage = () => {
   const [searchParams] = useSearchParams();
   const sessionId = searchParams.get('session_id');
   const { token } = useSelector((state) => state.auth);
-  
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [order, setOrder] = useState(null);
@@ -45,7 +45,7 @@ const CheckoutSuccessPage = () => {
         if (response.data.success) {
           setOrder(response.data.order);
           dispatch(clearCart(token, true)); // Silent clear - no toast on success page
-          
+
           // Fire confetti
           confetti({
             particleCount: 100,
@@ -68,7 +68,8 @@ const CheckoutSuccessPage = () => {
             });
           }, 200);
         }
-      } catch (err) {setError(err.response?.data?.message || 'Failed to verify payment');
+      } catch (err) {
+setError(err.response?.data?.message || 'Failed to verify payment');
       } finally {
         setLoading(false);
       }
@@ -108,7 +109,7 @@ const CheckoutSuccessPage = () => {
             <button
               onClick={() => navigate('/dashboard/orders')}
               className="w-full py-3 bg-slate-100 text-slate-700 font-semibold rounded-xl hover:bg-slate-200 transition-colors"
-            > 
+            >
               View My Orders
             </button>
           </div>
@@ -134,12 +135,12 @@ const CheckoutSuccessPage = () => {
               <div className="absolute -top-10 -left-10 w-40 h-40 bg-white/10 rounded-full"></div>
               <div className="absolute -bottom-10 -right-10 w-60 h-60 bg-white/10 rounded-full"></div>
             </div>
-            
+
             <div className="relative">
               <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg animate-bounce">
                 <CheckCircle className="w-14 h-14 text-emerald-500" />
               </div>
-              
+
               <h1 className="text-3xl font-black text-white mb-2">Payment Successful!</h1>
               <p className="text-emerald-100 text-lg">
                 Thank you for your purchase

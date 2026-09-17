@@ -16,7 +16,7 @@ export const createInquiry = async (inquiryData, token) => {
     } else {
       return null;
     }
-  } catch (error) {
+  } catch {
     return null;
   }
 };
@@ -35,7 +35,7 @@ export const getMyInquiries = async (token) => {
       return response.data;
     }
     return null;
-  } catch (error) {
+  } catch {
     return null;
   }
 };
@@ -54,7 +54,7 @@ export const getInquiryById = async (id, token) => {
       return response.data;
     }
     return null;
-  } catch (error) {
+  } catch {
     return null;
   }
 };
@@ -74,7 +74,7 @@ export const acceptQuote = async (id, token) => {
     } else {
       return null;
     }
-  } catch (error) {
+  } catch {
     return null;
   }
 };
@@ -94,7 +94,7 @@ export const rejectQuote = async (id, rejectionCategory, reason, token) => {
     } else {
       return null;
     }
-  } catch (error) {
+  } catch {
     return null;
   }
 };

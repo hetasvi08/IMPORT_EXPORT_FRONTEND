@@ -1,28 +1,42 @@
-import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { 
-  Bell, Trash2, CheckCheck, Filter, Search, 
-  ShoppingCart, CreditCard, Truck, FileText, MessageCircle,
-  Star, Package, Info, Gift, Clock, ExternalLink, X, AlertCircle
-} from 'lucide-react';
 import {
+  Bell,
+  CheckCheck,
+  Clock,
+  CreditCard,
+  ExternalLink,
+  FileText,
+  Filter,
+  Gift,
+  Info,
+  MessageCircle,
+  Package,
+  Search,
+  ShoppingCart,
+  Star,
+  Trash2,
+  Truck,
+  X
+} from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import {
+  deleteAllNotifications as deleteAllNotifAPI,
+  deleteNotification,
+  getUnreadCount as fetchUnreadCount,
+  getAllNotifications,
+  markAllNotificationsAsRead,
+  markNotificationAsRead,
+} from '../../services/operations/notificationAPI';
+import {
+  clearAllNotifications,
+  markAllRead,
+  markOneAsRead,
+  removeNotification,
+  setNotificationLoading,
   setNotifications,
   setUnreadCount,
-  markOneAsRead,
-  markAllRead,
-  removeNotification,
-  clearAllNotifications,
-  setNotificationLoading,
 } from '../../store/slices/notificationSlice';
-import {
-  getAllNotifications,
-  getUnreadCount as fetchUnreadCount,
-  markNotificationAsRead,
-  markAllNotificationsAsRead,
-  deleteNotification,
-  deleteAllNotifications as deleteAllNotifAPI,
-} from '../../services/operations/notificationAPI';
 
 const NotificationsPage = () => {
   const dispatch = useDispatch();
@@ -51,7 +65,8 @@ const NotificationsPage = () => {
       if (countRes?.success) {
         dispatch(setUnreadCount(countRes.data?.count || 0));
       }
-    } catch (error) {} finally {
+    } catch (error) {
+} finally {
       dispatch(setNotificationLoading(false));
     }
   };
@@ -281,8 +296,8 @@ const NotificationsPage = () => {
               {notifications.length === 0 ? 'No notifications yet' : 'No matching notifications'}
             </p>
             <p className={`text-sm mt-1 ${isAdmin ? 'text-gray-400' : 'text-teal-500/70'}`}>
-              {notifications.length === 0 
-                ? 'When you get notifications, they will appear here' 
+              {notifications.length === 0
+                ? 'When you get notifications, they will appear here'
                 : 'Try adjusting your filters'
               }
             </p>

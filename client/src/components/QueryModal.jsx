@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 import { useSelector } from 'react-redux';
 import {
   X,
@@ -17,7 +17,7 @@ import {
 import { raiseQuery } from '../services/operations/contactAPI';
 
 const QueryModal = ({ isOpen, onClose }) => {
-  const user = useSelector((state) => state.profile?.user);
+  const user = useSelector((state) => state.auth?.user || state.profile?.user);
   const [submitting, setSubmitting] = useState(false);
   const [queryData, setQueryData] = useState({
     name: '',

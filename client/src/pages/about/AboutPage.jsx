@@ -1,27 +1,27 @@
 import { useRef } from 'react';
 // eslint-disable-next-line no-unused-vars
 import { motion, useInView } from 'framer-motion';
-import { 
-  BookOpen, 
-  MapPin, 
-  Lightbulb, 
-  TrendingUp, 
-  Globe, 
-  Award, 
-  Shield, 
-  Headphones, 
-  Truck, 
-  Lock, 
-  Brain, 
-  Target, 
-  Rocket, 
-  Users, 
-  Leaf, 
-  UserCircle,
-  ShieldCheck,
-  MessageCircle,
+import {
+  Award,
+  BookOpen,
+  Brain,
+  Globe,
+  Handshake,
+  Headphones,
+  Leaf,
+  Lightbulb,
   LineChart,
-  Handshake
+  Lock,
+  MapPin,
+  MessageCircle,
+  Rocket,
+  Shield,
+  ShieldCheck,
+  Target,
+  TrendingUp,
+  Truck,
+  UserCircle,
+  Users
 } from 'lucide-react';
 import useSiteStats from '../../hooks/useSiteStats';
 
@@ -71,7 +71,7 @@ const AnimatedSection = ({ children, variants = fadeInUp, delay = 0, className =
 
 const AboutPage = () => {
   const { getStatValue } = useSiteStats();
-  
+
   const stats = [
     { value: getStatValue('activeUsers') || '450+', label: 'Active Users', gradient: 'from-emerald-600 to-teal-600', bg: 'from-emerald-50 to-teal-100/70', border: 'border-emerald-200 group-hover:border-emerald-400' },
     { value: getStatValue('verifiedSuppliers') || '45+', label: 'Verified Trade Partners', gradient: 'from-amber-600 to-orange-600', bg: 'from-amber-50 to-orange-100/70', border: 'border-amber-200 group-hover:border-amber-400' },
@@ -154,8 +154,8 @@ const AboutPage = () => {
     { title: 'Trade Assurance', description: 'We support every order with dispute resolution assistance if products do not match agreement terms', icon: Handshake, gradient: 'from-indigo-500 to-blue-600', bg: 'from-indigo-50 to-blue-100/60', border: 'border-indigo-200' }
   ];
 
-  return (  
-    <div className="min-h-screen">  
+  return (
+    <div className="min-h-screen">
       {/* Hero Section */}
       <div className="bg-gradient-to-br from-slate-800 via-slate-900 to-slate-800 pt-24 pb-8 md:pt-28 md:pb-12">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -173,7 +173,7 @@ const AboutPage = () => {
       {/* Company Stats */}
       <div className="bg-gradient-to-r from-blue-50 to-cyan-50 py-6">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div 
+          <motion.div
             className="grid grid-cols-2 md:grid-cols-4 gap-4"
             variants={staggerContainer}
             initial="hidden"
@@ -181,8 +181,8 @@ const AboutPage = () => {
             viewport={{ once: true, margin: "-100px" }}
           >
             {stats.map((stat, index) => (
-              <motion.div 
-                key={index} 
+              <motion.div
+                key={index}
                 className="text-center group"
                 variants={fadeInUp}
               >
@@ -216,7 +216,7 @@ const AboutPage = () => {
               {/* Decorative Background */}
               <div className="absolute -top-4 -left-4 w-28 h-28 bg-gradient-to-br from-indigo-300 to-purple-300 rounded-full opacity-20 blur-3xl group-hover:opacity-30 transition-opacity"></div>
               <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-gradient-to-br from-blue-300 to-cyan-300 rounded-full opacity-20 blur-3xl group-hover:opacity-30 transition-opacity"></div>
-              
+
               <div className="relative bg-gradient-to-br from-white/90 via-indigo-50/40 to-purple-50/30 backdrop-blur-sm rounded-[30px] p-5 border-2 border-indigo-200/60 shadow-2xl hover:shadow-3xl transition-all">
                 {/* Icon & Title */}
                 <div className="flex items-start gap-4 mb-6">
@@ -231,14 +231,14 @@ const AboutPage = () => {
                     </div>
                   </div>
                 </div>
-                
+
                 {/* Story Content */}
                 <div className="space-y-4">
                   {storyPoints.map((point, index) => {
                     const IconComponent = point.icon;
                     return (
                       <div key={index} className="bg-white/60 backdrop-blur-sm rounded-xl p-4 border border-indigo-100 hover:border-indigo-300 transition-all">
-                        <div className="flex items-start gap-3"> 
+                        <div className="flex items-start gap-3">
                           <div className={`w-6 h-6 bg-gradient-to-br ${point.gradient} rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5`}>
                             <IconComponent className="text-white" size={14} />
                           </div>
@@ -270,7 +270,7 @@ const AboutPage = () => {
             </AnimatedSection>
 
             {/* Right Side - Certifications */}
-            <motion.div 
+            <motion.div
               className="grid grid-cols-1 gap-3"
               variants={staggerContainer}
               initial="hidden"
@@ -280,8 +280,8 @@ const AboutPage = () => {
               {certifications.map((cert, index) => {
                 const IconComponent = cert.icon;
                 return (
-                  <motion.div 
-                    key={index} 
+                  <motion.div
+                    key={index}
                     className={`group relative overflow-hidden bg-gradient-to-br ${cert.gradient} rounded-[25px] p-4 shadow-xl hover:shadow-2xl transition-all`}
                     variants={fadeInUp}
                   >
@@ -316,10 +316,10 @@ const AboutPage = () => {
             <AnimatedSection variants={slideInLeft} className="relative group">
               <div className="absolute -top-3 -left-3 w-24 h-24 bg-gradient-to-br from-blue-300 to-indigo-300 rounded-full opacity-20 blur-3xl group-hover:opacity-30 transition-opacity"></div>
               <div className="absolute -bottom-3 -right-3 w-28 h-28 bg-gradient-to-br from-indigo-300 to-purple-300 rounded-full opacity-20 blur-3xl group-hover:opacity-30 transition-opacity"></div>
-              
+
               <div className="relative bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50/50 rounded-[30px] p-5 shadow-xl border-2 border-blue-200/60 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 overflow-hidden">
                 <div className="absolute top-4 right-4 w-20 h-20 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-full opacity-40"></div>
-                
+
                 <div className="relative z-10">
                   <div className="flex items-start gap-4 mb-6">
                     <div className="w-16 h-16 bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-xl group-hover:scale-110 group-hover:rotate-3 transition-all flex-shrink-0">
@@ -333,11 +333,11 @@ const AboutPage = () => {
                       </div>
                     </div>
                   </div>
-                  
+
                   <p className="text-sm text-slate-700 leading-relaxed mb-6">
                     To help businesses source high-quality products at competitive prices through dependable import-export operations. We aim to simplify international trade, build long-term relationships, and deliver transparent service where businesses can grow confidently.
                   </p>
-                  
+
                   <div className="space-y-3">
                     {missionPoints.map((point, index) => {
                       const IconComponent = point.icon;
@@ -359,10 +359,10 @@ const AboutPage = () => {
             <AnimatedSection variants={slideInRight} className="relative group">
               <div className="absolute -top-3 -right-3 w-24 h-24 bg-gradient-to-br from-orange-300 to-amber-300 rounded-full opacity-20 blur-3xl group-hover:opacity-30 transition-opacity"></div>
               <div className="absolute -bottom-3 -left-3 w-28 h-28 bg-gradient-to-br from-amber-300 to-yellow-300 rounded-full opacity-20 blur-3xl group-hover:opacity-30 transition-opacity"></div>
-              
+
               <div className="relative bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50/50 rounded-[30px] p-5 shadow-xl border-2 border-orange-200/60 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 overflow-hidden">
                 <div className="absolute top-4 right-4 w-20 h-20 bg-gradient-to-br from-orange-100 to-amber-100 rounded-full opacity-40"></div>
-                
+
                 <div className="relative z-10">
                   <div className="flex items-start gap-4 mb-6">
                     <div className="w-16 h-16 bg-gradient-to-br from-orange-500 via-amber-500 to-yellow-600 rounded-2xl flex items-center justify-center shadow-xl group-hover:scale-110 group-hover:rotate-3 transition-all flex-shrink-0">
@@ -376,11 +376,11 @@ const AboutPage = () => {
                       </div>
                     </div>
                   </div>
-                  
+
                   <p className="text-sm text-slate-700 leading-relaxed mb-6">
                     To become a trusted global import-export brand, expanding our international network across more countries. We envision a future where businesses can trade confidently with reliable quality assurance, clear documentation, and efficient logistics.
                   </p>
-                  
+
                   <div className="space-y-3">
                     {visionPoints.map((point, index) => {
                       const IconComponent = point.icon;
@@ -409,7 +409,7 @@ const AboutPage = () => {
             <p className="text-sm text-slate-600 max-w-2xl mx-auto">The principles that guide every decision we make</p>
           </AnimatedSection>
 
-          <motion.div 
+          <motion.div
             className="grid md:grid-cols-2 lg:grid-cols-4 gap-6"
             variants={staggerContainer}
             initial="hidden"
@@ -419,8 +419,8 @@ const AboutPage = () => {
             {values.map((value, index) => {
               const IconComponent = value.icon;
               return (
-                <motion.div 
-                  key={index} 
+                <motion.div
+                  key={index}
                   className={`bg-gradient-to-br ${value.bg} backdrop-blur-sm rounded-[20px] p-4 shadow-lg border-2 ${value.border} hover:shadow-xl hover:scale-105 transition-all group text-center`}
                   variants={fadeInUp}
                 >
@@ -446,7 +446,7 @@ const AboutPage = () => {
             <p className="text-sm text-slate-600 max-w-2xl mx-auto">Dedicated professionals working to serve you better</p>
           </AnimatedSection>
 
-          <motion.div 
+          <motion.div
             className="grid md:grid-cols-2 lg:grid-cols-4 gap-6"
             variants={staggerContainer}
             initial="hidden"
@@ -454,8 +454,8 @@ const AboutPage = () => {
             viewport={{ once: true, margin: "-100px" }}
           >
             {team.map((member, index) => (
-              <motion.div 
-                key={index} 
+              <motion.div
+                key={index}
                 className={`bg-gradient-to-br ${member.bg} backdrop-blur-sm rounded-[20px] p-5 shadow-lg border-2 ${member.border} hover:shadow-xl hover:scale-105 transition-all group text-center`}
                 variants={fadeInUp}
               >
@@ -479,7 +479,7 @@ const AboutPage = () => {
             <p className="text-sm text-slate-600 max-w-2xl mx-auto">Real advantages backed by real numbers</p>
           </AnimatedSection>
 
-          <motion.div 
+          <motion.div
             className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
             variants={staggerContainer}
             initial="hidden"
@@ -489,8 +489,8 @@ const AboutPage = () => {
             {features.map((feature, index) => {
               const IconComponent = feature.icon;
               return (
-                <motion.div 
-                  key={index} 
+                <motion.div
+                  key={index}
                   className={`bg-gradient-to-br ${feature.bg} rounded-[20px] p-6 border-2 ${feature.border} hover:shadow-xl hover:scale-105 transition-all group`}
                   variants={fadeInUp}
                 >

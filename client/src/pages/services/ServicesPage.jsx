@@ -1,26 +1,26 @@
 import { useRef, useState } from 'react';
 // eslint-disable-next-line no-unused-vars
 import { motion, useInView } from 'framer-motion';
-import { 
-  ShieldCheck, 
-  Lock, 
-  Brain, 
-  Truck, 
-  ClipboardCheck, 
-  DollarSign,
-  Headphones,
-  Mail,
-  Phone,
-  MessageSquare,
-  Languages,
-  FileText,
+import {
   BarChart3,
-  GraduationCap,
+  Brain,
+  Calendar,
   CheckCircle2,
-  Calendar
+  ClipboardCheck,
+  DollarSign,
+  FileText,
+  GraduationCap,
+  Headphones,
+  Languages,
+  Lock,
+  Mail,
+  MessageSquare,
+  Phone,
+  ShieldCheck,
+  Truck
 } from 'lucide-react';
-import QueryModal from '../../components/QueryModal';
 import MeetingModal from '../../components/MeetingModal';
+import QueryModal from '../../components/QueryModal';
 import { SUPPORT_CONTACT_NUMBERS_TEXT, WHATSAPP_API_URL } from '../../utils/whatsapp';
 
 // Animation variants
@@ -178,64 +178,64 @@ const ServicesPage = () => {
   ];
 
   const additionalServices = [
-    { 
-      title: 'Effective Communication Support', 
-      description: 'Fast, reliable communication support to ensure clear understanding between clients and trade partners', 
-      icon: Languages, 
-      gradient: 'from-blue-500 to-indigo-600', 
-      bg: 'from-blue-50 to-indigo-100/60', 
-      border: 'border-blue-200 hover:border-blue-400' 
+    {
+      title: 'Effective Communication Support',
+      description: 'Fast, reliable communication support to ensure clear understanding between clients and trade partners',
+      icon: Languages,
+      gradient: 'from-blue-500 to-indigo-600',
+      bg: 'from-blue-50 to-indigo-100/60',
+      border: 'border-blue-200 hover:border-blue-400'
     },
-    { 
-      title: 'Legal Support', 
-      description: 'Contract review and legal consultation for international trade', 
-      icon: FileText, 
-      gradient: 'from-purple-500 to-pink-600', 
-      bg: 'from-purple-50 to-pink-100/60', 
-      border: 'border-purple-200 hover:border-purple-400' 
+    {
+      title: 'Legal Support',
+      description: 'Contract review and legal consultation for international trade',
+      icon: FileText,
+      gradient: 'from-purple-500 to-pink-600',
+      bg: 'from-purple-50 to-pink-100/60',
+      border: 'border-purple-200 hover:border-purple-400'
     },
-    { 
-      title: 'Market Intelligence', 
-      description: 'Real-time market trends, pricing data, and competitor analysis', 
-      icon: BarChart3, 
-      gradient: 'from-amber-500 to-orange-600', 
-      bg: 'from-amber-50 to-orange-100/60', 
-      border: 'border-amber-200 hover:border-amber-400' 
+    {
+      title: 'Market Intelligence',
+      description: 'Real-time market trends, pricing data, and competitor analysis',
+      icon: BarChart3,
+      gradient: 'from-amber-500 to-orange-600',
+      bg: 'from-amber-50 to-orange-100/60',
+      border: 'border-amber-200 hover:border-amber-400'
     },
-    { 
-      title: 'Training & Webinars', 
-      description: 'Educational resources to master international trade practices', 
-      icon: GraduationCap, 
-      gradient: 'from-emerald-500 to-teal-600', 
-      bg: 'from-emerald-50 to-teal-100/60', 
-      border: 'border-emerald-200 hover:border-emerald-400' 
+    {
+      title: 'Training & Webinars',
+      description: 'Educational resources to master international trade practices',
+      icon: GraduationCap,
+      gradient: 'from-emerald-500 to-teal-600',
+      bg: 'from-emerald-50 to-teal-100/60',
+      border: 'border-emerald-200 hover:border-emerald-400'
     }
   ];
 
   const contactMethods = [
-    { 
-      title: 'Email Us', 
-      value: 'contact@nexarionimpex.com', 
-      icon: Mail, 
-      gradient: 'from-indigo-500 to-purple-600', 
-      bg: 'from-indigo-50 to-purple-100/60', 
-      border: 'border-indigo-200 hover:border-indigo-400' 
+    {
+      title: 'Email Us',
+      value: 'contact@nexarionimpex.com',
+      icon: Mail,
+      gradient: 'from-indigo-500 to-purple-600',
+      bg: 'from-indigo-50 to-purple-100/60',
+      border: 'border-indigo-200 hover:border-indigo-400'
     },
-    { 
-      title: 'Call Us', 
-      value: SUPPORT_CONTACT_NUMBERS_TEXT, 
-      icon: Phone, 
-      gradient: 'from-purple-500 to-pink-600', 
-      bg: 'from-purple-50 to-pink-100/60', 
-      border: 'border-purple-200 hover:border-purple-400' 
+    {
+      title: 'Call Us',
+      value: SUPPORT_CONTACT_NUMBERS_TEXT,
+      icon: Phone,
+      gradient: 'from-purple-500 to-pink-600',
+      bg: 'from-purple-50 to-pink-100/60',
+      border: 'border-purple-200 hover:border-purple-400'
     },
-    { 
-      title: 'WhatsApp', 
-      value: SUPPORT_CONTACT_NUMBERS_TEXT, 
-      icon: MessageSquare, 
-      gradient: 'from-green-500 to-emerald-600', 
-      bg: 'from-green-50 to-emerald-100/60', 
-      border: 'border-green-200 hover:border-green-400' 
+    {
+      title: 'WhatsApp',
+      value: SUPPORT_CONTACT_NUMBERS_TEXT,
+      icon: MessageSquare,
+      gradient: 'from-green-500 to-emerald-600',
+      bg: 'from-green-50 to-emerald-100/60',
+      border: 'border-green-200 hover:border-green-400'
     }
   ];
 
@@ -267,7 +267,7 @@ const ServicesPage = () => {
             <p className="text-sm text-slate-600 max-w-2xl mx-auto">Powerful tools designed to streamline your global trading operations</p>
           </AnimatedSection>
 
-          <motion.div 
+          <motion.div
             className="grid md:grid-cols-2 lg:grid-cols-3 gap-5"
             variants={staggerContainer}
             initial="hidden"
@@ -279,15 +279,15 @@ const ServicesPage = () => {
               return (
                 <motion.div key={index} className="group relative h-full" variants={fadeInUp}>
                   <div className={`absolute -top-3 -left-3 w-24 h-24 bg-gradient-to-br ${service.gradient.replace('via-', 'to-')} rounded-full opacity-20 blur-2xl group-hover:opacity-30 transition-opacity`}></div>
-                  
+
                   <div className={`relative bg-gradient-to-br ${service.bg} rounded-[30px] p-5 border-2 ${service.border} hover:shadow-2xl hover:-translate-y-2 transition-all h-full flex flex-col`}>
                     <div className={`w-16 h-16 bg-gradient-to-br ${service.gradient} rounded-2xl flex items-center justify-center shadow-xl mb-6 group-hover:scale-110 group-hover:rotate-6 transition-all`}>
                       <IconComponent className="text-white" size={28} />
                     </div>
-                    
+
                     <h3 className="text-xl font-black text-slate-900 mb-3">{service.title}</h3>
                     <p className="text-sm text-slate-700 leading-relaxed mb-5">{service.description}</p>
-                    
+
                     <ul className="space-y-2 mb-5 flex-grow">
                       {service.features.map((feature, idx) => (
                         <li key={idx} className="flex items-start gap-2 text-xs text-slate-700">
@@ -296,7 +296,7 @@ const ServicesPage = () => {
                         </li>
                       ))}
                     </ul>
-                    
+
                     <button className={`w-full bg-gradient-to-r ${service.btnGradient} text-white font-bold text-sm py-3 rounded-xl hover:shadow-lg transition-all mt-auto`}>
                       Learn More →
                     </button>
@@ -315,34 +315,34 @@ const ServicesPage = () => {
             {/* Decorative circles */}
             <div className="absolute -top-4 -left-4 w-32 h-32 bg-gradient-to-br from-indigo-300 to-purple-300 rounded-full opacity-20 blur-3xl"></div>
             <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-gradient-to-br from-pink-300 to-rose-300 rounded-full opacity-20 blur-3xl"></div>
-            
+
             <div className="relative bg-gradient-to-br from-white/90 to-indigo-50/60 backdrop-blur-sm rounded-[30px] p-6 border-2 border-indigo-200 shadow-2xl text-center">
               <div className="w-20 h-20 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-2xl flex items-center justify-center shadow-xl mx-auto mb-6">
                 <Headphones className="text-white" size={36} />
               </div>
-              
+
               <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-4">Need Help Choosing?</h2>
               <p className="text-sm text-slate-700 leading-relaxed mb-5 max-w-2xl mx-auto">
                 Our expert team is here to help you find the perfect service package for your business needs. Get personalized recommendations and answers to all your questions.
               </p>
-              
+
               {/* 3 Buttons */}
               <div className="grid md:grid-cols-3 gap-4 mb-6">
-                <button 
+                <button
                   onClick={handleContactSupport}
                   className="bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-600 text-white px-6 py-4 rounded-xl font-black text-sm hover:shadow-2xl transform hover:scale-105 transition-all flex items-center justify-center gap-2 whitespace-nowrap">
                   <Phone size={18} />
                   Contact Support
                 </button>
-                
-                <button 
+
+                <button
                   onClick={handleRaiseQuery}
                   className="bg-gradient-to-br from-cyan-500 via-blue-500 to-indigo-600 text-white px-6 py-4 rounded-xl font-black text-sm hover:shadow-2xl transform hover:scale-105 transition-all flex items-center justify-center gap-2 whitespace-nowrap">
                   <MessageSquare size={18} />
                   Raise a Query
                 </button>
-                
-                <button 
+
+                <button
                   onClick={handleScheduleCall}
                   className="bg-gradient-to-br from-amber-500 via-orange-500 to-red-600 text-white px-6 py-4 rounded-xl font-black text-sm hover:shadow-2xl transform hover:scale-105 transition-all flex items-center justify-center gap-2 whitespace-nowrap">
                   <Calendar size={18} />
@@ -351,7 +351,7 @@ const ServicesPage = () => {
               </div>
 
               {/* Contact Info */}
-              <motion.div 
+              <motion.div
                 className="grid md:grid-cols-3 gap-4 pt-5 border-t border-indigo-200"
                 variants={staggerContainer}
                 initial="hidden"
@@ -361,8 +361,8 @@ const ServicesPage = () => {
                 {contactMethods.map((method, index) => {
                   const IconComponent = method.icon;
                   return (
-                    <motion.div 
-                      key={index} 
+                    <motion.div
+                      key={index}
                       className={`bg-gradient-to-br ${method.bg} rounded-xl p-4 border-2 ${method.border} hover:shadow-lg transition-all group`}
                       variants={fadeInUp}
                     >
@@ -388,7 +388,7 @@ const ServicesPage = () => {
             <p className="text-sm text-slate-600 max-w-2xl mx-auto">Supporting services to enhance your trading experience</p>
           </AnimatedSection>
 
-          <motion.div 
+          <motion.div
             className="grid md:grid-cols-2 lg:grid-cols-4 gap-4"
             variants={staggerContainer}
             initial="hidden"
@@ -398,8 +398,8 @@ const ServicesPage = () => {
             {additionalServices.map((service, index) => {
               const IconComponent = service.icon;
               return (
-                <motion.div 
-                  key={index} 
+                <motion.div
+                  key={index}
                   className={`bg-gradient-to-br ${service.bg} rounded-[20px] p-4 border-2 ${service.border} hover:shadow-lg hover:scale-105 transition-all group text-center`}
                   variants={fadeInUp}
                 >
@@ -416,15 +416,15 @@ const ServicesPage = () => {
       </div>
 
       {/* Query Modal */}
-      <QueryModal 
-        isOpen={showQueryModal} 
-        onClose={() => setShowQueryModal(false)} 
+      <QueryModal
+        isOpen={showQueryModal}
+        onClose={() => setShowQueryModal(false)}
       />
 
       {/* Meeting Modal */}
-      <MeetingModal 
-        isOpen={showMeetingModal} 
-        onClose={() => setShowMeetingModal(false)} 
+      <MeetingModal
+        isOpen={showMeetingModal}
+        onClose={() => setShowMeetingModal(false)}
       />
     </div>
   );

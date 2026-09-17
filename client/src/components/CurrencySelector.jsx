@@ -1,6 +1,6 @@
-import { useState, useRef, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { ChevronDown, Check } from 'lucide-react';
+import { Check, ChevronDown } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrency, setCurrency } from '../store/slices/currencySlice';
 import { currencyOptions } from '../utils/currency';
 
@@ -39,8 +39,8 @@ const CurrencySelector = ({ className = '', compact = false }) => {
         >
           <span className="text-sm font-bold text-emerald-400">{currentCurrency.symbol}</span>
           <span className="text-white text-xs font-semibold">{currentCurrency.code}</span>
-          <ChevronDown 
-            className={`w-3 h-3 text-white transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} 
+          <ChevronDown
+            className={`w-3 h-3 text-white transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
           />
         </button>
 
@@ -92,8 +92,8 @@ const CurrencySelector = ({ className = '', compact = false }) => {
         <div className="text-left">
           <span className="text-white text-sm font-semibold">{currentCurrency.code}</span>
         </div>
-        <ChevronDown 
-          className={`w-4 h-4 text-white transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} 
+        <ChevronDown
+          className={`w-4 h-4 text-white transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
         />
       </button>
 

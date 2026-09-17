@@ -1,27 +1,27 @@
-import { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { 
-  ShoppingCart, 
-  Loader2, 
-  Trash2, 
-  Plus, 
-  Minus, 
-  Package, 
-  MessageSquare,
-  User,
-  Mail,
-  Phone,
+import {
   Globe,
+  Loader2,
+  Mail,
   MessageCircle,
-  ShieldCheck,
-  Truck,
+  MessageSquare,
+  Minus,
+  Package,
+  Phone,
+  Plus,
   RotateCcw,
-  Sparkles
+  ShieldCheck,
+  ShoppingCart,
+  Sparkles,
+  Trash2,
+  Truck,
+  User
 } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
-import { getCart, updateCartItem, removeFromCart, clearCart, raiseCartInquiry } from '../../services/operations/cartAPI';
 import useCurrency from '../../hooks/useCurrency';
+import { clearCart, getCart, raiseCartInquiry, removeFromCart, updateCartItem } from '../../services/operations/cartAPI';
 
 const DashboardCart = () => {
   const dispatch = useDispatch();
@@ -60,7 +60,7 @@ const DashboardCart = () => {
   const handleUpdateQuantity = (productId, currentQuantity, change, moq = 1) => {
     const newQuantity = currentQuantity + change;
     const minQuantity = moq || 1;
-    
+
     if (newQuantity < minQuantity) {
       // If trying to go below MOQ, remove item
       handleRemoveItem(productId);
@@ -106,7 +106,8 @@ const DashboardCart = () => {
       if (result?.success) {
         setInquiryForm({ name: '', email: '', phone: '', country: '', message: '' });
       }
-    } catch (error) {} finally {
+    } catch (error) {
+} finally {
       setSubmittingInquiry(false);
     }
   };
@@ -132,7 +133,7 @@ const DashboardCart = () => {
             {totalItems} {totalItems === 1 ? 'item' : 'items'} in your cart
           </p>
         </div>
-        
+
         {items.length > 0 && (
           <button
             onClick={handleClearCart}
@@ -161,12 +162,12 @@ const DashboardCart = () => {
           {/* Cart Items */}
           <div className="lg:col-span-2 space-y-3 sm:space-y-4">
             {items.map((item) => (
-              <div 
-                key={item.product._id} 
+              <div
+                key={item.product._id}
                 className="bg-white rounded-xl shadow-sm border border-gray-200 p-3 sm:p-4 flex gap-3 sm:gap-4 hover:shadow-md transition-all"
               >
                 {/* Product Image */}
-                <div 
+                <div
                   className="w-20 h-20 sm:w-24 sm:h-24 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0 cursor-pointer"
                   onClick={() => navigate(`/products/${item.product._id}`)}
                 >
@@ -179,7 +180,7 @@ const DashboardCart = () => {
 
                 {/* Product Info */}
                 <div className="flex-1 min-w-0">
-                  <h3 
+                  <h3
                     className="font-bold text-gray-900 mb-1 truncate cursor-pointer hover:text-teal-600 text-sm sm:text-base"
                     onClick={() => navigate(`/products/${item.product._id}`)}
                   >
@@ -202,7 +203,7 @@ const DashboardCart = () => {
                   >
                     <Trash2 className="w-5 h-5" />
                   </button>
-                  
+
                   <div className="flex flex-col items-end gap-1">
                     <div className="flex items-center gap-2">
                       <button
@@ -239,7 +240,7 @@ const DashboardCart = () => {
                 <Sparkles className="w-5 h-5 text-orange-500" />
                 Order Summary
               </h2>
-              
+
               <div className="space-y-3 mb-6">
                 <div className="flex justify-between text-gray-600 text-sm sm:text-base">
                   <span>Subtotal ({totalQuantity} items)</span>
@@ -267,7 +268,7 @@ const DashboardCart = () => {
                     <User className="w-4 h-4 text-orange-500" />
                     Contact Information
                   </h3>
-                  
+
                   <div className="space-y-2.5">
                     <div>
                       <label className="block text-xs font-medium text-gray-600 mb-1">Full Name *</label>
@@ -284,7 +285,7 @@ const DashboardCart = () => {
                         />
                       </div>
                     </div>
-                    
+
                     <div>
                       <label className="block text-xs font-medium text-gray-600 mb-1">Email Address *</label>
                       <div className="relative">
@@ -300,7 +301,7 @@ const DashboardCart = () => {
                         />
                       </div>
                     </div>
-                    
+
                     <div>
                       <label className="block text-xs font-medium text-gray-600 mb-1">Phone Number *</label>
                       <div className="relative">
@@ -316,7 +317,7 @@ const DashboardCart = () => {
                         />
                       </div>
                     </div>
-                    
+
                     <div>
                       <label className="block text-xs font-medium text-gray-600 mb-1">Delivery Country *</label>
                       <div className="relative">
@@ -332,7 +333,7 @@ const DashboardCart = () => {
                         />
                       </div>
                     </div>
-                    
+
                     <div>
                       <label className="text-xs font-medium text-gray-600 mb-1 flex items-center gap-1">
                         <MessageCircle className="w-3.5 h-3.5" />
@@ -368,7 +369,7 @@ const DashboardCart = () => {
                   )}
                 </button>
               </form>
-              
+
               <button
                 onClick={() => navigate('/products')}
                 className="w-full bg-gray-900 text-white py-3 rounded-xl font-semibold hover:bg-gray-800 transition-all mt-2"

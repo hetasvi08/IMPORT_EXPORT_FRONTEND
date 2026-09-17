@@ -1,12 +1,12 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import {
   getAllCategories,
+  getCategoryStats,
   getFeaturedCategories,
   getHotCategories,
-  getTrendingCategories,
-  getTopSellingCategories,
   getNewCategories,
-  getCategoryStats,
+  getTopSellingCategories,
+  getTrendingCategories,
 } from '../../services/operations/categoryAPI';
 
 // Async thunks

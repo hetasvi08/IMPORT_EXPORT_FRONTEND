@@ -1,13 +1,13 @@
-import { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { ArrowRight, Loader2, Package, Search, Sparkles, Star, TrendingUp, Zap } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Search, ArrowRight, TrendingUp, Star, Zap, Package, Sparkles, Loader2 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 // eslint-disable-next-line no-unused-vars
 import { motion, useInView } from 'framer-motion';
-import { 
-  fetchCategories, 
-  fetchFeaturedCategories,
-  fetchCategoryStats 
+import {
+  fetchCategories,
+  fetchCategoryStats,
+  fetchFeaturedCategories
 } from '../../store/slices/categorySlice';
 
 // Default icon mapping for categories without images
@@ -141,10 +141,10 @@ const dummyCategories = [
 const CategoriesPage = () => {
   const dispatch = useDispatch();
   const { categories, featuredCategories, loading } = useSelector(state => state.categories);
-  
+
   const displayCategories = categories.length > 0 ? categories : dummyCategories;
   const displayFeatured = featuredCategories.length > 0 ? featuredCategories : dummyCategories.filter(c => c.isFeatured);
-  
+
   const [activeFilter, setActiveFilter] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -165,7 +165,7 @@ const CategoriesPage = () => {
   const filteredCategories = displayCategories.filter(cat => {
     const matchesSearch = cat.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                           (cat.description && cat.description.toLowerCase().includes(searchQuery.toLowerCase()));
-    const matchesFilter = 
+    const matchesFilter =
       activeFilter === 'all' ||
       (activeFilter === 'featured' && cat.isFeatured) ||
       (activeFilter === 'hot' && cat.isHot) ||
@@ -198,14 +198,14 @@ const CategoriesPage = () => {
       {/* Subtle Background Overlay */}
       <div className="absolute inset-0 bg-gradient-to-tr from-emerald-500/5 via-transparent to-cyan-500/5 pointer-events-none"></div>
       <div className="absolute inset-0 opacity-30 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at 20% 50%, rgba(16, 185, 129, 0.05) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.05) 0%, transparent 50%)' }}></div>
-      
+
       {/* Hero Section */}
       <div className="bg-gradient-to-br from-slate-800 via-slate-900 to-slate-800 pt-20 pb-8 relative overflow-hidden shadow-2xl">
         <div className="absolute inset-0 opacity-5">
           <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '40px 40px' }}></div>
         </div>
         <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-transparent to-cyan-500/10"></div>
-        
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <AnimatedSection variants={scaleIn} className="text-center">
             <div className="inline-flex items-center gap-2 bg-emerald-500 rounded-full px-3 py-2 mb-3">
@@ -223,7 +223,7 @@ const CategoriesPage = () => {
       {/* Main Content Area */}
       <div className="py-8 relative z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
+
           {/* Header with Search and Results Count */}
           <AnimatedSection variants={fadeInUp} className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6 bg-white/60 backdrop-blur-sm rounded-xl p-4 shadow-md border border-white/50">
             <div>
@@ -232,14 +232,14 @@ const CategoriesPage = () => {
               </h2>
               <p className="text-slate-600 text-sm mt-1">Showing {filteredCategories.length} categories</p>
             </div>
-            
+
             {/* Search Bar - Right Side */}
             <div className="lg:w-96">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400" size={18} />
-                <input 
-                  type="text" 
-                  placeholder="Search categories..." 
+                <input
+                  type="text"
+                  placeholder="Search categories..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full bg-white/80 backdrop-blur-sm border border-slate-200 rounded-lg px-10 py-2 text-sm focus:outline-none focus:border-emerald-500 focus:bg-white focus:shadow-lg focus:ring-4 focus:ring-emerald-500/20 transition-all duration-300"
@@ -274,14 +274,14 @@ const CategoriesPage = () => {
           </AnimatedSection>
 
           {/* Stats Cards */}
-          <motion.div 
+          <motion.div
             className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8"
             variants={staggerContainer}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
           >
-            <motion.div 
+            <motion.div
               className="bg-gradient-to-br from-emerald-500 via-emerald-600 to-teal-600 rounded-xl p-4 text-white shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 relative overflow-hidden group cursor-pointer ring-4 ring-emerald-500/10"
               variants={fadeInUp}
             >
@@ -291,7 +291,7 @@ const CategoriesPage = () => {
                 <div className="text-xs font-semibold text-white/80">Total Categories</div>
               </div>
             </motion.div>
-            <motion.div 
+            <motion.div
               className="bg-gradient-to-br from-amber-500 via-amber-600 to-orange-600 rounded-xl p-4 text-white shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 relative overflow-hidden group cursor-pointer ring-4 ring-amber-500/10"
               variants={fadeInUp}
             >
@@ -301,7 +301,7 @@ const CategoriesPage = () => {
                 <div className="text-xs font-semibold text-white/80">Products Available</div>
               </div>
             </motion.div>
-            <motion.div 
+            <motion.div
               className="bg-gradient-to-br from-cyan-500 via-cyan-600 to-blue-600 rounded-xl p-4 text-white shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 relative overflow-hidden group cursor-pointer ring-4 ring-cyan-500/10"
               variants={fadeInUp}
             >
@@ -311,7 +311,7 @@ const CategoriesPage = () => {
                 <div className="text-xs font-semibold text-white/80">Countries Served</div>
               </div>
             </motion.div>
-            <motion.div 
+            <motion.div
               className="bg-gradient-to-br from-purple-500 via-purple-600 to-pink-600 rounded-xl p-4 text-white shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 relative overflow-hidden group cursor-pointer ring-4 ring-purple-500/10"
               variants={fadeInUp}
             >
@@ -324,7 +324,7 @@ const CategoriesPage = () => {
           </motion.div>
 
           {/* Categories Grid */}
-          <motion.div 
+          <motion.div
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4"
             key={`${activeFilter}-${searchQuery}`}
             variants={staggerContainer}
@@ -345,8 +345,8 @@ const CategoriesPage = () => {
                   {/* Card Header with Image or Gradient */}
                   <div className="h-28 relative overflow-hidden">
                     {category.image?.url ? (
-                      <img 
-                        src={category.image.url} 
+                      <img
+                        src={category.image.url}
                         alt={category.name}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                       />
@@ -355,14 +355,14 @@ const CategoriesPage = () => {
                         <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/5 to-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                       </div>
                     )}
-                    
+
                     {/* Overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                    
+
                     {/* Decorative circles */}
                     <div className="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full -mr-10 -mt-10 group-hover:scale-150 transition-transform duration-700"></div>
                     <div className="absolute bottom-0 left-0 w-14 h-14 bg-black/10 rounded-full -ml-7 -mb-7 group-hover:scale-150 transition-transform duration-700"></div>
-                    
+
                     {/* Category Tags - Right Top Corner */}
                     <div className="absolute top-2 right-2 flex flex-col gap-1">
                       {category.isHot && (
@@ -378,7 +378,7 @@ const CategoriesPage = () => {
                         <span className={`${category.badge.color || 'bg-emerald-500'} text-white text-[7px] px-1.5 py-0.5 rounded font-bold`}>{category.badge.text}</span>
                       )}
                     </div>
-                    
+
                     {/* Icon - Smaller */}
                     <div className="absolute bottom-2 left-2 w-9 h-9 bg-white/20 backdrop-blur-sm rounded-lg flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
                       {category.icon ? (
@@ -397,7 +397,7 @@ const CategoriesPage = () => {
                     <p className="text-[11px] text-slate-600 mb-3 leading-relaxed line-clamp-2">
                       {category.description || 'Explore our collection of quality products'}
                     </p>
-                    
+
                     <div className="flex items-center justify-between pt-2 border-t border-slate-100">
                       <span className="text-[10px] font-bold text-slate-700 bg-slate-100 px-2 py-1 rounded-full group-hover:bg-emerald-100 group-hover:text-emerald-700 transition-all duration-300">
                         {(category.productCount || 0).toLocaleString()} Products
@@ -415,7 +415,7 @@ const CategoriesPage = () => {
           {/* No Results */}
           {filteredCategories.length === 0 && !loading && (
             <AnimatedSection variants={scaleIn} className="text-center py-20">
-              <motion.div 
+              <motion.div
                 className="text-slate-300 mb-6"
                 animate={{ scale: [1, 1.1, 1] }}
                 transition={{ repeat: Infinity, duration: 2 }}
@@ -442,7 +442,7 @@ const CategoriesPage = () => {
               <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 via-transparent to-teal-500/5"></div>
               <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-emerald-400/10 to-transparent rounded-full blur-3xl"></div>
               <div className="absolute bottom-0 left-0 w-64 h-64 bg-gradient-to-tr from-cyan-400/10 to-transparent rounded-full blur-3xl"></div>
-              
+
               <div className="relative z-10">
                 <div className="text-center mb-8">
                   <div className="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full px-4 py-1.5 mb-4 shadow-lg">
@@ -456,9 +456,9 @@ const CategoriesPage = () => {
                     Access thousands of high-quality products across multiple industries with competitive pricing and reliable export delivery
                   </p>
                 </div>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <motion.div 
+                  <motion.div
                     className="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-xl p-6 border border-emerald-200/50 hover:shadow-xl hover:shadow-emerald-200/50 transition-all duration-300 group relative overflow-hidden"
                     whileHover={{ scale: 1.02 }}
                     transition={{ type: "spring", stiffness: 300 }}
@@ -475,7 +475,7 @@ const CategoriesPage = () => {
                     </div>
                   </motion.div>
 
-                  <motion.div 
+                  <motion.div
                     className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl p-6 border border-blue-200/50 hover:shadow-xl hover:shadow-blue-200/50 transition-all duration-300 group relative overflow-hidden"
                     whileHover={{ scale: 1.02 }}
                     transition={{ type: "spring", stiffness: 300 }}
@@ -492,7 +492,7 @@ const CategoriesPage = () => {
                     </div>
                   </motion.div>
 
-                  <motion.div 
+                  <motion.div
                     className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-6 border border-purple-200/50 hover:shadow-xl hover:shadow-purple-200/50 transition-all duration-300 group relative overflow-hidden"
                     whileHover={{ scale: 1.02 }}
                     transition={{ type: "spring", stiffness: 300 }}
@@ -520,7 +520,7 @@ const CategoriesPage = () => {
                 <h3 className="text-xl font-bold text-slate-900 mb-2">💡 Quick Tips for Better Results</h3>
                 <p className="text-sm text-slate-600">Maximize your product discovery experience</p>
               </div>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div className="bg-white/60 backdrop-blur-sm rounded-xl p-4 border border-blue-100">
                   <div className="text-2xl mb-2">🔍</div>
@@ -565,7 +565,7 @@ const CategoriesPage = () => {
               </p>
             </AnimatedSection>
 
-            <motion.div 
+            <motion.div
               className="grid grid-cols-1 md:grid-cols-3 gap-6"
               variants={staggerContainer}
               initial="hidden"
@@ -585,8 +585,8 @@ const CategoriesPage = () => {
                   >
                     <div className="h-40 relative overflow-hidden">
                       {category.image?.url ? (
-                        <img 
-                          src={category.image.url} 
+                        <img
+                          src={category.image.url}
                           alt={category.name}
                           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                         />
@@ -628,13 +628,13 @@ const CategoriesPage = () => {
           <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '40px 40px' }}></div>
         </div>
         <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-transparent to-cyan-500/10"></div>
-        
+
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
           <div className="inline-flex items-center gap-2 bg-emerald-500/20 backdrop-blur-sm border border-emerald-400/30 rounded-full px-4 py-1.5 mb-6">
             <Zap className="w-4 h-4 text-emerald-400" />
             <span className="text-emerald-400 font-bold text-xs">GET STARTED TODAY</span>
           </div>
-          
+
           <h2 className="text-3xl md:text-4xl font-black text-white mb-4 leading-tight">
             Can't Find What You're <span className="bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">Looking For?</span>
           </h2>
@@ -642,7 +642,7 @@ const CategoriesPage = () => {
             Our expert team is ready to help you source the right products for your import and export goals.
             Whether you need custom categories or specific product requirements, we've got you covered.
           </p>
-          
+
           <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3 sm:gap-4 mb-8">
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Link

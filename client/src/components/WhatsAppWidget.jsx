@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { openSupportChat } from '../utils/whatsapp';
+import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
+import { openSupportChat } from "../utils/whatsapp";
 
 const WhatsAppWidget = () => {
   const [isHovered, setIsHovered] = useState(false);
@@ -17,10 +17,17 @@ const WhatsAppWidget = () => {
   };
 
   return (
-    <div className="fixed bottom-4 sm:bottom-6 right-4 sm:right-6 z-[40]" style={{ transform: 'translate3d(0,0,0)', backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' }}>
+    <div
+      className="fixed bottom-4 sm:bottom-6 right-4 sm:right-6 z-[40]"
+      style={{
+        transform: "translate3d(0,0,0)",
+        backfaceVisibility: "hidden",
+        WebkitBackfaceVisibility: "hidden",
+      }}
+    >
       {/* Tooltip */}
       <AnimatePresence>
-        {(showTooltip || isHovered) && ( 
+        {(showTooltip || isHovered) && (
           <motion.div
             initial={{ opacity: 0, x: 20, scale: 0.8 }}
             animate={{ opacity: 1, x: 0, scale: 1 }}
@@ -33,8 +40,12 @@ const WhatsAppWidget = () => {
               </div>
               <div>
                 <p className="font-bold text-slate-900 text-sm">Need Help?</p>
-                <p className="text-xs text-slate-600 mt-0.5">Chat with us on WhatsApp</p>
-                <p className="text-[10px] text-slate-400 mt-1">Usually replies in minutes</p>
+                <p className="text-xs text-slate-600 mt-0.5">
+                  Chat with us on WhatsApp
+                </p>
+                <p className="text-[10px] text-slate-400 mt-1">
+                  Usually replies in minutes
+                </p>
               </div>
             </div>
             {/* Arrow */}
@@ -53,11 +64,11 @@ const WhatsAppWidget = () => {
         whileTap={{ scale: 0.95 }}
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
-        transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+        transition={{ type: "spring", stiffness: 260, damping: 20 }}
       >
         {/* Pulse Animation */}
         <span className="absolute inset-0 rounded-full bg-green-500 animate-ping opacity-25"></span>
-        
+
         {/* Icon */}
         <i className="fab fa-whatsapp text-white text-3xl relative z-10"></i>
       </motion.button>

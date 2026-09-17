@@ -1,31 +1,29 @@
-import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import {
-  Search,
-  SlidersHorizontal,
-  Grid3x3,
-  List,
-  Heart,
+  ChevronDown,
   Eye,
+  Filter,
+  Grid3x3,
+  Heart,
+  List,
+  Loader2,
+  Mail,
+  Package,
+  Search,
+  Send,
   ShoppingCart,
   Star,
-  Loader2,
-  Package,
-  X,
-  ChevronDown,
-  TrendingUp,
-  Filter,
-  Mail,
-  Send
+  TrendingUp
 } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import { apiconnector } from '../../services/apiconnector';
-import { productEndpoints, categoryEndpoints } from '../../services/apis';
+import { categoryEndpoints, productEndpoints } from '../../services/apis';
 import { addToCart } from '../../services/operations/cartAPI';
-import { toggleFavorite, getFavorites } from '../../services/operations/favoritesAPI';
-import InquiryModal from '../InquiryModal';
+import { getFavorites, toggleFavorite } from '../../services/operations/favoritesAPI';
 import ContactModal from '../ContactModal';
+import InquiryModal from '../InquiryModal';
 
 const DashboardProducts = () => {
   const { token, user } = useSelector((state) => state.auth);
@@ -40,19 +38,19 @@ const DashboardProducts = () => {
   const [inquiryModalOpen, setInquiryModalOpen] = useState(false);
   const [contactModalOpen, setContactModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  
+
   // Filter states
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [priceRange, setPriceRange] = useState([0, 10000]);
   const [sortBy, setSortBy] = useState('newest');
   const [minRating, setMinRating] = useState(0);
-  
+
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalProducts, setTotalProducts] = useState(0);
-  
+
   // Categories from API
   const [categories, setCategories] = useState([
     { _id: 'all', name: 'All Products' }
@@ -70,7 +68,8 @@ const DashboardProducts = () => {
           ...response.data.data
         ]);
       }
-    } catch (error) {// Keep default category on error
+    } catch (error) {
+// Keep default category on error
     } finally {
       setLoadingCategories(false);
     }
@@ -134,7 +133,8 @@ const DashboardProducts = () => {
         setTotalPages(response.data.pagination?.totalPages || response.data.pages || 1);
         setTotalProducts(response.data.pagination?.totalResults || response.data.total || response.data.data.length);
       }
-    } catch (error) {
+    } catch (error) {
+
       // Mock data for demo
       setProducts(generateMockProducts());
       setTotalPages(3);
@@ -222,7 +222,7 @@ const DashboardProducts = () => {
             Browse and discover quality industrial products
           </p>
         </div>
-        
+
         {/* View Toggle */}
         <div className="flex items-center gap-2 bg-gray-100 rounded-lg p-1">
           <button
@@ -429,7 +429,7 @@ const DashboardProducts = () => {
               >
                 Prev
               </button>
-              
+
               {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
                 <button
                   key={page}
@@ -443,7 +443,7 @@ const DashboardProducts = () => {
                   {page}
                 </button>
               ))}
-              
+
               <button
                 onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
                 disabled={currentPage === totalPages}
@@ -491,7 +491,7 @@ const ProductCard = ({ product, viewMode, index, canViewSupplierIdentity, onAddT
       >
         <div className="flex gap-4">
           {/* Image */}
-          <div 
+          <div
             className="w-32 h-32 flex-shrink-0 rounded-lg overflow-hidden bg-gray-100 cursor-pointer"
             onClick={() => onViewDetails(product._id)}
           >
@@ -506,7 +506,7 @@ const ProductCard = ({ product, viewMode, index, canViewSupplierIdentity, onAddT
           <div className="flex-1 min-w-0">
             <div className="flex items-start justify-between gap-4">
               <div className="flex-1">
-                <h3 
+                <h3
                   className="text-lg font-bold text-gray-900 mb-1 truncate cursor-pointer hover:text-teal-600"
                   onClick={() => onViewDetails(product._id)}
                 >
@@ -515,7 +515,7 @@ const ProductCard = ({ product, viewMode, index, canViewSupplierIdentity, onAddT
                 <p className="text-sm text-gray-600 mb-2 line-clamp-2">
                   {product.shortDescription || product.description}
                 </p>
-                
+
                 {/* Meta Info */}
                 <div className="flex items-center gap-4 text-sm text-gray-500 mb-3">
                   <div className="flex items-center gap-1">
@@ -613,7 +613,7 @@ const ProductCard = ({ product, viewMode, index, canViewSupplierIdentity, onAddT
           }`}
           onClick={() => onViewDetails(product._id)}
         />
-        
+
         {/* Badges */}
         {product.badges && product.badges.length > 0 && (
           <div className="absolute top-3 left-3 flex flex-wrap gap-2">
@@ -657,7 +657,7 @@ const ProductCard = ({ product, viewMode, index, canViewSupplierIdentity, onAddT
           >
             <Heart className={`w-5 h-5 ${isFavorite ? 'fill-current' : ''}`} />
           </button>
-          <button 
+          <button
             onClick={(e) => {
               e.stopPropagation();
               onViewDetails(product._id);

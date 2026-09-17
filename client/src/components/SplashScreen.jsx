@@ -1,6 +1,6 @@
-import { motion, AnimatePresence } from 'framer-motion';
-import { useEffect, useState } from 'react';
-import logo from '../assets/nexarion_logo.png';
+import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useState } from "react";
+import logo from "../assets/nexarion_logo.png";
 
 const SplashScreen = () => {
   const [isVisible, setIsVisible] = useState(true);
@@ -20,15 +20,19 @@ const SplashScreen = () => {
         <motion.div
           className="fixed inset-0 z-[10000] flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900"
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0, pointerEvents: 'none' }}
-          transition={{ duration: 0.3, ease: 'easeOut' }}
+          exit={{ opacity: 0, pointerEvents: "none" }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
         >
           {/* Background Pattern */}
           <div className="absolute inset-0 opacity-10">
-            <div className="absolute inset-0" style={{ 
-              backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', 
-              backgroundSize: '40px 40px' 
-            }}></div>
+            <div
+              className="absolute inset-0"
+              style={{
+                backgroundImage:
+                  "radial-gradient(circle at 2px 2px, white 1px, transparent 0)",
+                backgroundSize: "40px 40px",
+              }}
+            ></div>
           </div>
 
           {/* Animated Circles */}
@@ -48,7 +52,12 @@ const SplashScreen = () => {
               className="absolute w-96 h-96 rounded-full border-2 border-amber-400"
               initial={{ scale: 0, opacity: 0 }}
               animate={{ scale: 2, opacity: 0 }}
-              transition={{ duration: 2, delay: 0.5, repeat: Infinity, ease: "easeOut" }}
+              transition={{
+                duration: 2,
+                delay: 0.5,
+                repeat: Infinity,
+                ease: "easeOut",
+              }}
             />
           </motion.div>
 
@@ -57,31 +66,31 @@ const SplashScreen = () => {
             className="relative z-10 flex flex-col items-center"
             initial={{ scale: 0.3, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            transition={{ 
-              duration: 0.8, 
+            transition={{
+              duration: 0.8,
               ease: [0.34, 1.56, 0.64, 1],
-              opacity: { duration: 0.5 }
+              opacity: { duration: 0.5 },
             }}
           >
             {/* Logo with glow effect */}
             <motion.div
               className="relative"
-              animate={{ 
+              animate={{
                 scale: [1, 1.05, 1],
               }}
-              transition={{ 
+              transition={{
                 duration: 2,
                 repeat: Infinity,
-                ease: "easeInOut"
+                ease: "easeInOut",
               }}
             >
               {/* Glow effect */}
               <div className="absolute inset-0 blur-3xl bg-gradient-to-br from-cyan-500/30 via-amber-500/30 to-orange-500/30 rounded-full"></div>
-              
+
               {/* Logo Image */}
-              <img 
-                src={logo} 
-                alt="Nexarion Global Exports" 
+              <img
+                src={logo}
+                alt="Nexarion Global Exports"
                 className="relative w-[500px] h-auto drop-shadow-2xl"
               />
             </motion.div>
@@ -93,18 +102,18 @@ const SplashScreen = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.5 }}
             >
-              {['L', 'o', 'a', 'd', 'i', 'n', 'g'].map((letter, index) => (
+              {["L", "o", "a", "d", "i", "n", "g"].map((letter, index) => (
                 <motion.span
                   key={index}
                   className="text-white text-xl font-bold"
-                  animate={{ 
+                  animate={{
                     opacity: [0.5, 1, 0.5],
                   }}
-                  transition={{ 
+                  transition={{
                     duration: 1.5,
                     repeat: Infinity,
                     delay: index * 0.1,
-                    ease: "easeInOut"
+                    ease: "easeInOut",
                   }}
                 >
                   {letter}
@@ -112,13 +121,13 @@ const SplashScreen = () => {
               ))}
               <motion.span
                 className="text-white text-xl font-bold ml-1"
-                animate={{ 
+                animate={{
                   opacity: [0, 1, 0],
                 }}
-                transition={{ 
+                transition={{
                   duration: 1.5,
                   repeat: Infinity,
-                  ease: "easeInOut"
+                  ease: "easeInOut",
                 }}
               >
                 ...

@@ -1,10 +1,10 @@
 import { apiconnector } from '../apiconnector';
-import { dashboardEndpoints } from '../apis';
+import { dashboardEndpoints, authEndpoints, quoteEndpoints, shipmentEndpoints, notificationEndpoints } from '../apis';
 
 // Get Dashboard Stats
-export const getDashboardStats = async () => {
+export const getDashboardStats = async (token) => {
   try {
-    const response = await apiconnector('GET', dashboardEndpoints.GET_DASHBOARD_STATS_API);
+    const response = await apiconnector('GET', dashboardEndpoints.GET_STATS_API, null, token ? { Authorization: `Bearer ${token}` } : null);
     return response.data;
   } catch (error) {
     throw error.response?.data || error;
@@ -12,9 +12,9 @@ export const getDashboardStats = async () => {
 };
 
 // Get Dashboard Overview
-export const getDashboardOverview = async () => {
+export const getDashboardOverview = async (token) => {
   try {
-    const response = await apiconnector('GET', dashboardEndpoints.GET_DASHBOARD_OVERVIEW_API);
+    const response = await apiconnector('GET', dashboardEndpoints.GET_OVERVIEW_API, null, token ? { Authorization: `Bearer ${token}` } : null);
     return response.data;
   } catch (error) {
     throw error.response?.data || error;
@@ -22,9 +22,9 @@ export const getDashboardOverview = async () => {
 };
 
 // Get Recent Activity
-export const getRecentActivity = async () => {
+export const getRecentActivity = async (token) => {
   try {
-    const response = await apiconnector('GET', dashboardEndpoints.GET_RECENT_ACTIVITY_API);
+    const response = await apiconnector('GET', dashboardEndpoints.GET_ACTIVITY_API, null, token ? { Authorization: `Bearer ${token}` } : null);
     return response.data;
   } catch (error) {
     throw error.response?.data || error;
@@ -32,9 +32,9 @@ export const getRecentActivity = async () => {
 };
 
 // Get User Profile
-export const getUserProfile = async () => {
+export const getUserProfile = async (token) => {
   try {
-    const response = await apiconnector('GET', dashboardEndpoints.GET_USER_PROFILE_API);
+    const response = await apiconnector('GET', authEndpoints.GET_ME_API, null, token ? { Authorization: `Bearer ${token}` } : null);
     return response.data;
   } catch (error) {
     throw error.response?.data || error;
@@ -42,9 +42,9 @@ export const getUserProfile = async () => {
 };
 
 // Update User Profile
-export const updateUserProfile = async (data) => {
+export const updateUserProfile = async (data, token) => {
   try {
-    const response = await apiconnector('PUT', dashboardEndpoints.UPDATE_USER_PROFILE_API, data);
+    const response = await apiconnector('PUT', authEndpoints.UPDATE_PROFILE_API, data, token ? { Authorization: `Bearer ${token}` } : null);
     return response.data;
   } catch (error) {
     throw error.response?.data || error;
@@ -52,11 +52,9 @@ export const updateUserProfile = async (data) => {
 };
 
 // Get User Orders
-export const getUserOrders = async (params = {}) => {
+export const getUserOrders = async (params = {}, token) => {
   try {
-    const queryString = new URLSearchParams(params).toString();
-    const url = dashboardEndpoints.GET_USER_ORDERS_API + (queryString ? `?${queryString}` : '');
-    const response = await apiconnector('GET', url);
+    const response = await apiconnector('GET', dashboardEndpoints.GET_ORDERS_API, null, token ? { Authorization: `Bearer ${token}` } : null, params);
     return response.data;
   } catch (error) {
     throw error.response?.data || error;
@@ -64,9 +62,9 @@ export const getUserOrders = async (params = {}) => {
 };
 
 // Get User Order Stats
-export const getUserOrderStats = async () => {
+export const getUserOrderStats = async (token) => {
   try {
-    const response = await apiconnector('GET', dashboardEndpoints.GET_USER_ORDER_STATS_API);
+    const response = await apiconnector('GET', dashboardEndpoints.GET_ORDER_STATS_API, null, token ? { Authorization: `Bearer ${token}` } : null);
     return response.data;
   } catch (error) {
     throw error.response?.data || error;
@@ -74,11 +72,9 @@ export const getUserOrderStats = async () => {
 };
 
 // Get User Quotes
-export const getUserQuotes = async (params = {}) => {
+export const getUserQuotes = async (params = {}, token) => {
   try {
-    const queryString = new URLSearchParams(params).toString();
-    const url = dashboardEndpoints.GET_USER_QUOTES_API + (queryString ? `?${queryString}` : '');
-    const response = await apiconnector('GET', url);
+    const response = await apiconnector('GET', dashboardEndpoints.GET_QUOTES_API, null, token ? { Authorization: `Bearer ${token}` } : null, params);
     return response.data;
   } catch (error) {
     throw error.response?.data || error;
@@ -86,9 +82,9 @@ export const getUserQuotes = async (params = {}) => {
 };
 
 // Get User Quote Stats
-export const getUserQuoteStats = async () => {
+export const getUserQuoteStats = async (token) => {
   try {
-    const response = await apiconnector('GET', dashboardEndpoints.GET_USER_QUOTE_STATS_API);
+    const response = await apiconnector('GET', quoteEndpoints.GET_QUOTE_STATS_API || dashboardEndpoints.GET_STATS_API, null, token ? { Authorization: `Bearer ${token}` } : null);
     return response.data;
   } catch (error) {
     throw error.response?.data || error;
@@ -96,11 +92,9 @@ export const getUserQuoteStats = async () => {
 };
 
 // Get User Shipments
-export const getUserShipments = async (params = {}) => {
+export const getUserShipments = async (params = {}, token) => {
   try {
-    const queryString = new URLSearchParams(params).toString();
-    const url = dashboardEndpoints.GET_USER_SHIPMENTS_API + (queryString ? `?${queryString}` : '');
-    const response = await apiconnector('GET', url);
+    const response = await apiconnector('GET', dashboardEndpoints.GET_SHIPMENTS_API, null, token ? { Authorization: `Bearer ${token}` } : null, params);
     return response.data;
   } catch (error) {
     throw error.response?.data || error;
@@ -108,9 +102,9 @@ export const getUserShipments = async (params = {}) => {
 };
 
 // Get User Shipment Stats
-export const getUserShipmentStats = async () => {
+export const getUserShipmentStats = async (token) => {
   try {
-    const response = await apiconnector('GET', dashboardEndpoints.GET_USER_SHIPMENT_STATS_API);
+    const response = await apiconnector('GET', shipmentEndpoints.GET_SHIPMENT_STATS_API, null, token ? { Authorization: `Bearer ${token}` } : null);
     return response.data;
   } catch (error) {
     throw error.response?.data || error;
@@ -118,9 +112,9 @@ export const getUserShipmentStats = async () => {
 };
 
 // Get User Favorites
-export const getUserFavorites = async () => {
+export const getUserFavorites = async (token) => {
   try {
-    const response = await apiconnector('GET', dashboardEndpoints.GET_USER_FAVORITES_API);
+    const response = await apiconnector('GET', dashboardEndpoints.GET_FAVORITES_API, null, token ? { Authorization: `Bearer ${token}` } : null);
     return response.data;
   } catch (error) {
     throw error.response?.data || error;
@@ -128,9 +122,9 @@ export const getUserFavorites = async () => {
 };
 
 // Add to Favorites
-export const addToFavorites = async (productId) => {
+export const addToFavorites = async (productId, token) => {
   try {
-    const response = await apiconnector('POST', dashboardEndpoints.ADD_TO_FAVORITES_API, { productId });
+    const response = await apiconnector('POST', dashboardEndpoints.ADD_TO_FAVORITES_API(productId), null, token ? { Authorization: `Bearer ${token}` } : null);
     return response.data;
   } catch (error) {
     throw error.response?.data || error;
@@ -138,9 +132,9 @@ export const addToFavorites = async (productId) => {
 };
 
 // Remove from Favorites
-export const removeFromFavorites = async (favoriteId) => {
+export const removeFromFavorites = async (favoriteId, token) => {
   try {
-    const response = await apiconnector('DELETE', dashboardEndpoints.REMOVE_FROM_FAVORITES_API(favoriteId));
+    const response = await apiconnector('DELETE', dashboardEndpoints.REMOVE_FROM_FAVORITES_API(favoriteId), null, token ? { Authorization: `Bearer ${token}` } : null);
     return response.data;
   } catch (error) {
     throw error.response?.data || error;
@@ -148,9 +142,9 @@ export const removeFromFavorites = async (favoriteId) => {
 };
 
 // Get User Notifications
-export const getUserNotifications = async () => {
+export const getUserNotifications = async (token) => {
   try {
-    const response = await apiconnector('GET', dashboardEndpoints.GET_USER_NOTIFICATIONS_API);
+    const response = await apiconnector('GET', notificationEndpoints.GET_ALL_NOTIFICATIONS_API, null, token ? { Authorization: `Bearer ${token}` } : null);
     return response.data;
   } catch (error) {
     throw error.response?.data || error;
@@ -158,9 +152,9 @@ export const getUserNotifications = async () => {
 };
 
 // Mark Notification as Read
-export const markNotificationRead = async (notificationId) => {
+export const markNotificationRead = async (notificationId, token) => {
   try {
-    const response = await apiconnector('PUT', dashboardEndpoints.MARK_NOTIFICATION_READ_API(notificationId));
+    const response = await apiconnector('PUT', notificationEndpoints.MARK_AS_READ_API(notificationId), null, token ? { Authorization: `Bearer ${token}` } : null);
     return response.data;
   } catch (error) {
     throw error.response?.data || error;
@@ -168,9 +162,9 @@ export const markNotificationRead = async (notificationId) => {
 };
 
 // Mark All Notifications as Read
-export const markAllNotificationsRead = async () => {
+export const markAllNotificationsRead = async (token) => {
   try {
-    const response = await apiconnector('PUT', dashboardEndpoints.MARK_ALL_NOTIFICATIONS_READ_API);
+    const response = await apiconnector('PUT', notificationEndpoints.MARK_ALL_AS_READ_API, null, token ? { Authorization: `Bearer ${token}` } : null);
     return response.data;
   } catch (error) {
     throw error.response?.data || error;

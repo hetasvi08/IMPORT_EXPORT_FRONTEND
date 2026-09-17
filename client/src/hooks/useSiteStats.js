@@ -1,7 +1,7 @@
-import { useEffect, useCallback, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { setLoading, setStats, setError } from '../store/slices/siteStatsSlice';
+import { useCallback, useEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { getSiteStats } from '../services/operations/siteStatsAPI';
+import { setError, setLoading, setStats } from '../store/slices/siteStatsSlice';
 
 /**
  * Custom hook to fetch and cache site statistics via Redux store.

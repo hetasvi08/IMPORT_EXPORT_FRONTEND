@@ -1,37 +1,36 @@
-import { useState, useEffect, useCallback } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import {
-  Package,
-  Plus,
-  Search,
-  Filter,
-  Eye,
-  Edit,
-  Trash2,
+  AlertTriangle,
   CheckCircle,
-  Clock,
-  XCircle,
-  Star,
   ChevronLeft,
   ChevronRight,
+  Clock,
+  Edit,
+  Eye,
   Loader2,
-  AlertTriangle,
-  RefreshCw
+  Package,
+  Plus,
+  RefreshCw,
+  Search,
+  Star,
+  Trash2,
+  XCircle
 } from 'lucide-react';
-import { fetchSupplierProducts, fetchSupplierProductStats, deleteProduct } from '../../store/slices/supplierSlice';
+import { useCallback, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { deleteProduct, fetchSupplierProducts, fetchSupplierProductStats } from '../../store/slices/supplierSlice';
 
 const SupplierMyProducts = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
-  const { items: productItems, stats, pagination, loading } = useSelector((state) => state.supplier?.products || { 
-    items: [], 
-    stats: { total: 0, approved: 0, pending: 0, rejected: 0 }, 
-    pagination: { page: 1, pages: 1, total: 0 }, 
-    loading: false 
+  const { items: productItems, stats, pagination, loading } = useSelector((state) => state.supplier?.products || {
+    items: [],
+    stats: { total: 0, approved: 0, pending: 0, rejected: 0 },
+    pagination: { page: 1, pages: 1, total: 0 },
+    loading: false
   });
-  
+
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
@@ -42,15 +41,15 @@ const SupplierMyProducts = () => {
       page: currentPage,
       limit: 12,
     };
-    
+
     if (activeTab !== 'all') {
       params.isApproved = activeTab;
     }
-    
+
     if (searchQuery) {
       params.search = searchQuery;
     }
-    
+
     dispatch(fetchSupplierProducts({ token, params }));
   }, [dispatch, token, currentPage, activeTab, searchQuery]);
 
@@ -72,7 +71,8 @@ const SupplierMyProducts = () => {
       await dispatch(deleteProduct({ id: deleteModal.productId, token })).unwrap();
       setDeleteModal({ show: false, productId: null, productName: '' });
       loadStats();
-    } catch (error) {}
+    } catch (error) {
+}
   };
 
   const getStatusBadge = (status) => {
@@ -125,7 +125,7 @@ const SupplierMyProducts = () => {
             Manage your product listings and track approval status
           </p>
         </div>
-        
+
         <button
           onClick={() => navigate('/dashboard/my-products/create')}
           className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white font-bold rounded-xl hover:shadow-lg hover:shadow-orange-500/30 transition-all duration-300"
@@ -193,7 +193,7 @@ const SupplierMyProducts = () => {
               className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
             />
           </div>
-          
+
           <button
             onClick={handleSearch}
             className="px-6 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-lg transition-colors flex items-center gap-2"
@@ -201,7 +201,7 @@ const SupplierMyProducts = () => {
             <Search className="w-4 h-4" />
             Search
           </button>
-          
+
           <button
             onClick={loadProducts}
             className="px-4 py-2.5 border border-gray-300 hover:bg-gray-50 text-gray-700 font-semibold rounded-lg transition-colors flex items-center gap-2"
@@ -271,12 +271,12 @@ const SupplierMyProducts = () => {
                           <Package className="w-16 h-16 text-gray-300" />
                         </div>
                       )}
-                      
+
                       {/* Status Badge */}
                       <div className="absolute top-3 right-3">
                         {getStatusBadge(product.isApproved)}
                       </div>
-                      
+
                       {/* Featured Badge */}
                       {product.isFeatured && (
                         <div className="absolute top-3 left-3">
@@ -293,7 +293,7 @@ const SupplierMyProducts = () => {
                       <h3 className="font-bold text-gray-900 mb-1 line-clamp-2 text-sm">
                         {product.name}
                       </h3>
-                      
+
                       <p className="text-xs text-gray-500 mb-2">
                         SKU: {product.sku || 'N/A'}
                       </p>
@@ -359,11 +359,11 @@ const SupplierMyProducts = () => {
                   >
                     <ChevronLeft className="w-5 h-5" />
                   </button>
-                  
+
                   <span className="px-4 py-2 text-sm font-semibold text-gray-700">
                     Page {currentPage} of {pagination.pages}
                   </span>
-                  
+
                   <button
                     onClick={() => setCurrentPage(p => Math.min(pagination.pages, p + 1))}
                     disabled={currentPage === pagination.pages}
@@ -379,7 +379,7 @@ const SupplierMyProducts = () => {
               <Package className="w-16 h-16 text-gray-300 mb-4" />
               <h3 className="text-lg font-bold text-gray-700 mb-2">No Products Found</h3>
               <p className="text-gray-500 text-sm mb-6">
-                {activeTab === 'all' 
+                {activeTab === 'all'
                   ? "You haven't added any products yet."
                   : `No ${activeTab} products found.`}
               </p>
@@ -406,15 +406,15 @@ const SupplierMyProducts = () => {
                 <AlertTriangle className="w-8 h-8 text-red-600" />
               </div>
             </div>
-            
+
             <h3 className="text-xl font-black text-gray-900 text-center mb-2">
               Delete Product?
             </h3>
-            
+
             <p className="text-gray-600 text-center mb-6">
               Are you sure you want to delete <span className="font-bold">"{deleteModal.productName}"</span>? This action cannot be undone.
             </p>
-            
+
             <div className="flex gap-3">
               <button
                 onClick={() => setDeleteModal({ show: false, productId: null, productName: '' })}

@@ -1,23 +1,23 @@
-import { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Mail, ArrowLeft, CheckCircle, RefreshCw } from 'lucide-react';
+import { ArrowLeft, CheckCircle, Mail, RefreshCw } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { setCredentials } from '../../store/slices/authSlice';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { apiconnector } from '../../services/apiconnector';
 import { authEndpoints } from '../../services/apis';
+import { setCredentials } from '../../store/slices/authSlice';
 
 const VerifyEmailPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
-  
+
   const email = location.state?.email || '';
   const [code, setCode] = useState(['', '', '', '', '', '']);
   const [loading, setLoading] = useState(false);
   const [resending, setResending] = useState(false);
   const [timer, setTimer] = useState(60);
   const [canResend, setCanResend] = useState(false);
-  
+
   const inputRefs = useRef([]);
 
   useEffect(() => {
@@ -81,7 +81,7 @@ const VerifyEmailPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     const verificationCode = code.join('');
     if (verificationCode.length !== 6) {
       return;
@@ -109,7 +109,7 @@ const VerifyEmailPage = () => {
           user: user,
           token: token
         }));
-        
+
         navigate('/');
       }
     } catch (error) {
@@ -126,7 +126,7 @@ const VerifyEmailPage = () => {
     setResending(true);
     try {
       const response = await apiconnector('POST', authEndpoints.RESEND_CODE_API, { email });
-      
+
       if (response.data.success) {
         setTimer(60);
         setCanResend(false);
@@ -144,10 +144,10 @@ const VerifyEmailPage = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50 py-12 px-4">
       <div className="w-full max-w-md">
-        
+
         {/* Back Button */}
-        <Link 
-          to="/signup" 
+        <Link
+          to="/signup"
           className="inline-flex items-center gap-2 text-gray-700 hover:text-teal-600 mb-6 transition-all group bg-white/80 backdrop-blur-sm px-4 py-2 rounded-xl hover:bg-white hover:shadow-md border border-gray-200"
         >
           <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
@@ -156,7 +156,7 @@ const VerifyEmailPage = () => {
 
         {/* Card */}
         <div className="bg-white rounded-3xl shadow-2xl p-8 animate-[fadeInUp_0.6s_ease-out]">
-          
+
           {/* Icon */}
           <div className="w-20 h-20 bg-gradient-to-br from-teal-500 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-6">
             <Mail className="text-white" size={40} />

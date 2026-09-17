@@ -28,12 +28,12 @@ export const getAllCatalogs = async (params = {}) => {
     const response = await apiconnector("GET", GET_ALL_CATALOGS_API, null, null, params);
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to fetch catalogs");
     }
 
     return response.data;
   } catch (error) {
-throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -43,12 +43,12 @@ export const getCatalogById = async (id) => {
     const response = await apiconnector("GET", GET_CATALOG_BY_ID_API(id));
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to fetch catalog");
     }
 
     return response.data;
   } catch (error) {
-throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -58,12 +58,12 @@ export const getFeaturedCatalogs = async (limit = 6) => {
     const response = await apiconnector("GET", GET_FEATURED_CATALOGS_API, null, null, { limit });
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to fetch featured catalogs");
     }
 
     return response.data;
   } catch (error) {
-throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -73,12 +73,12 @@ export const getCatalogsByCategory = async (categoryId) => {
     const response = await apiconnector("GET", GET_CATALOGS_BY_CATEGORY_API(categoryId));
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to fetch category catalogs");
     }
 
     return response.data;
   } catch (error) {
-throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -88,12 +88,12 @@ export const getCategoriesWithCatalogCounts = async () => {
     const response = await apiconnector("GET", GET_CATEGORIES_WITH_COUNTS_API);
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to fetch categories with counts");
     }
 
     return response.data;
   } catch (error) {
-throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -103,12 +103,12 @@ export const downloadCatalog = async (id, data = {}) => {
     const response = await apiconnector("POST", DOWNLOAD_CATALOG_API(id), data);
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to download catalog");
     }
 
     return response.data;
   } catch (error) {
-throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -117,8 +117,8 @@ export const trackCatalogView = async (id) => {
   try {
     const response = await apiconnector("POST", TRACK_CATALOG_VIEW_API(id));
     return response.data;
-  } catch (error) {
- // Don't throw - view tracking shouldn't break user experience
+  } catch {
+    // Don't throw - view tracking shouldn't break user experience
     return null;
   }
 };
@@ -137,12 +137,12 @@ export const getAllCatalogsAdmin = async (token, params = {}) => {
     );
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to fetch admin catalogs");
     }
 
     return response.data;
   } catch (error) {
-throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -154,12 +154,12 @@ export const getCatalogStats = async (token) => {
     });
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to fetch catalog stats");
     }
 
     return response.data;
   } catch (error) {
-throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -171,12 +171,12 @@ export const createCatalog = async (token, data) => {
     });
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to create catalog");
     }
 
     return response.data;
   } catch (error) {
-    throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -188,12 +188,12 @@ export const updateCatalog = async (token, id, data) => {
     });
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to update catalog");
     }
 
     return response.data;
   } catch (error) {
-    throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -205,12 +205,12 @@ export const deleteCatalog = async (token, id) => {
     });
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to delete catalog");
     }
 
     return response.data;
   } catch (error) {
-    throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -225,12 +225,12 @@ export const uploadCatalogPdf = async (token, file) => {
     });
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to upload catalog PDF");
     }
 
     return response.data;
   } catch (error) {
-    throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -245,12 +245,12 @@ export const uploadCatalogCover = async (token, file) => {
     });
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to upload catalog cover");
     }
 
     return response.data;
   } catch (error) {
-    throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -262,12 +262,12 @@ export const toggleCatalogActive = async (token, id) => {
     });
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to toggle catalog active status");
     }
 
     return response.data;
   } catch (error) {
-    throw error;
+    throw error.response?.data || error;
   }
 };
 
@@ -279,11 +279,11 @@ export const toggleCatalogFeatured = async (token, id) => {
     });
 
     if (!response.data.success) {
-      throw new Error(response.data.message);
+      throw new Error(response.data.message || "Failed to toggle catalog featured status");
     }
 
     return response.data;
   } catch (error) {
-    throw error;
+    throw error.response?.data || error;
   }
 };

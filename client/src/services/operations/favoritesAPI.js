@@ -1,12 +1,12 @@
-import { apiconnector } from '../apiconnector';
-import { dashboardEndpoints } from '../apis';
 import {
-  setFavoritesLoading,
-  setFavorites,
   addToFavoritesLocal,
   removeFromFavoritesLocal,
-  setFavoritesError
+  setFavorites,
+  setFavoritesError,
+  setFavoritesLoading
 } from '../../store/slices/favoritesSlice';
+import { apiconnector } from '../apiconnector';
+import { dashboardEndpoints } from '../apis';
 
 const {
   GET_FAVORITES_API,

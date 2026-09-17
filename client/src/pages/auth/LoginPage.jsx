@@ -1,22 +1,22 @@
+import axios from 'axios';
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { CheckCircle, Eye, EyeOff, Globe, Lock, Mail } from 'lucide-react';
 import { useState } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Mail, Lock, Eye, EyeOff, Globe, CheckCircle } from 'lucide-react';
 import { useDispatch } from 'react-redux';
-import { setCredentials } from '../../store/slices/authSlice';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import nexarionLogo from '../../assets/nexarion_logo.png';
+import { auth } from '../../config/firebase';
+import useSiteStats from '../../hooks/useSiteStats';
 import { apiconnector } from '../../services/apiconnector';
 import { authEndpoints } from '../../services/apis';
-import { auth } from '../../config/firebase';
-import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import axios from 'axios';
-import nexarionLogo from '../../assets/nexarion_logo.png';
-import useSiteStats from '../../hooks/useSiteStats';
+import { setCredentials } from '../../store/slices/authSlice';
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
   const { getStatValue } = useSiteStats();
-  
+
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -34,9 +34,9 @@ const LoginPage = () => {
       setLoading(true);
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
-      
+
       // Send to backend
-      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/auth/google`, {
+      const response = await axios.post(authEndpoints.GOOGLE_AUTH_API, {
         email: result.user.email,
         name: result.user.displayName,
         photoURL: result.user.photoURL
@@ -44,13 +44,13 @@ const LoginPage = () => {
 // Store token and user
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.user));
-      
+
       // Update Redux store
       dispatch(setCredentials({
         user: response.data.user,
         token: response.data.token
       }));
-      
+
       // Redirect to target path or dashboard
       const redirectPath = location.state?.from || '/dashboard';
       navigate(redirectPath);
@@ -80,13 +80,13 @@ const LoginPage = () => {
         // Store in localStorage
         localStorage.setItem('token', token);
         localStorage.setItem('user', JSON.stringify(user));
-        
+
         // Update Redux store
         dispatch(setCredentials({
           user: user,
           token: token
         }));
-        
+
         // Redirect to target path or dashboard
         const redirectPath = location.state?.from || '/dashboard';
         navigate(redirectPath);
@@ -102,16 +102,16 @@ const LoginPage = () => {
 
   return (
     <div className="min-h-screen h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-cyan-100 to-teal-100 p-3 overflow-hidden">
-      
+
       {/* Contained Card */}
       <div className="w-full max-w-5xl h-[90vh] bg-white rounded-3xl shadow-2xl overflow-hidden flex">
-      
+
         {/* Left Side - Branding */}
         <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-blue-700 via-cyan-700 to-teal-700 p-6 flex-col justify-between relative overflow-hidden">
           {/* Decorative Elements */}
           <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-200/15 rounded-full -translate-y-1/2 translate-x-1/2"></div>
           <div className="absolute bottom-0 left-0 w-96 h-96 bg-teal-200/15 rounded-full translate-y-1/2 -translate-x-1/2"></div>
-          
+
           <div className="relative z-10">
             {/* Logo */}
             <Link to="/" className="inline-flex items-center gap-2 mb-4 animate-[fadeInUp_0.6s_ease-out]">
@@ -226,7 +226,7 @@ const LoginPage = () => {
           {/* Decorative circles */}
           <div className="absolute top-10 right-10 w-32 h-32 bg-teal-100/40 rounded-full blur-2xl"></div>
           <div className="absolute bottom-10 left-10 w-24 h-24 bg-blue-100/40 rounded-full blur-xl"></div>
-          
+
           {/* Mobile Logo */}
           <Link to="/" className="lg:hidden inline-flex items-center gap-3 mb-8 relative z-10">
             <div className="w-12 h-12 rounded-xl overflow-hidden shadow-md ring-1 ring-teal-100/80 flex items-center justify-center bg-white">

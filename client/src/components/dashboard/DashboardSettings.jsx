@@ -1,21 +1,16 @@
-import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import {
   Bell,
-  Lock,
-  Globe,
   Eye,
+  Loader2,
+  Lock,
   Mail,
-  Shield,
-  Trash2,
   Save,
-  AlertTriangle,
-  CheckCircle,
-  Loader2
+  Shield
 } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { apiconnector } from '../../services/apiconnector';
 import { authEndpoints } from '../../services/apis';
-import { setUser } from '../../store/slices/authSlice';
 
 const DashboardSettings = () => {
   const { user, token } = useSelector((state) => state.auth);
@@ -89,12 +84,12 @@ const DashboardSettings = () => {
           Authorization: `Bearer ${token}`,
         }
       );
-      
+
       if (response.data.success) {
-        
+
       }
     } catch (error) {
-      
+
     } finally {
       setLoading(false);
     }
@@ -110,7 +105,7 @@ const DashboardSettings = () => {
     if (passwordData.newPassword.length < 6) {
       return;
     }
-    
+
     setPasswordLoading(true);
 
     try {
@@ -124,7 +119,7 @@ const DashboardSettings = () => {
         }
       );
 if (response.data.success) {
-        
+
         setPasswordData({
           currentPassword: '',
           newPassword: '',
@@ -146,7 +141,7 @@ if (response.data.success) {
 
   return (
     <div className="space-y-6">
-      
+
       {/* Header */}
       <div className="animate-[slideInLeft_0.5s_ease-out]">
         <h1 className="text-3xl font-black text-gray-900 mb-2 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
@@ -182,7 +177,7 @@ if (response.data.success) {
 
           {/* Content */}
           <div className="p-6">
-            
+
             {/* Notifications */}
             {activeTab === 'notifications' && (
               <div className="space-y-6">
@@ -202,7 +197,7 @@ if (response.data.success) {
                     <Mail size={18} className="text-blue-600" />
                     Email Notifications
                   </h3>
-                  
+
                   <label className="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors cursor-pointer">
                     <div>
                       <p className="font-semibold text-gray-900">Order Updates</p>
@@ -276,7 +271,7 @@ if (response.data.success) {
                     <Bell size={18} className="text-purple-600" />
                     Push Notifications
                   </h3>
-                  
+
                   <label className="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors cursor-pointer">
                     <div>
                       <p className="font-semibold text-gray-900">Order Updates</p>

@@ -1,20 +1,20 @@
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { createPortal } from 'react-dom';
-import { 
-  X, 
-  Send, 
-  User, 
-  Mail, 
-  Phone, 
-  Building2, 
-  MessageSquare,
-  Tag,
+import {
   AlertCircle,
-  Loader2,
+  Building2,
   CheckCircle,
-  Lightbulb
+  Lightbulb,
+  Loader2,
+  Mail,
+  MessageSquare,
+  Phone,
+  Send,
+  Tag,
+  User,
+  X
 } from 'lucide-react';
+import { useState } from 'react';
+import { createPortal } from 'react-dom';
+import { useSelector } from 'react-redux';
 import { submitContact } from '../services/operations/contactAPI';
 
 
@@ -47,31 +47,31 @@ const ContactModal = ({ isOpen, onClose, product, supplier }) => {
 
   const validateForm = () => {
     const newErrors = {};
-    
+
     if (!formData.name?.trim()) {
       newErrors.name = 'Full name is required';
     }
-    
+
     if (!formData.email?.trim()) {
       newErrors.email = 'Email is required';
     } else if (!/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(formData.email)) {
       newErrors.email = 'Please enter a valid email address';
     }
-    
+
     if (!formData.phone?.trim()) {
       newErrors.phone = 'Phone number is required';
     }
-    
+
     if (!formData.subject) {
       newErrors.subject = 'Please select a subject';
     }
-    
+
     if (!formData.message?.trim()) {
       newErrors.message = 'Message is required';
     } else if (formData.message.length < 10) {
       newErrors.message = 'Message must be at least 10 characters';
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -90,7 +90,7 @@ const ContactModal = ({ isOpen, onClose, product, supplier }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
@@ -167,17 +167,17 @@ const ContactModal = ({ isOpen, onClose, product, supplier }) => {
           >
             <X className="w-5 h-5 text-white" />
           </button>
-          
+
           <h2 className="text-2xl font-black text-white">Send Us a Message</h2>
           <p className="text-purple-100 mt-1">
             Fill out the form and we'll respond within 24 hours. Fields marked with * are required.
           </p>
-          
+
           {product && (
             <div className="mt-3 p-3 bg-white/15 rounded-lg border border-white/20 flex items-center gap-3">
               {product.images?.[0]?.url && (
-                <img 
-                  src={product.images[0].url} 
+                <img
+                  src={product.images[0].url}
                   alt={product.name}
                   className="w-12 h-12 rounded-lg object-cover"
                 />
